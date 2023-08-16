@@ -1,0 +1,32 @@
+export const Images = {
+  //Icons
+  APPLE_ICON: require('../assets/icons/apple.png'),
+  FACEBOOK_ICON: require('../assets/icons/facebook.png'),
+  GOOGLE_ICON: require('../assets/icons/google.png'),
+  EMAIL: require('../assets/icons/email.png'),
+  HIDE: require('../assets/icons/hide.png'),
+  PROFILE: require('../assets/icons/profile.png'),
+  LOCK: require('../assets/icons/lock.png'),
+  BACK: require('../assets/icons/back.png'),
+  USER_PROFILE: require('../assets/icons/UserProfile.png'),
+  MORE: require('../assets/icons/Black.png'),
+  SEARCH: require('../assets/icons/Search.png'),
+  PLAY: require('../assets/icons/play.png'),
+  PAUSE: require('../assets/icons/stop.png'),
+
+  //Images
+  HEADPHONE: require('../assets/image/headphone_animation.png'),
+  ISOTYPE: require('../assets/image/Isotype.png'),
+  BG: require('../assets/image/bg.png'),
+  MAIL: require('../assets/image/mail.png'),
+  CREATE_PROJECT: require('../assets/image/Create_project.png'),
+  LOADING_PROJECT: require('../assets/image/Load_existing_project.png'),
+  AI_GENERATED_SONG: require('../assets/image/AI_Generated_song.png'),
+  REMIX_A_SONG: require('../assets/image/Remix_a_song.png'),
+  ALBUM1: require('../assets/image/Album_Cover1.png'),
+  ALBUM2: require('../assets/image/Album_Cover2.png'),
+  Home_BG: require('../assets/image/Home_BG.png'),
+  Song_Bars: require('../assets/image/Song_Bars.png'),
+  Music_Bars: require('../assets/image/Music_Bars_Medium.png'),
+  Loading_Song_Circle: require('../assets/image/Loading_Song_Circle.png'),
+};
