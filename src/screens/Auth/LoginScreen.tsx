@@ -95,26 +95,21 @@ const LoginScreen = ({navigation}: any) => {
       <SafeAreaView style={{flex: 1}}>
         <ScrollView style={{flex: 1}}>
           <View style={{height: hp('5%'), borderWidth: 0}}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+            <View className="flex flex-col items-center justify-center gap-1 mt-3">
               <Text
+                className="font-bold text-white"
                 style={{
-                  fontSize: hp('2.5%'),
+                  fontSize: hp('3%'),
                   marginTop: hp('2.5%'),
-                  color: '#FFFFFF',
-                  fontWeight: 'bold',
                 }}>
                 {Strings.Welcome_Back}
               </Text>
               <Text
                 style={{
-                  fontSize: hp('2.5%'),
-                  marginTop: hp('1.5%'),
+                  fontSize: hp('2%'),
+                  marginTop: hp('0.5%'),
                   color: '#FFFFFF',
-                  fontWeight: 'bold',
+                  // fontWeight: 'semibold',
                 }}>
                 {Strings.Login_Account}
               </Text>
@@ -219,6 +214,7 @@ const LoginScreen = ({navigation}: any) => {
               onPress={() => navigation.navigate('ForgotPassword')}>
               <Text
                 numberOfLines={2}
+                className="font-semibold"
                 style={{
                   color: '#F780FB',
                   fontSize: hp('2%'),
@@ -237,48 +233,35 @@ const LoginScreen = ({navigation}: any) => {
             <TouchableOpacity
               disabled={validatingLoginButton()}
               onPress={() => signinClick()}
+              className="rounded-full border-0 bg-[#F780FB] w-[95%] flex flex-row justify-center items-center "
               style={{
-                backgroundColor: validatingLoginButton()
-                  ? 'rgba(254, 242, 255, 0.2)'
-                  : '#F780FB',
                 height: hp('6%'),
-                width: '95%',
-                borderRadius: 30,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
               }}>
               <Text
+                className="font-semibold text-black"
                 style={{
                   marginLeft: wp('2%'),
-                  color: validatingLoginButton()
-                    ? 'rgba(251, 197, 253, 1)'
-                    : '#FFFFFF',
+                  fontSize: hp('2%'),
                 }}>
                 {Strings.LOGIN}
               </Text>
             </TouchableOpacity>
           </View>
           <View
+            className="items-center justify-center border-0"
             style={{
               height: hp('5%'),
-              borderWidth: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
             }}>
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: '95%',
-              }}>
+              className="flex flex-row items-center justify-center w-[95%]"
+              style={{}}>
               <View style={{flex: 1, height: 1, backgroundColor: '#FFFFFF'}} />
               <View>
                 <Text
+                  className="font-semibold text-center text-white"
                   style={{
                     width: wp('30%'),
-                    textAlign: 'center',
-                    color: '#FFFFFF',
+
                     fontSize: hp('2%'),
                   }}>
                   {Strings.OR_LOGIN}
@@ -287,93 +270,50 @@ const LoginScreen = ({navigation}: any) => {
               <View style={{flex: 1, height: 1, backgroundColor: '#FFFFFF'}} />
             </View>
           </View>
-          <View style={{borderWidth: 0, alignItems: 'center'}}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: 'rgba(250, 250, 250, 0.2)',
-                height: hp('6%'),
-                width: '95%',
-                borderRadius: 30,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginVertical: hp('2%'),
-                borderWidth: 0.5,
-                borderColor: '#FFFFFF',
-              }}>
-              <Image source={Images.GOOGLE_ICON} />
-              <Text
+          <View className="items-center border-0">
+            {[
+              {
+                icon: Images.GOOGLE_ICON,
+                title: Strings.CONTINUE_WITH_GOOGLE,
+              },
+              {
+                icon: Images.FACEBOOK_ICON,
+                title: Strings.CONTINUE_WITH_FACEBOOK,
+              },
+              {
+                icon: Images.APPLE_ICON,
+                title: Strings.CONTINUE_WITH_APPLE,
+              },
+            ].map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                className="bg-[#FAFAFA33] rounded-full w-[95%] flex flex-row justify-center items-center border-[0.5px] border-white"
                 style={{
-                  marginLeft: wp('2%'),
-                  fontSize: hp('2.5%'),
-                  color: '#FFFFFF',
+                  height: hp('6%'),
+                  marginVertical: hp('1%'),
                 }}>
-                {Strings.CONTINUE_WITH_GOOGLE}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: 'rgba(250, 250, 250, 0.2)',
-                height: hp('6%'),
-                width: '95%',
-                borderRadius: 30,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: hp('2%'),
-                borderWidth: 0.5,
-                borderColor: '#FFFFFF',
-              }}>
-              <Image source={Images.FACEBOOK_ICON} />
-              <Text
-                style={{
-                  marginLeft: wp('2%'),
-                  fontSize: hp('2.5%'),
-                  color: '#FFFFFF',
-                }}>
-                {Strings.CONTINUE_WITH_FACEBOOK}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: 'rgba(250, 250, 250, 0.2)',
-                height: hp('6%'),
-                width: '95%',
-                borderRadius: 30,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: hp('2%'),
-                borderWidth: 0.5,
-                borderColor: '#FFFFFF',
-              }}>
-              <Image source={Images.APPLE_ICON} />
-              <Text
-                style={{
-                  marginLeft: wp('2%'),
-                  fontSize: hp('2.5%'),
-                  color: '#FFFFFF',
-                }}>
-                {Strings.CONTINUE_WITH_APPLE}
-              </Text>
-            </TouchableOpacity>
+                <Image source={item.icon} />
+                <Text
+                  className="font-semibold"
+                  style={{
+                    marginLeft: wp('2%'),
+                    fontSize: hp('2.2%'),
+                    color: '#FFFFFF',
+                  }}>
+                  {item.title}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
-          <View
-            style={{
-              borderWidth: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+          <View className="items-center justify-center border-0">
             <View
+              className="flex flex-row items-center"
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
                 marginVertical: hp('2%'),
               }}>
               <Text
+                className="font-semibold text-white"
                 style={{
-                  textAlign: 'center',
-                  color: '#FFFFFF',
                   fontSize: hp('2%'),
                   marginRight: wp('3%'),
                 }}>
@@ -382,9 +322,8 @@ const LoginScreen = ({navigation}: any) => {
               <TouchableOpacity
                 onPress={() => navigation.navigate('SignUPWithEmailScreen')}>
                 <Text
+                  className="font-semibold text-[#F780FB]"
                   style={{
-                    textAlign: 'center',
-                    color: '#F780FB',
                     fontSize: hp('2%'),
                   }}>
                   {Strings.SIGNUP}

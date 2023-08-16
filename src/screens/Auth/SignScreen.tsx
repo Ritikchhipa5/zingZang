@@ -34,138 +34,81 @@ const SignScreen = ({navigation}: any) => {
             </Text>
           </View>
         </View>
-        <View style={{flex: 0.3, borderWidth: 0, alignItems: 'center'}}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'rgba(250, 250, 250, 0.2)',
-              height: hp('6%'),
-              width: '95%',
-              borderRadius: 30,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginVertical: hp('2%'),
-              borderWidth: 0.5,
-              borderColor: '#FFFFFF',
-            }}>
-            <Image source={Images.GOOGLE_ICON} />
-            <Text
+        <View className="flex-[0.3] border-0 items-center ">
+          {[
+            {
+              icon: Images.GOOGLE_ICON,
+              title: Strings.CONTINUE_WITH_GOOGLE,
+            },
+            {
+              icon: Images.FACEBOOK_ICON,
+              title: Strings.CONTINUE_WITH_FACEBOOK,
+            },
+            {
+              icon: Images.APPLE_ICON,
+              title: Strings.CONTINUE_WITH_APPLE,
+            },
+          ].map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              className="bg-[#FAFAFA33] rounded-full w-[95%] flex flex-row justify-center items-center border-[0.5px] border-white"
               style={{
-                marginLeft: wp('2%'),
-                fontSize: hp('2.5%'),
-                color: '#FFFFFF',
+                height: hp('6%'),
+                marginVertical: hp('1%'),
               }}>
-              {Strings.CONTINUE_WITH_GOOGLE}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'rgba(250, 250, 250, 0.2)',
-              height: hp('6%'),
-              width: '95%',
-              borderRadius: 30,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: hp('2%'),
-              borderWidth: 0.5,
-              borderColor: '#FFFFFF',
-            }}>
-            <Image source={Images.FACEBOOK_ICON} />
-            <Text
-              style={{
-                marginLeft: wp('2%'),
-                fontSize: hp('2.5%'),
-                color: '#FFFFFF',
-              }}>
-              {Strings.CONTINUE_WITH_FACEBOOK}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'rgba(250, 250, 250, 0.2)',
-              height: hp('6%'),
-              width: '95%',
-              borderRadius: 30,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: hp('2%'),
-              borderWidth: 0.5,
-              borderColor: '#FFFFFF',
-            }}>
-            <Image source={Images.APPLE_ICON} />
-            <Text
-              style={{
-                marginLeft: wp('2%'),
-                fontSize: hp('2.5%'),
-                color: '#FFFFFF',
-              }}>
-              {Strings.CONTINUE_WITH_APPLE}
-            </Text>
-          </TouchableOpacity>
+              <Image source={item.icon} />
+              <Text
+                className="font-semibold"
+                style={{
+                  marginLeft: wp('2%'),
+                  fontSize: hp('2.2%'),
+                  color: '#FFFFFF',
+                }}>
+                {item.title}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
-        <View
-          style={{
-            flex: 0.3,
-            borderWidth: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', width: '95%'}}>
-            <View style={{flex: 1, height: 1, backgroundColor: '#FFFFFF'}} />
+        <View className="flex-[0.3] border-0 justify-center items-center">
+          <View className="flex flex-row items-center w-[95%]">
+            <View className="flex-1 h-[1] bg-white" />
             <View>
               <Text
+                className="w-[50px] font-semibold text-center text-white"
                 style={{
-                  width: 50,
-                  textAlign: 'center',
-                  color: '#FFFFFF',
                   fontSize: hp('2%'),
                 }}>
                 {Strings.OR}
               </Text>
             </View>
-            <View style={{flex: 1, height: 1, backgroundColor: '#FFFFFF'}} />
+            <View className="flex-1 h-[1] bg-white" />
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.2,
-            borderWidth: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+        <View className="flex-[0.2] border-0 justify-center items-center">
           <TouchableOpacity
             onPress={() => navigation.navigate('LoginScreen')}
+            className="bg-[#F780FB] w-[95%] rounded-full flex flex-row justify-center items-center"
             style={{
-              backgroundColor: '#F780FB',
               height: hp('6%'),
-              width: '95%',
-              borderRadius: 30,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
             }}>
             <Text
+              className="font-semibold"
               style={{
                 marginLeft: wp('2%'),
-                fontSize: hp('2.5%'),
-                color: '#FFFFFF',
+                fontSize: hp('2%'),
+                color: '#000',
               }}>
               {Strings.SIGNIN_WITH_EMAIL}
             </Text>
           </TouchableOpacity>
           <View
+            className="flex flex-row items-center"
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
               marginVertical: hp('2%'),
             }}>
             <Text
+              className="flex-row items-center font-semibold text-center text-white it"
               style={{
-                textAlign: 'center',
-                color: '#FFFFFF',
                 fontSize: hp('2%'),
                 marginRight: wp('3%'),
               }}>
@@ -173,9 +116,8 @@ const SignScreen = ({navigation}: any) => {
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text
+                className="text-[#F780FB] text-center font-semibold"
                 style={{
-                  textAlign: 'center',
-                  color: '#F780FB',
                   fontSize: hp('2%'),
                 }}>
                 {Strings.SIGNUP}
