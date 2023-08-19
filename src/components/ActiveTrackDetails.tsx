@@ -10,7 +10,7 @@ export const ActiveTrackDetails = () => {
           source={{
             uri: 'https://upload.wikimedia.org/wikipedia/en/b/b2/Lorde_-_Melodrama.png',
           }}
-          className="rounded-lg shadow-2xl"
+          className="mx-auto rounded-lg shadow-2xl "
           style={styles.artCover}
           resizeMode="cover"
         />
@@ -34,7 +34,7 @@ export const ActiveTrackDetails = () => {
 const styles = StyleSheet.create({
   artCover: {
     height: '100%',
-    width: '100%',
+    width: '90%',
   },
   centerContainer: {
     alignItems: 'center',

@@ -14,11 +14,11 @@ export default function TrackPlayer({navigation}: any) {
           uri: 'https://upload.wikimedia.org/wikipedia/en/b/b2/Lorde_-_Melodrama.png',
         }}
         blurRadius={30}>
-        <View className="  flex-[0.7] justify-evenly  p-5">
-          <View className="absolute top-[15%] right-0 px-10">
+        <View className="flex-[0.7] justify-evenly  ">
+          <View className="absolute top-[15%] right-0 px-5">
             <AntDesign name="close" color={'#fff'} size={28} />
           </View>
-          <View className="h-1/2 min-h-[350] ">
+          <View className=" h-1/2 min-h-[350]">
             <ActiveTrackDetails />
           </View>
         </View>
