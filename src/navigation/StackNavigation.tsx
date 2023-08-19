@@ -4,12 +4,13 @@ import Home from '../screens/Home/Home';
 import SignScreen from '../screens/Auth/SignScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import Register from '../screens/Auth/Register';
+import TrackPlayer from '../screens/TrackPlayer';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="SignScreen"
+      initialRouteName="TrackPlayer"
       screenOptions={{
         headerShown: false,
       }}>
@@ -28,6 +29,11 @@ function StackNavigation() {
         options={{headerShown: false}}
         name="Register"
         component={Register}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="TrackPlayer"
+        component={TrackPlayer}
       />
     </Stack.Navigator>
   );
