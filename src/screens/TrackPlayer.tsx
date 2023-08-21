@@ -1,6 +1,6 @@
 import {View, Text, Image, ImageBackground, Dimensions} from 'react-native';
 import React from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
+
 import {ActiveTrackDetails} from '../components/ActiveTrackDetails';
 import {Slider} from '@react-native-assets/slider';
 import PlayerController from '../components/PlayerController';
