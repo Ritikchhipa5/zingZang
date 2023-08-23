@@ -1,4 +1,11 @@
-import {View, Text, Image, ImageBackground, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ImageBackground,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 
 import {ActiveTrackDetails} from '../components/ActiveTrackDetails';
@@ -15,9 +22,11 @@ export default function TrackPlayer({navigation}: any) {
         }}
         blurRadius={30}>
         <View className="flex-[0.7] justify-evenly  ">
-          <View className="absolute top-[15%] right-0 px-5">
+          <TouchableOpacity
+            onPress={() => navigation.goBack(' ')}
+            className="absolute top-[15%] right-0 px-5">
             <AntDesign name="close" color={'#fff'} size={28} />
-          </View>
+          </TouchableOpacity>
           <View className=" h-1/2 min-h-[350]">
             <ActiveTrackDetails />
           </View>

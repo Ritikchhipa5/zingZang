@@ -12,14 +12,16 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-function SongPart() {
+function SongPart({navigation}: any) {
   return (
     <ImageBackground className="h-screen" source={Images.BG_1}>
       <SafeAreaView className="h-full ">
         {/* // Heading  */}
         <View className="px-4">
           <View className="flex flex-row items-center ">
-            <Image source={Images.BACK} />
+            <TouchableOpacity onPress={() => navigation.goBack(' ')}>
+              <Image source={Images.BACK} />
+            </TouchableOpacity>
             <View
               className="flex flex-row items-center justify-center flex-1"
               style={{
@@ -64,7 +66,10 @@ function SongPart() {
         </View>
 
         {/* //Button */}
-        <TouchableOpacity className="px-4 mt-5 " activeOpacity={0.5}>
+        <TouchableOpacity
+          className="px-4 mt-5 "
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate('RecordScreen')}>
           <View className="py-4 bg-[#F780FB]  rounded-full ">
             <Text className="text-xl font-semibold text-center text-black">
               Continue

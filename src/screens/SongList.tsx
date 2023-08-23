@@ -15,14 +15,19 @@ import {
 import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-function SongList() {
+function SongList({navigation}: any) {
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
       <SafeAreaView className="h-full ">
         {/* // Search Box */}
         <View className="px-4">
           <View className="flex flex-row items-center ">
-            <Image source={Images.BACK} />
+            <TouchableOpacity
+              onPress={() => navigation.goBack(' ')}
+              activeOpacity={0.7}>
+              <Image source={Images.BACK} />
+            </TouchableOpacity>
+
             <View
               className="flex flex-row flex-1 rounded-full"
               style={{
@@ -39,7 +44,6 @@ function SongList() {
                 className="px-2"
                 style={{
                   textAlign: 'left',
-
                   marginLeft: wp('2%'),
                 }}
               />
@@ -54,7 +58,9 @@ function SongList() {
         {/* //Song List */}
         <View className="flex-1 px-4 mt-10 ">
           {[1, 2, 4].map((item, index) => (
-            <TouchableOpacity key={index}>
+            <TouchableOpacity
+              key={index}
+              onPress={() => navigation.navigate('TrackPlayer')}>
               <View className="flex flex-row items-center p-3 bg-[#6836691A] rounded-lg drop-shadow-md mb-3">
                 <Image
                   source={{
@@ -75,7 +81,10 @@ function SongList() {
           ))}
         </View>
         {/* //Button */}
-        <TouchableOpacity className="px-4 " activeOpacity={0.5}>
+        <TouchableOpacity
+          className="px-4 "
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('SongPart')}>
           <View className="py-4 bg-[#F780FB]  rounded-full ">
             <Text className="text-xl font-semibold text-center text-black">
               Continue
