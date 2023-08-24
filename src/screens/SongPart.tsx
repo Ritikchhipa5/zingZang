@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Strings} from '../constant/Strings';
 import {Images} from '../constant/Images';
 import {
@@ -11,8 +11,11 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import SoundWaveAnimation from '../components/SoundWave';
 
 function SongPart({navigation}: any) {
+  const [Part, setPart] = useState<any>(null);
+  const [isPlay, setIsPlay] = useState<any>(false);
   return (
     <ImageBackground className="h-screen" source={Images.BG_1}>
       <SafeAreaView className="h-full ">
@@ -43,20 +46,29 @@ function SongPart({navigation}: any) {
           <ScrollView
             contentContainerStyle={{paddingHorizontal: 16, paddingTop: 12}}>
             <View className="flex-row flex-wrap justify-between">
-              {[1, 2, 3, 3, 3, 33, 3, 3].map((part, index) => (
-                <TouchableOpacity key={index} className="w-[31.33%]">
+              {[{id: 1}, {id: 2}, {id: 3}].map((part, index) => (
+                <TouchableOpacity
+                  key={index + 1}
+                  className="w-[31.33%]"
+                  onPress={() => setPart(part)}>
                   <View className="h-[170]">
                     <View
                       className={`rounded-xl bg-[#FEF2FF1A] h-[75%] flex justify-center items-center ${
-                        index == 4 && 'border-2 border-[#FAAAFC]'
+                        Part?.id === part?.id && 'border-2 border-[#FAAAFC]'
                       }`}>
-                      <Image source={Images.PLAY} className="h-[40] w-[40]" />
+                      <Image
+                        source={
+                          Part?.id === part?.id ? Images.PAUSE : Images.PLAY
+                        }
+                        className="h-[55] w-[55]"
+                      />
+                      <SoundWaveAnimation />
                     </View>
                     <Text
                       className={`mt-2 text-lg font-bold text-center text-white ${
                         index == 4 && ' text-[#FAAAFC]'
                       }`}>
-                      Play 1
+                      Part {index + 1}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -67,10 +79,13 @@ function SongPart({navigation}: any) {
 
         {/* //Button */}
         <TouchableOpacity
-          className="px-4 mt-5 "
+          className="px-4 "
           activeOpacity={0.7}
-          onPress={() => navigation.navigate('RecordScreen')}>
-          <View className="py-4 bg-[#F780FB]  rounded-full ">
+          onPress={() => navigation.navigate('SongPart')}>
+          <View
+            className={`py-4 ${
+              Part ? 'bg-[#F780FB]' : 'bg-[#F780FB4A]'
+            }   rounded-full `}>
             <Text className="text-xl font-semibold text-center text-black">
               Continue
             </Text>

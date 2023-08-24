@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   ImageBackground,
@@ -14,8 +14,11 @@ import {
 } from 'react-native-responsive-screen';
 import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import SoundWaveAnimation from '../components/SoundWave';
 
 function MySongList({navigation}: any) {
+  const [Song, setSong] = useState<any>(null);
+  const [isPlay, setIsPlay] = useState<any>(false);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_2}>
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
@@ -34,36 +37,28 @@ function MySongList({navigation}: any) {
 
         {/* //Song List */}
         <View className="flex-1 px-4 mt-10 ">
-          {[1, 2, 4].map((item, index) => (
-            <TouchableOpacity key={index}>
-              <View className="bg-[#6836693A] rounded-lg drop-shadow-md mb-3  flex-row justify-between items-center">
-                <View className="flex flex-row items-center p-3 ">
-                  <Image
-                    source={{
-                      uri: 'https://publish.one37pm.net/wp-content/uploads/2023/01/best-rap-album-covers-Mobile-Images-ONE37pm.com_.png?resize=720%2C780',
-                    }}
-                    className="w-12 h-12 mr-5 rounded-lg"
-                  />
-                  <View>
-                    <Text className="text-xl font-semibold text-white">
-                      Now You’re Gone
-                    </Text>
-                    <Text className="font-normal text-md text-zinc-300 ">
-                      Basshunter
-                    </Text>
-                  </View>
-                </View>
-                <TouchableOpacity className="mr-2">
-                  <Entypo color="white" name="dots-three-vertical" size={22} />
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <View className="bottom-0">
-          <View className="h-1.5 bg-[#683669]" />
-          <View className="py-2 flex flex-row items-center justify-between bg-[#6836693A]">
-            <View className="flex-row items-center justify-between rounded-lg drop-shadow-md">
+          {[
+            {
+              id: 1,
+              name: 'Now You’re Gone',
+              artist: 'Basshunter',
+            },
+            {id: 2, name: 'Done Again', artist: 'Basshunter'},
+            {
+              id: 3,
+              name: 'Wack upGone',
+              artist: 'Basshunter',
+            },
+          ].map((item, index) => (
+            <TouchableOpacity
+              key={index + 1}
+              className={`bg-[#6836693A] rounded-lg drop-shadow-md mb-3  flex-row justify-between items-center border-2 border-transparent ${
+                item.id === Song?.id && 'border-[#F780FB]'
+              }`}
+              onPress={() => {
+                setSong(item);
+                setIsPlay(true);
+              }}>
               <View className="flex flex-row items-center p-3 ">
                 <Image
                   source={{
@@ -73,16 +68,50 @@ function MySongList({navigation}: any) {
                 />
                 <View>
                   <Text className="text-xl font-semibold text-white">
-                    Now You’re Gone
+                    {item.name}
                   </Text>
                   <Text className="font-normal text-md text-zinc-300 ">
-                    Basshunter
+                    {item.artist}
                   </Text>
                 </View>
               </View>
-            </View>
-            <TouchableOpacity className="mr-2">
-              <Image source={Images.Loading_Song_Circle} />
+              <TouchableOpacity className="mr-2">
+                <Entypo color="white" name="dots-three-vertical" size={22} />
+              </TouchableOpacity>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <View className="bottom-0 ">
+          <View className="h-1.5 bg-[#683669] " />
+          <View className="py-2 pb-10 flex flex-row items-center justify-between bg-[#6836693A]">
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('TrackPlayer');
+              }}
+              className="flex-row items-center justify-between rounded-lg drop-shadow-md">
+              <View className="flex flex-row items-center p-3 ">
+                <Image
+                  source={{
+                    uri: 'https://publish.one37pm.net/wp-content/uploads/2023/01/best-rap-album-covers-Mobile-Images-ONE37pm.com_.png?resize=720%2C780',
+                  }}
+                  className="w-12 h-12 mr-5 rounded-lg"
+                />
+                <View>
+                  <Text className="text-xl font-semibold text-white">
+                    {Song?.name}
+                  </Text>
+                  <Text className="font-normal text-md text-zinc-300 ">
+                    {Song?.name}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="mr-2"
+              onPress={() => {
+                setIsPlay(!isPlay);
+              }}>
+              <Image source={isPlay ? Images.PAUSE : Images.PLAY} />
             </TouchableOpacity>
           </View>
         </View>

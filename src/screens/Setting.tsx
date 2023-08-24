@@ -10,7 +10,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Images} from '../constant/Images';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-const Setting = () => {
+const Setting = ({navigation}: any) => {
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -18,7 +18,9 @@ const Setting = () => {
       <SafeAreaView className="h-full px-3">
         {/* // Header  */}
         <View className="flex flex-row items-center">
-          <TouchableOpacity className="absolute">
+          <TouchableOpacity
+            // onPress={() => navigation.goBack('')}
+            className="absolute">
             <MaterialIcons color="white" name="keyboard-arrow-left" size={42} />
           </TouchableOpacity>
           <Text className="flex-1 text-2xl font-semibold text-center text-white">
