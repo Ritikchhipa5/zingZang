@@ -16,7 +16,7 @@ function StackNavigation() {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="CreateProject"
+      initialRouteName="RecordScreen"
       screenOptions={{
         headerShown: false,
       }}>
