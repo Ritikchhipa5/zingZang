@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ImageBackground,
@@ -14,10 +14,29 @@ import {
 } from 'react-native-responsive-screen';
 import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import SoundWave from '../components/SoundWave';
+import WaveAnimation from '../components/WaveAnimation';
+import {addTracks, setupPlayer} from '../service/trackPlayerServices';
+import TrackPlayer, {useProgress} from 'react-native-track-player';
+import {Slider} from '@react-native-assets/slider';
 
 function SongList({navigation}: any) {
   const [Song, setSong] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
+  useEffect(() => {
+    async function setup() {
+      let isSetup = await setupPlayer();
+      console.log(isSetup);
+      const queue = await TrackPlayer.getQueue();
+      if (isSetup && queue.length <= 0) {
+        await addTracks();
+      }
+    }
+
+    setup();
+  }, []);
+  const {position, duration} = useProgress();
+  console.log(position, duration);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
@@ -80,6 +99,7 @@ function SongList({navigation}: any) {
               onPress={() => {
                 setSong(item);
                 setIsPlay(true);
+                TrackPlayer.play();
               }}>
               <View className={`flex flex-row items-center`}>
                 <Image
@@ -98,10 +118,9 @@ function SongList({navigation}: any) {
                 </View>
               </View>
               {item.id === Song?.id && (
-                <Image
-                  source={Images.Song_Bars}
-                  className="w-12 h-12 rounded-lg"
-                />
+                <View className="flex flex-row w-[50] h-[30]">
+                  <WaveAnimation />
+                </View>
               )}
             </TouchableOpacity>
           ))}
@@ -111,7 +130,26 @@ function SongList({navigation}: any) {
         <View className={`pb-10 ${Song ? 'bg-[#6836693A]' : 'transparent'}`}>
           {Song ? (
             <>
-              <View className="h-1.5 bg-[#683669]" />
+              {/* <View className="h-1.5 bg-[#683669]" /> */}
+              <View>
+                <Slider
+                  minimumValue={0}
+                  maximumValue={duration}
+                  value={position}
+                  minimumTrackTintColor="#9CF5F6"
+                  maximumTrackTintColor="#683669"
+                  thumbStyle={{
+                    backgroundColor: 'transparent',
+                  }}
+                  trackStyle={{
+                    height: 5,
+                  }}
+                  onValueChange={value => {
+                    console.log(value);
+                    TrackPlayer.seekTo(value);
+                  }}
+                />
+              </View>
               <View className="flex flex-row items-center justify-between py-2">
                 <View className="flex-row items-center justify-between rounded-lg drop-shadow-md">
                   <View className="flex flex-row items-center p-3 ">
@@ -132,7 +170,15 @@ function SongList({navigation}: any) {
                   </View>
                 </View>
                 <TouchableOpacity
-                  onPress={() => setIsPlay(!isPlay)}
+                  onPress={() => {
+                    if (!isPlay) {
+                      setIsPlay(true);
+                      TrackPlayer.play();
+                    } else {
+                      setIsPlay(false);
+                      TrackPlayer.pause();
+                    }
+                  }}
                   className="mr-2">
                   {isPlay ? (
                     <Image source={Images.PAUSE} />

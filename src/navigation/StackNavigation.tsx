@@ -11,6 +11,7 @@ import CreateProject from '../screens/Home/CreateProject';
 import Setting from '../screens/Setting';
 import MySongList from '../screens/MySongList';
 import RecordScreen from '../screens/Home/RecordScreen';
+import Page from '../recorder/Recorder';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
