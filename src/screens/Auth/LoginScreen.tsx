@@ -19,8 +19,6 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {Strings} from '../../constant/Strings';
 import {Images} from '../../constant/Images';
-// import { SafeAreaView } from 'react-native-safe-area-context';
-interface componentNameProps {}
 // create a component
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');

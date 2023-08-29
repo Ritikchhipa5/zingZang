@@ -21,6 +21,8 @@ export const Images = {
   BG_1: require('../assets/image/bg1.png'),
   BG_2: require('../assets/image/bg2.png'),
   REC: require('../assets/image/Icon_Record.png'),
+  STOP: require('../assets/image/Icon_Record_Stop.png'),
+  LISTEN: require('../assets/image/Icon_Listen.png'),
   SAVE: require('../assets/image/Icon_Save.png'),
   MAIL: require('../assets/image/mail.png'),
   CREATE_PROJECT: require('../assets/image/Create_project.png'),

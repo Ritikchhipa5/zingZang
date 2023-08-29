@@ -12,7 +12,6 @@ import type {
 } from 'react-native-audio-recorder-player';
 import {
   Animated,
-  Dimensions,
   Image,
   ImageBackground,
   PermissionsAndroid,
@@ -30,9 +29,9 @@ import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {Images} from '../../constant/Images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {BlurView} from '@react-native-community/blur';
+import {screenWidth} from '../../utils/utils';
 interface State {
-  isLoggingIn: boolean;
-  isCounting: boolean;
   isRecording: boolean;
   recordSecs: number;
   recordTime: string;
@@ -41,22 +40,17 @@ interface State {
   playTime: string;
   duration: string;
   countdown: number;
+  scaleValue: Animated.Value;
   opacity: Animated.Value;
 }
 
-const screenWidth = Dimensions.get('screen').width;
-
+const PULSE_DURATION = 250;
+const COUNTDOWN_SECONDS = 3;
 class Page extends Component<any, State> {
   //   private dirs = RNFetchBlob.fs.dirs;
   private path = Platform.select({
     ios: undefined,
     android: undefined,
-
-    // Discussion: https://github.com/hyochan/react-native-audio-recorder-player/discussions/479
-    // ios: 'https://firebasestorage.googleapis.com/v0/b/cooni-ebee8.appspot.com/o/test-audio.mp3?alt=media&token=d05a2150-2e52-4a2e-9c8c-d906450be20b',
-    // ios: 'https://staging.media.ensembl.fr/original/uploads/26403543-c7d0-4d44-82c2-eb8364c614d0',
-    // ios: 'hello.m4a',
-    // android: `${this.dirs.CacheDir}/hello.mp3`,
   });
 
   private audioRecorderPlayer: AudioRecorderPlayer;
@@ -64,7 +58,6 @@ class Page extends Component<any, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      isLoggingIn: false,
       isRecording: false,
       recordSecs: 0,
       recordTime: '00:00:00',
@@ -72,32 +65,90 @@ class Page extends Component<any, State> {
       currentDurationSec: 0,
       playTime: '00:00:00',
       duration: '00:00:00',
-      countdown: 3,
-      isCounting: false,
-      opacity: new Animated.Value(0),
+      countdown: -1,
+      scaleValue: new Animated.Value(0),
+      opacity: new Animated.Value(1),
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
-    this.audioRecorderPlayer.setSubscriptionDuration(0.1); // optional. Default is 0.5
+    // this.audioRecorderPlayer.setSubscriptionDuration(0.1); // optional. Default is 0.5
   }
+
+  startPulseAnimation() {
+    return Animated.loop(
+      Animated.sequence([
+        Animated.timing(this.state.opacity, {
+          toValue: 0.5, // Fade out
+          duration: PULSE_DURATION,
+          useNativeDriver: false,
+        }),
+        Animated.timing(this.state.opacity, {
+          toValue: 1, // Fade in
+          duration: PULSE_DURATION,
+          useNativeDriver: false,
+        }),
+        Animated.timing(this.state.scaleValue, {
+          toValue: 4, // Scale up
+          duration: PULSE_DURATION,
+          useNativeDriver: false,
+        }),
+        Animated.timing(this.state.scaleValue, {
+          toValue: 1, // Scale down
+          duration: PULSE_DURATION,
+          useNativeDriver: false,
+        }),
+      ]),
+      // {iterations: -1}, // Infinite loop
+    );
+  }
+
+  // componentDidMount() {
+  //   this.startPulseAnimation();
+  // }
   startRecording = () => {
-    this.setState({isRecording: true, opacity: new Animated.Value(1)});
-    setInterval(this.updateCountdown, 1000);
+    this.startPulseAnimation().start();
+    this.setState({countdown: COUNTDOWN_SECONDS});
+    this.countdownInterval = setInterval(this.updateCountdown, 1000);
   };
+
+  // Update the countdown interval
+  // updateCountdown = () => {
+  //   this.setState(
+  //     prevState => ({
+  //       countdown: Math.max(prevState.countdown - 1, 0),
+  //     }),
+  //     () => {
+  //       if (this.state.countdown === 0) {
+  //         this.setState({
+  //           isRecording: true,
+  //           scaleValue: new Animated.Value(0),
+  //           opacity: new Animated.Value(0),
+  //         });
+  //         this.startPulseAnimation().stop();
+  //         this.onStartRecord();
+  //       }
+  //     },
+  //   );
+  // };
 
   updateCountdown = () => {
-    this.setState(
-      prevState => ({
-        countdown: Math.max(prevState.countdown - 1, 0),
-      }),
-      () => {
-        if (this.state.countdown === 0) {
-          this.onStartRecord();
-        }
-      },
-    );
+    const {countdown} = this.state;
+    if (countdown === 0) {
+      clearInterval(this.countdownInterval!);
+      this.setState({
+        isRecording: true,
+        countdown: -1,
+        scaleValue: new Animated.Value(0),
+        opacity: new Animated.Value(1),
+      });
+      this.startPulseAnimation().stop();
+      this.onStartRecord();
+    } else {
+      this.setState(prevState => ({
+        countdown: prevState.countdown - 1,
+      }));
+    }
   };
-
   public render(): ReactElement {
     let playWidth =
       (this.state.currentPositionSec / this.state.currentDurationSec) *
@@ -106,14 +157,28 @@ class Page extends Component<any, State> {
     if (!playWidth) {
       playWidth = 0;
     }
-    const {countdown, opacity, isCounting} = this.state;
+    const {countdown, opacity, scaleValue, isRecording} = this.state;
     return (
       <ImageBackground
         style={{height: heightPercentageToDP('100%')}}
         source={Images.BG_1}>
-        <Animated.View style={[styles.overlay, {opacity}]}>
-          <Text style={styles.countdownText}>{countdown}</Text>
-        </Animated.View>
+        {/* {isRecording && countdown > 0 && ( */}
+        <>
+          {countdown >= 0 && (
+            <View
+              className={`absolute z-10 w-full h-full bg-black opacity-30`}
+            />
+          )}
+
+          <Animated.View
+            style={[
+              styles.overlay,
+              {opacity, transform: [{scale: scaleValue}]},
+            ]}>
+            <Text style={styles.countdownText}>{countdown}</Text>
+          </Animated.View>
+        </>
+        {/* )} */}
         <SafeAreaView className="justify-between flex-1 h-full gap-10 ">
           {/* // Close Icons */}
           <View className="flex flex-row justify-end">
@@ -124,7 +189,16 @@ class Page extends Component<any, State> {
             </TouchableOpacity>
           </View>
           {/* // Wave view */}
-          <View className="h-[20%] bg-[#E174E420]" />
+          <View className="h-[20%] relative ">
+            <View className="absolute z-10 w-[30%] h-full bg-[#190D1A99] " />
+            <BlurView
+              // style={styles.absolute}
+              blurType="light"
+              blurAmount={10}
+              reducedTransparencyFallbackColor="white"
+            />
+            <View className=" h-full bg-[#E174E420]" />
+          </View>
           <View className="h-[20%] justify-center px-4">
             <View className="flex flex-row justify-center">
               <Entypo
@@ -134,10 +208,9 @@ class Page extends Component<any, State> {
               />
             </View>
             <Text className="text-[#E174E4] font-semibold text-center text-xl">
-              of type RCTView {isCounting ? 'true' : 'false'} has a shadow set
-              but cannot calculate shadow efficiently. Consider setting a
-              background color to fix this, or apply the shadow to a more
-              specific component.
+              of type RCTView has a shadow set but cannot calculate shadow
+              efficiently. Consider setting a background color to fix this, or
+              apply the shadow to a more specific component.
             </Text>
           </View>
           <View className="px-5 ">
@@ -148,25 +221,41 @@ class Page extends Component<any, State> {
                   onPress={() => this.onStopRecord()}
                   className="flex items-center ">
                   <View>
-                    <Image source={Images.PLAY} className="w-[60] h-[60] " />
+                    <Image source={Images.LISTEN} className="w-[60] h-[60] " />
                   </View>
-                  <Text className="text-base font-bold text-white">Play</Text>
+                  <Text className="text-sm font-bold text-white">
+                    Listen Song
+                  </Text>
                 </TouchableOpacity>
+
                 {/* //Record */}
                 <TouchableOpacity
-                  onPress={() => this.startRecording()}
+                  onPress={() => {
+                    if (isRecording) {
+                      this.onStopRecord();
+                    } else {
+                      this.startRecording();
+                    }
+                  }}
                   className="flex items-center ">
                   <View>
-                    <Image source={Images.REC} className="w-[60] h-[60] " />
+                    <Image
+                      source={isRecording ? Images.STOP : Images.REC}
+                      className="w-[60] h-[60] "
+                    />
                   </View>
-                  <Text className="text-base font-bold text-white">Record</Text>
+                  <Text className="text-sm font-bold text-white">
+                    {isRecording ? 'Stop' : 'Record'}
+                  </Text>
                 </TouchableOpacity>
                 {/* //save  */}
                 <TouchableOpacity className="flex items-center ">
                   <View>
                     <Image source={Images.SAVE} className="w-[60] h-[60] " />
                   </View>
-                  <Text className="text-base font-bold text-white">Save</Text>
+                  <Text className="text-sm font-bold text-white">
+                    Save Recording
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -250,11 +339,11 @@ class Page extends Component<any, State> {
       // console.log('record-back', e);
 
       clearInterval(this.countdownInterval!);
-      Animated.timing(this.state.opacity, {
-        toValue: 0.0,
-        duration: 1000,
-        useNativeDriver: false,
-      }).start();
+      // Animated.timing(this.state.opacity, {
+      //   toValue: 0.0,
+      //   duration: 1000,
+      //   useNativeDriver: false,
+      // }).start();
 
       this.setState({
         recordSecs: e.currentPosition,
@@ -353,7 +442,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   countdownText: {
-    fontSize: 48,
+    fontSize: 28,
     color: 'white',
   },
 });
