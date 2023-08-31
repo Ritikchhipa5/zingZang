@@ -522,6 +522,35 @@ PODS:
     - SDWebImageWebPCoder (~> 0.8.4)
   - RNGestureHandler (2.12.1):
     - React-Core
+  - RNReanimated (2.2.4):
+    - DoubleConversion
+    - FBLazyVector
+    - FBReactNativeSpec
+    - glog
+    - RCT-Folly
+    - RCTRequired
+    - RCTTypeSafety
+    - React
+    - React-callinvoker
+    - React-Core
+    - React-Core/DevSupport
+    - React-Core/RCTWebSocket
+    - React-CoreModules
+    - React-cxxreact
+    - React-jsi
+    - React-jsiexecutor
+    - React-jsinspector
+    - React-RCTActionSheet
+    - React-RCTAnimation
+    - React-RCTBlob
+    - React-RCTImage
+    - React-RCTLinking
+    - React-RCTNetwork
+    - React-RCTSettings
+    - React-RCTText
+    - React-RCTVibration
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNScreens (3.24.0):
     - React-Core
     - React-RCTImage
@@ -619,6 +648,7 @@ DEPENDENCIES:
   - RNAudioRecorderPlayer (from `../node_modules/react-native-audio-recorder-player`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSound (from `../node_modules/react-native-sound`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -745,6 +775,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSound:
@@ -819,6 +851,7 @@ SPEC CHECKSUMS:
   RNAudioRecorderPlayer: 1ff1ddabbe89031df12ba9d5ac2fa724697c5c48
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
+  RNReanimated: 3a6ee4b68b5d9238bc4ca01128681c8ce19f1c61
   RNScreens: b21dc57dfa2b710c30ec600786a3fc223b1b92e7
   RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
   RNSVG: ed492aaf3af9ca01bc945f7a149d76d62e73ec82
