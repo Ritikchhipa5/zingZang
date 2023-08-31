@@ -12,6 +12,9 @@ import Setting from '../screens/Setting';
 import MySongList from '../screens/MySongList';
 import RecordScreen from '../screens/Home/RecordScreen';
 import Page from '../recorder/Recorder';
+import CustomLyrics from '../screens/Home/CustomLyrics/CustomLyrics';
+import LyricsPlayer from '../screens/Home/CustomLyrics/LyricsPlayer';
+// import LyricsPlayer from '../screens/Home/CustomLyrics/LyricsPlayer';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
@@ -67,6 +70,11 @@ function StackNavigation() {
         options={{headerShown: false}}
         name="RecordScreen"
         component={RecordScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="CustomLyrics"
+        component={LyricsPlayer}
       />
     </Stack.Navigator>
   );
