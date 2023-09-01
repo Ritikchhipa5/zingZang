@@ -192,7 +192,10 @@ function SongList({navigation}: any) {
           <TouchableOpacity
             className="px-4 "
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('SongPart')}>
+            onPress={() => {
+              navigation.navigate('SongPart');
+              TrackPlayer.pause();
+            }}>
             <View
               className={`py-4 ${
                 Song ? 'bg-[#F780FB]' : 'bg-[#F780FB4A]'

@@ -42,6 +42,10 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
     await audioRecorderPlayer.pausePlayer();
     setIsPlaying(false);
   };
+  const onStopPlay = async (): Promise<void> => {
+    await audioRecorderPlayer.stopPlayer();
+    setIsPlaying(false);
+  };
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -80,7 +84,10 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
         <TouchableOpacity
           className="px-4 "
           activeOpacity={0.7}
-          onPress={() => navigation.navigate('SongNameEdit')}>
+          onPress={() => {
+            navigation.navigate('SongNameEdit');
+            onStopPlay();
+          }}>
           <View className={`py-4 bg-[#F780FB] rounded-full `}>
             <Text className="text-xl font-semibold text-center text-black">
               Continue to Fit the Song
@@ -154,7 +161,6 @@ class RadioButton extends Component<any, any> {
             </TouchableOpacity>
           );
         })}
-        <Text> Selected: {this.state.value} </Text>
       </View>
     );
   }

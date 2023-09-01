@@ -47,8 +47,8 @@ const CustomLyrics = ({navigation}: any) => {
           <TouchableOpacity
             className="px-4"
             activeOpacity={0.7}
-            onPress={() => Alert.alert('Name')}>
-            <View className={`py-4 bg-[#F780FB] rounded-full `}>
+            onPress={() => navigation.navigate('LyricsPlayer')}>
+            <View className={'py-4 bg-[#F780FB] rounded-full '}>
               <Text className="text-xl font-semibold text-center text-black">
                 Custom Lyrics
               </Text>
@@ -61,5 +61,3 @@ const CustomLyrics = ({navigation}: any) => {
 };
 
 export default CustomLyrics;
-
-const styles = StyleSheet.create({});

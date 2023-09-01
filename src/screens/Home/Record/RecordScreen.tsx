@@ -228,6 +228,7 @@ class RecordScreen extends Component<any, State> {
                       className="w-[60] h-[60] "
                     />
                   </View>
+
                   <Text className="text-sm font-bold text-white">
                     {isRecording ? 'Stop' : 'Record'}
                   </Text>
