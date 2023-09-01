@@ -1,7 +1,8 @@
-import {ADD_RECORDING} from '../actions/types';
+import {ADD_LYRICS, ADD_RECORDING} from '../actions/types';
 
 const initialState = {
   recordedAudios: [],
+  lyrics: [],
 };
 
 const recordReducer = (state = initialState, action: any) => {
@@ -13,6 +14,11 @@ const recordReducer = (state = initialState, action: any) => {
           ...state.recordedAudios,
           action.payload?.recordedAudios,
         ],
+      };
+    case ADD_LYRICS:
+      return {
+        ...state,
+        lyrics: action.payload,
       };
     default:
       return state;

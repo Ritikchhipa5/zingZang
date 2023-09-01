@@ -202,14 +202,6 @@ class RecordScreen extends Component<any, State> {
           <View className="px-5 ">
             <View className="h-1.5 bg-zinc-600" />
             <View className="mt-5">
-              <TouchableOpacity
-                onPress={() => {
-                  // console.log(this.state.recordedAudios);
-                  // console.log(this.props.recrordedAudios);
-                  this.props.navigation.navigate('SelectRecording');
-                }}>
-                <Text>Show</Text>
-              </TouchableOpacity>
               <View className="flex flex-row justify-around ">
                 <TouchableOpacity
                   onPress={() => this.onStopRecord()}

@@ -80,10 +80,10 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
         <TouchableOpacity
           className="px-4 "
           activeOpacity={0.7}
-          onPress={() => Alert.alert(pickSong)}>
+          onPress={() => navigation.navigate('SongNameEdit')}>
           <View className={`py-4 bg-[#F780FB] rounded-full `}>
             <Text className="text-xl font-semibold text-center text-black">
-              Continue
+              Continue to Fit the Song
             </Text>
           </View>
         </TouchableOpacity>

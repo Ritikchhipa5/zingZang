@@ -1,2 +1,7 @@
-export const lyricsString =
-  "Now you're gone\nI realized my love for you was strong\nAnd I miss you here now you're gone\nI keep waiting here by the phone\nWith your pictures hanging on the wall";
+export const lyricsString = [
+  "Now you're gone",
+  'I realized my love for you was strong',
+  'And I miss you here now you re gone',
+  'keep waiting here by the phone',
+  'With your pictures hanging on the wall',
+]; // Your data
