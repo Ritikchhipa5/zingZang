@@ -193,10 +193,8 @@ class RecordScreen extends Component<any, State> {
                 size={32}
               />
             </View>
-            <Text className="text-[#E174E4] font-semibold text-center text-xl">
-              of type RCTView has a shadow set but cannot calculate shadow
-              efficiently. Consider setting a background color to fix this, or
-              apply the shadow to a more specific component.
+            <Text className="text-[#E174E4] font-semibold text-center text-xl leading-7">
+              {this.props.lyrics.map((text: string) => text + '\n')}
             </Text>
           </View>
           <View className="px-5 ">
@@ -490,6 +488,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: any) => {
   return {
     recordedAudios: state.records.recordedAudios,
+    lyrics: state.records?.lyrics,
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
