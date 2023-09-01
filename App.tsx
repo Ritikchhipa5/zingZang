@@ -1,15 +1,20 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import 'react-native-gesture-handler';
 import StackNavigation from './src/navigation/StackNavigation';
+import {Provider} from 'react-redux';
+import configureStore from './src/store';
+
 function App() {
+  const store = configureStore();
   return (
-    <NavigationContainer>
-      <SafeAreaProvider>
-        <StackNavigation />
-      </SafeAreaProvider>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <SafeAreaProvider>
+          <StackNavigation />
+        </SafeAreaProvider>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

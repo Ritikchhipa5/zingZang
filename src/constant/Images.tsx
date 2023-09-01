@@ -24,6 +24,8 @@ export const Images = {
   STOP: require('../assets/image/Icon_Record_Stop.png'),
   LISTEN: require('../assets/image/Icon_Listen.png'),
   SAVE: require('../assets/image/Icon_Save.png'),
+  REDO: require('../assets/image/Icon_Redo.png'),
+  WAVES: require('../assets/image/Waves.png'),
   MAIL: require('../assets/image/mail.png'),
   CREATE_PROJECT: require('../assets/image/Create_project.png'),
   LOADING_PROJECT: require('../assets/image/Load_existing_project.png'),

@@ -23,14 +23,17 @@ import {
   View,
 } from 'react-native';
 import React, {Component} from 'react';
-
+import RNFS from 'react-native-fs';
 import type {ReactElement} from 'react';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
-import {Images} from '../../constant/Images';
+import {Images} from '../../../constant/Images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {BlurView} from '@react-native-community/blur';
-import {screenWidth} from '../../utils/utils';
+import {screenWidth} from '../../../utils/utils';
+import {connect} from 'react-redux';
+import {addRecording} from '../../../actions/record';
+import StopRecordingModal from '../../../components/Modal/StopRecordingModal';
 interface State {
   isRecording: boolean;
   recordSecs: number;
@@ -40,18 +43,21 @@ interface State {
   playTime: string;
   duration: string;
   countdown: number;
+  isModalVisible: boolean;
   scaleValue: Animated.Value;
   opacity: Animated.Value;
+  recordedAudios: Array<{
+    uri: string;
+    duration: number;
+    time: string;
+  }>;
 }
 
 const PULSE_DURATION = 250;
 const COUNTDOWN_SECONDS = 3;
-class Page extends Component<any, State> {
+class RecordScreen extends Component<any, State> {
   //   private dirs = RNFetchBlob.fs.dirs;
-  private path = Platform.select({
-    ios: undefined,
-    android: undefined,
-  });
+  private path: any = '';
 
   private audioRecorderPlayer: AudioRecorderPlayer;
   private countdownInterval: NodeJS.Timeout | null = null;
@@ -66,8 +72,10 @@ class Page extends Component<any, State> {
       playTime: '00:00:00',
       duration: '00:00:00',
       countdown: -1,
+      isModalVisible: false,
       scaleValue: new Animated.Value(0),
       opacity: new Animated.Value(1),
+      recordedAudios: [],
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -102,34 +110,11 @@ class Page extends Component<any, State> {
     );
   }
 
-  // componentDidMount() {
-  //   this.startPulseAnimation();
-  // }
   startRecording = () => {
     this.startPulseAnimation().start();
     this.setState({countdown: COUNTDOWN_SECONDS});
     this.countdownInterval = setInterval(this.updateCountdown, 1000);
   };
-
-  // Update the countdown interval
-  // updateCountdown = () => {
-  //   this.setState(
-  //     prevState => ({
-  //       countdown: Math.max(prevState.countdown - 1, 0),
-  //     }),
-  //     () => {
-  //       if (this.state.countdown === 0) {
-  //         this.setState({
-  //           isRecording: true,
-  //           scaleValue: new Animated.Value(0),
-  //           opacity: new Animated.Value(0),
-  //         });
-  //         this.startPulseAnimation().stop();
-  //         this.onStartRecord();
-  //       }
-  //     },
-  //   );
-  // };
 
   updateCountdown = () => {
     const {countdown} = this.state;
@@ -157,7 +142,8 @@ class Page extends Component<any, State> {
     if (!playWidth) {
       playWidth = 0;
     }
-    const {countdown, opacity, scaleValue, isRecording} = this.state;
+    const {countdown, opacity, scaleValue, isRecording, isModalVisible} =
+      this.state;
     return (
       <ImageBackground
         style={{height: heightPercentageToDP('100%')}}
@@ -216,6 +202,14 @@ class Page extends Component<any, State> {
           <View className="px-5 ">
             <View className="h-1.5 bg-zinc-600" />
             <View className="mt-5">
+              <TouchableOpacity
+                onPress={() => {
+                  // console.log(this.state.recordedAudios);
+                  // console.log(this.props.recrordedAudios);
+                  this.props.navigation.navigate('SelectRecording');
+                }}>
+                <Text>Show</Text>
+              </TouchableOpacity>
               <View className="flex flex-row justify-around ">
                 <TouchableOpacity
                   onPress={() => this.onStopRecord()}
@@ -232,7 +226,7 @@ class Page extends Component<any, State> {
                 <TouchableOpacity
                   onPress={() => {
                     if (isRecording) {
-                      this.onStopRecord();
+                      this.handleStopRecordingModal();
                     } else {
                       this.startRecording();
                     }
@@ -249,18 +243,29 @@ class Page extends Component<any, State> {
                   </Text>
                 </TouchableOpacity>
                 {/* //save  */}
-                <TouchableOpacity className="flex items-center ">
+                <TouchableOpacity
+                  className="flex items-center "
+                  onPress={() => {
+                    this.startOver();
+                  }}>
                   <View>
-                    <Image source={Images.SAVE} className="w-[60] h-[60] " />
+                    <Image source={Images.REDO} className="w-[60] h-[60] " />
                   </View>
                   <Text className="text-sm font-bold text-white">
-                    Save Recording
+                    Start Over
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
         </SafeAreaView>
+        <StopRecordingModal
+          isVisible={isModalVisible}
+          onResumeRecord={this.onResumeRecord}
+          onPauseRecord={this.onPauseRecord}
+          onStopRecord={this.onStopRecord}
+          onEndRecording={this.handleEndRecordingModal}
+        />
       </ImageBackground>
     );
   }
@@ -328,8 +333,13 @@ class Page extends Component<any, State> {
       OutputFormatAndroid: OutputFormatAndroidType.AAC_ADTS,
     };
 
-    console.log('audioSet', audioSet);
+    const timestamp = new Date().getTime();
+    const filename = `recording_${timestamp}.m4a`;
 
+    this.path = Platform.select({
+      ios: filename,
+      android: undefined,
+    });
     const uri = await this.audioRecorderPlayer.startRecorder(
       this.path,
       audioSet,
@@ -375,16 +385,54 @@ class Page extends Component<any, State> {
 
   private onResumeRecord = async (): Promise<void> => {
     await this.audioRecorderPlayer.resumeRecorder();
+    this.setState({
+      isModalVisible: false,
+      isRecording: true,
+    });
   };
 
+  private startOver = () => {
+    // Clear the recorded audios list
+    this.setState({recordedAudios: [], recordSecs: 0, isRecording: false});
+
+    // You may also want to delete any saved audio files on the device
+    // Implement logic to delete the audio files from storage here
+  };
+  private handleStopRecordingModal = () => {
+    this.setState({
+      isModalVisible: true,
+    });
+    this.onPauseRecord();
+  };
+  private handleEndRecordingModal = () => {
+    this.setState({
+      isModalVisible: false,
+    });
+    this.onStopRecord();
+    this.props.navigation.navigate('SelectRecording');
+  };
   private onStopRecord = async (): Promise<void> => {
     const result = await this.audioRecorderPlayer.stopRecorder();
     this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
       recordSecs: 0,
       isRecording: false,
+      isModalVisible: false,
     });
-    console.log(result);
+    const recordedAudio = {
+      uri: result,
+      duration: this.state.recordSecs,
+      time: new Date().toISOString(), // You can add a timestamp for reference
+    };
+    // // Update the list of recorded audios
+    this.setState((prevState: any) => ({
+      recordedAudios: [...prevState.recordedAudios, recordedAudio],
+      recordSecs: 0,
+      isRecording: false,
+    }));
+    this.props.addRecord({
+      recordedAudios: recordedAudio,
+    });
   };
 
   private onStartPlay = async (): Promise<void> => {
@@ -446,4 +494,18 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-export default Page;
+
+const mapStateToProps = (state: any) => {
+  return {
+    recordedAudios: state.records.recordedAudios,
+  };
+};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addRecord: (rec: any) => {
+      dispatch(addRecording(rec));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecordScreen);
