@@ -15,6 +15,8 @@ import SelectRecording from '../screens/Home/Record/SelectRecording';
 import SongNameEdit from '../screens/Home/Record/SongNameEdit';
 import LyricsPlayer from '../screens/Home/CustomLyrics/LyricsPlayer';
 import CustomLyrics from '../screens/Home/CustomLyrics/CustomLyrics';
+import AlbumCover from '../screens/Home/Record/AlbumCover';
+import GenerateTrack from '../screens/Home/GenerateTrack/GenerateTrack';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
@@ -90,6 +92,16 @@ function StackNavigation() {
         options={{headerShown: false}}
         name="SongNameEdit"
         component={SongNameEdit}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="AlbumCover"
+        component={AlbumCover}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="GenerateTrack"
+        component={GenerateTrack}
       />
     </Stack.Navigator>
   );

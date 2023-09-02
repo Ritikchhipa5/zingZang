@@ -3,9 +3,7 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
-  Alert,
   TextInput,
-  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
@@ -55,8 +53,8 @@ const SongNameEdit = ({navigation}: any) => {
         <TouchableOpacity
           className="px-4 "
           activeOpacity={0.7}
-          onPress={() => Alert.alert(Name)}>
-          <View className={`py-4 bg-[#F780FB] rounded-full `}>
+          onPress={() => navigation.navigate('AlbumCover')}>
+          <View className={'py-4 bg-[#F780FB] rounded-full'}>
             <Text className="text-xl font-semibold text-center text-black">
               Continue to Album Cover
             </Text>
