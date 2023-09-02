@@ -19,6 +19,7 @@ import WaveAnimation from '../components/WaveAnimation';
 import {addTracks, setupPlayer} from '../service/trackPlayerServices';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {Slider} from '@react-native-assets/slider';
+import TrackPlayerModal from '../components/Modal/TrackPlayerModal';
 
 function SongList({navigation}: any) {
   const [Song, setSong] = useState<any>(null);
@@ -36,7 +37,7 @@ function SongList({navigation}: any) {
     setup();
   }, []);
   const {position, duration} = useProgress();
-  console.log(position, duration);
+  const [showTrackPlayer, setShowTrackPlayer] = useState(false);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
@@ -131,7 +132,7 @@ function SongList({navigation}: any) {
           {Song ? (
             <>
               {/* <View className="h-1.5 bg-[#683669]" /> */}
-              <View>
+              <TouchableOpacity>
                 <Slider
                   minimumValue={0}
                   maximumValue={duration}
@@ -149,10 +150,12 @@ function SongList({navigation}: any) {
                     TrackPlayer.seekTo(value);
                   }}
                 />
-              </View>
+              </TouchableOpacity>
               <View className="flex flex-row items-center justify-between py-2">
                 <View className="flex-row items-center justify-between rounded-lg drop-shadow-md">
-                  <View className="flex flex-row items-center p-3 ">
+                  <TouchableOpacity
+                    onPress={() => setShowTrackPlayer(true)}
+                    className="flex flex-row items-center p-3 ">
                     <Image
                       source={{
                         uri: 'https://publish.one37pm.net/wp-content/uploads/2023/01/best-rap-album-covers-Mobile-Images-ONE37pm.com_.png?resize=720%2C780',
@@ -167,7 +170,7 @@ function SongList({navigation}: any) {
                         {Song?.artist}
                       </Text>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                   onPress={() => {
@@ -207,6 +210,12 @@ function SongList({navigation}: any) {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+      <TrackPlayerModal
+        showTrackPlayer={showTrackPlayer}
+        navigation={navigation}
+        setShowTrackPlayer={setShowTrackPlayer}
+        data={Song}
+      />
     </ImageBackground>
   );
 }
