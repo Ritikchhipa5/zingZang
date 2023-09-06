@@ -328,9 +328,10 @@ class RecordScreen extends Component<any, State> {
     const filename = `recording_${timestamp}.m4a`;
 
     this.path = Platform.select({
-      ios: filename,
+      ios: 'file://' + RNFS.DocumentDirectoryPath + '/' + filename,
       android: undefined,
     });
+    console.log(this.path);
     const uri = await this.audioRecorderPlayer.startRecorder(
       this.path,
       audioSet,

@@ -14,7 +14,6 @@ import {
 } from 'react-native-responsive-screen';
 import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SoundWaveAnimation from '../components/SoundWave';
 
 function MySongList({navigation}: any) {
   const [Song, setSong] = useState<any>(null);
@@ -40,13 +39,9 @@ function MySongList({navigation}: any) {
           {[
             {
               id: 1,
-              name: 'Now You’re Gone',
-              artist: 'Basshunter',
-            },
-            {id: 2, name: 'Done Again', artist: 'Basshunter'},
-            {
-              id: 3,
-              name: 'Wack upGone',
+              albumCover:
+                'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+              name: 'Boten Anna',
               artist: 'Basshunter',
             },
           ].map((item, index) => (
@@ -62,7 +57,7 @@ function MySongList({navigation}: any) {
               <View className="flex flex-row items-center p-3 ">
                 <Image
                   source={{
-                    uri: 'https://publish.one37pm.net/wp-content/uploads/2023/01/best-rap-album-covers-Mobile-Images-ONE37pm.com_.png?resize=720%2C780',
+                    uri: item?.albumCover,
                   }}
                   className="w-12 h-12 mr-5 rounded-lg"
                 />
@@ -92,7 +87,7 @@ function MySongList({navigation}: any) {
               <View className="flex flex-row items-center p-3 ">
                 <Image
                   source={{
-                    uri: 'https://publish.one37pm.net/wp-content/uploads/2023/01/best-rap-album-covers-Mobile-Images-ONE37pm.com_.png?resize=720%2C780',
+                    uri: Song?.albumCover,
                   }}
                   className="w-12 h-12 mr-5 rounded-lg"
                 />

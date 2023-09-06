@@ -56,14 +56,14 @@ const LoginScreen = ({navigation}: any) => {
   //SignUp Button Click
   const signinClick = () => {
     const data = {
-      email: 'test12452210@gmail.com',
-      pass: '123456',
-      // user:{
-      //   name:"nicolas"
-      // }
+      user: {
+        name: 'nicolas',
+      },
+      email: 'test200@gmail.com',
+      pass: 'test12',
     };
 
-    fetch('http://3.129.111.250:4242/singInEmail', {
+    fetch('http://3.129.111.250:4242/singUpEmail', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -72,20 +72,23 @@ const LoginScreen = ({navigation}: any) => {
       body: JSON.stringify(data),
     })
       .then(function (res) {
-        Alert.alert('ZING ZANG', 'SignIn successfully done', [
-          {
-            text: 'OK',
-            onPress: () => {
-              console.log('OK Pressed');
-              navigation.navigate('Home');
-            },
-          },
-        ]);
+        // Alert.alert('ZING ZANG', 'SignIn successfully done', [
+        //   {
+        //     text: 'OK',
+        //     onPress: () => {
+        //       console.log('OK Pressed');
+        //       navigation.navigate('Home');
+        //     },
+        //   },
+        // ]);
         console.log(res.json());
         return res.json();
       })
       .then(function (data) {
         console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
       });
   };
   return (
@@ -229,8 +232,9 @@ const LoginScreen = ({navigation}: any) => {
               alignItems: 'center',
             }}>
             <TouchableOpacity
-              disabled={validatingLoginButton()}
+              // disabled={validatingLoginButton()}
               onPress={() => signinClick()}
+              activeOpacity={0.7}
               className="rounded-full border-0 bg-[#F780FB] w-[95%] flex flex-row justify-center items-center "
               style={{
                 height: hp('6%'),

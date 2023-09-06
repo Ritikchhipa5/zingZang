@@ -12,13 +12,18 @@ import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {Images} from '../../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {changeLyrics} from '../../../api/record';
+import RNFS from 'react-native-fs';
+import {connect} from 'react-redux';
 import Loading from '../../../components/Loading';
-const AlbumCover = ({navigation}: any) => {
+const AlbumCover = ({navigation, recordedAudios}: any) => {
   const [Album, setAlbum] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
+      {isLoading ? <Loading /> : null}
       <SafeAreaView
         className="h-full "
         edges={['right', 'left', 'top', 'bottom']}>
@@ -58,7 +63,33 @@ const AlbumCover = ({navigation}: any) => {
           <TouchableOpacity
             className=""
             activeOpacity={0.7}
-            onPress={() => Alert.alert(Album)}>
+            onPress={() => {
+              let data = new FormData();
+              console.log(
+                recordedAudios[0]?.uri?.replace(
+                  `file://${RNFS.DocumentDirectoryPath}/`,
+                  '',
+                ),
+                recordedAudios[0]?.uri,
+              );
+              data.append('input_files', {
+                uri: recordedAudios[0]?.uri,
+                type: 'audio/m4a',
+                name: recordedAudios[0]?.uri?.replace(
+                  `file://${RNFS.DocumentDirectoryPath}/`,
+                  '',
+                ),
+              });
+              setIsLoading(true);
+              changeLyrics({value: data})
+                .then(status => {
+                  console.log(status);
+                  navigation.navigate('TrackPlayer');
+                })
+                .finally(() => {
+                  setIsLoading(false);
+                });
+            }}>
             <View className={'py-4 bg-[#F780FB] rounded-full'}>
               <Text className="text-xl font-semibold text-center text-black">
                 Generate Album Cover
@@ -96,4 +127,9 @@ const AlbumCover = ({navigation}: any) => {
   );
 };
 
-export default AlbumCover;
+const mapStateToProps = (state: any) => {
+  return {
+    recordedAudios: state.records.recordedAudios,
+  };
+};
+export default connect(mapStateToProps, null)(AlbumCover);

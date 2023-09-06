@@ -8,7 +8,7 @@ export const ActiveTrackDetails = () => {
       <View>
         <FastImage
           source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/en/b/b2/Lorde_-_Melodrama.png',
+            uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
           }}
           className="mx-auto rounded-lg shadow-2xl "
           style={styles.artCover}
@@ -19,7 +19,7 @@ export const ActiveTrackDetails = () => {
         <Text
           className="text-3xl font-semibold text-center text-white"
           numberOfLines={1}>
-          ZScmn Now You’re Gone
+          Boten Anna
         </Text>
         <Text
           className="text-xl font-medium text-white opacity-50"

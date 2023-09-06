@@ -23,7 +23,7 @@ const TrackPlayerModal = ({
         <ImageBackground
           className="justify-center flex-1 bg-cover"
           source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/en/b/b2/Lorde_-_Melodrama.png',
+            uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
           }}
           blurRadius={30}>
           <View className="flex-[0.7] justify-evenly  ">

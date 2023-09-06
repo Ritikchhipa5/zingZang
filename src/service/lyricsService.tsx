@@ -1,7 +1,7 @@
 export const lyricsString = [
-  "Now you're gone",
-  'I realized my love for you was strong',
-  'And I miss you here now you re gone',
-  'keep waiting here by the phone',
-  'With your pictures hanging on the wall',
+  'Jag känner en bot',
+  'Hon heter Anna. Anna heter hon',
+  'och hon kan banna banna dig så hårt',
+  'Hon röjer upp i våran kanal',
+  'Jag vill berätta för dig att jag känner en bot',
 ]; // Your data
