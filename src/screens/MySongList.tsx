@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ImageBackground,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -14,10 +15,52 @@ import {
 } from 'react-native-responsive-screen';
 import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {requestTextSongs} from '../api/generateTrack';
+import TrackPlayer from 'react-native-track-player';
+import {setupPlayer} from '../service/trackPlayerServices';
+import {userInfoAdd} from '../actions/record';
+import {connect} from 'react-redux';
 
-function MySongList({navigation}: any) {
+function MySongList({navigation, user}: any) {
   const [Song, setSong] = useState<any>(null);
+  const [SongList, setSongList] = useState<any>([]);
   const [isPlay, setIsPlay] = useState<any>(false);
+
+  useEffect(() => {
+    async function setup() {
+      let isSetup = await setupPlayer();
+      console.log(isSetup);
+      const queue = await TrackPlayer.getQueue();
+      if (isSetup && queue.length <= 0) {
+        await loadAndPlayTracks();
+      }
+    }
+
+    setup();
+  }, [user?.user?.id]);
+
+  console.log('fsdj', user?.user?.id);
+
+  async function loadAndPlayTracks() {
+    requestTextSongs({
+      id: user?.user?.id,
+    }).then(async data => {
+      TrackPlayer.reset();
+      let newData = data.map((item: any, index: number) => {
+        return {
+          id: index,
+          url: item.link,
+          isLiveStream: true,
+          duration: 200,
+          title: item.title || 'Unknown Title', // Provide a
+        };
+      });
+
+      TrackPlayer.add(newData);
+      setSongList(newData);
+    });
+  }
+
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_2}>
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
@@ -35,47 +78,53 @@ function MySongList({navigation}: any) {
         </View>
 
         {/* //Song List */}
-        <View className="flex-1 px-4 mt-10 ">
-          {[
-            {
-              id: 1,
-              albumCover:
-                'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
-              name: 'Boten Anna',
-              artist: 'Basshunter',
-            },
-          ].map((item, index) => (
-            <TouchableOpacity
-              key={index + 1}
-              className={`bg-[#6836693A] rounded-lg drop-shadow-md mb-3  flex-row justify-between items-center border-2 border-transparent ${
-                item.id === Song?.id && 'border-[#F780FB]'
-              }`}
-              onPress={() => {
-                setSong(item);
-                setIsPlay(true);
-              }}>
-              <View className="flex flex-row items-center p-3 ">
-                <Image
-                  source={{
-                    uri: item?.albumCover,
-                  }}
-                  className="w-12 h-12 mr-5 rounded-lg"
-                />
-                <View>
-                  <Text className="text-xl font-semibold text-white">
-                    {item.name}
-                  </Text>
-                  <Text className="font-normal text-md text-zinc-300 ">
-                    {item.artist}
-                  </Text>
+        <ScrollView className="flex-1 px-4 mt-10 ">
+          {
+            // [
+            //   {
+            //     id: 1,
+            //     albumCover:
+            //       'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+            //     name: 'Boten Anna',
+            //     artist: 'Basshunter',
+            //   },
+            // ]
+            SongList.map((item: any, index: number) => (
+              <TouchableOpacity
+                key={index + 1}
+                className={`bg-[#6836693A] rounded-lg drop-shadow-md mb-3  flex-row justify-between items-center border-2 border-transparent ${
+                  item.id === Song?.id && 'border-[#F780FB]'
+                }`}
+                onPress={async () => {
+                  setSong(item);
+                  setIsPlay(true);
+                  console.log(item.url);
+                  await TrackPlayer.skip(index);
+                  await TrackPlayer.play();
+                }}>
+                <View className="flex flex-row items-center p-3 ">
+                  <Image
+                    source={{
+                      uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+                    }}
+                    className="w-12 h-12 mr-5 rounded-lg"
+                  />
+                  <View>
+                    <Text className="text-xl font-semibold text-white">
+                      {item?.title?.slice(0, 20)}
+                    </Text>
+                    <Text className="font-normal text-md text-zinc-300 ">
+                      {item.artist}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <TouchableOpacity className="mr-2">
-                <Entypo color="white" name="dots-three-vertical" size={22} />
+                <TouchableOpacity className="mr-2">
+                  <Entypo color="white" name="dots-three-vertical" size={22} />
+                </TouchableOpacity>
               </TouchableOpacity>
-            </TouchableOpacity>
-          ))}
-        </View>
+            ))
+          }
+        </ScrollView>
         <View className="bottom-0 ">
           <View className="h-1.5 bg-[#683669] " />
           <View className="py-2 pb-10 flex flex-row items-center justify-between bg-[#6836693A]">
@@ -93,7 +142,7 @@ function MySongList({navigation}: any) {
                 />
                 <View>
                   <Text className="text-xl font-semibold text-white">
-                    {Song?.name}
+                    {Song?.title?.slice(0, 20)}
                   </Text>
                   <Text className="font-normal text-md text-zinc-300 ">
                     {Song?.name}
@@ -104,7 +153,13 @@ function MySongList({navigation}: any) {
             <TouchableOpacity
               className="mr-2"
               onPress={() => {
-                setIsPlay(!isPlay);
+                if (!isPlay) {
+                  setIsPlay(true);
+                  TrackPlayer.play();
+                } else {
+                  setIsPlay(false);
+                  TrackPlayer.pause();
+                }
               }}>
               <Image source={isPlay ? Images.PAUSE : Images.PLAY} />
             </TouchableOpacity>
@@ -115,4 +170,17 @@ function MySongList({navigation}: any) {
   );
 }
 
-export default MySongList;
+const mapStateToProps = (state: any) => {
+  return {
+    user: state.userData?.user,
+  };
+};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    userInfoAdd: (user: any) => {
+      dispatch(userInfoAdd(user));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MySongList);

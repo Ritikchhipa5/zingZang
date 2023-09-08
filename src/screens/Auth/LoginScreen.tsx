@@ -9,7 +9,7 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
-  Alert,
+  Button,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -19,8 +19,13 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {Strings} from '../../constant/Strings';
 import {Images} from '../../constant/Images';
+import {singInEmail} from '../../api/auth';
+import {Formik, Form, Field, ErrorMessage} from 'formik';
+import * as Yup from 'yup';
+import {connect} from 'react-redux';
+import {userInfoAdd} from '../../actions/record';
 // create a component
-const LoginScreen = ({navigation}: any) => {
+const LoginScreen = ({navigation, addUserInfo}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginButton, setIsLoginButton] = useState(true);
@@ -31,66 +36,28 @@ const LoginScreen = ({navigation}: any) => {
     return () => {};
   }, [email, password]);
 
-  const validatingLoginButton = () => {
-    return email.length > 0 && password.length > 0 ? false : true;
-  };
-  // Check All validation
-  const isValidated = (text: string, type: string) => {
-    setIsValidating(0);
-    if (type === 'user_name') {
-      if (text.length === 0) {
-        setIsValidating(1);
-        setEmail('');
-      } else {
-        setIsValidating(0);
-        // const result = text.replace(/[^a-z]/gi, '');
-        setEmail(text);
-      }
-    } else if (type === 'user_password') {
-      setPassword(text);
-    }
-    email.length != 0 && password.length != 0
-      ? setIsLoginButton(false)
-      : setIsLoginButton(true);
-  };
-  //SignUp Button Click
-  const signinClick = () => {
-    const data = {
-      user: {
-        name: 'nicolas',
-      },
-      email: 'test200@gmail.com',
-      pass: 'test12',
-    };
+  // Handling form validation
+  const validation = Yup.object({
+    email: Yup.string().required('Username is required'),
+    pass: Yup.string().required('Password is required'),
+  });
 
-    fetch('http://3.129.111.250:4242/singUpEmail', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then(function (res) {
-        // Alert.alert('ZING ZANG', 'SignIn successfully done', [
-        //   {
-        //     text: 'OK',
-        //     onPress: () => {
-        //       console.log('OK Pressed');
-        //       navigation.navigate('Home');
-        //     },
-        //   },
-        // ]);
-        console.log(res.json());
-        return res.json();
-      })
-      .then(function (data) {
-        console.log(data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  //SignUp Button Click
+  const signinClick = async (values: any, {setSubmitting}: any) => {
+    try {
+      let data = await singInEmail(values);
+      addUserInfo(data.data);
+      if (data?.status) {
+        navigation.navigate('CreateProject');
+      } else {
+        navigation.navigate('Register');
+      }
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG}>
       <SafeAreaView style={{flex: 1}}>
@@ -116,139 +83,157 @@ const LoginScreen = ({navigation}: any) => {
               </Text>
             </View>
           </View>
-          <View
-            style={{
-              height: hp('20%'),
-              alignItems: 'center',
-              marginVertical: hp('5%'),
-            }}>
-            {/* User text input */}
-            <View
-              style={{
-                width: '90%',
-                marginTop: hp('2.5%'),
-              }}>
-              <View style={{flexDirection: 'row', marginLeft: wp('0.5%')}}>
-                <Image source={Images.PROFILE} />
-                <View style={{justifyContent: 'center'}}>
-                  <Text
-                    style={{
-                      marginLeft: wp('2.5%'),
-                      fontSize: hp('1.5%'),
-                      color: '#FFFFFF',
-                      fontWeight: 'bold',
-                      textAlign: 'center',
-                    }}>
-                    {Strings.USER_NAME}
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                  height: hp('5%'),
-                  borderRadius: 10,
-                  marginTop: hp('1%'),
-                  justifyContent: 'center',
-                }}>
-                <TextInput
-                  value={email}
-                  onChangeText={e => isValidated(e, 'user_name')}
-                  underlineColorAndroid="transparent"
-                  placeholder={Strings.ENTER_USER_NAME}
-                  placeholderTextColor="#FFFFFF"
-                  autoCapitalize="none"
+          <Formik
+            initialValues={{
+              email: 'test1117@gmail.com',
+              pass: 'test12',
+            }}
+            validationSchema={validation}
+            onSubmit={signinClick}>
+            {({handleChange, handleBlur, handleSubmit, values, errors}) => (
+              <>
+                {console.log(errors)}
+                <View
                   style={{
-                    textAlign: 'left',
-                    marginLeft: wp('2%'),
-                  }}
-                />
-              </View>
-            </View>
+                    height: hp('20%'),
+                    alignItems: 'center',
+                    marginVertical: hp('5%'),
+                  }}>
+                  {/* User text input */}
+                  <View
+                    style={{
+                      width: '90%',
+                      marginTop: hp('2.5%'),
+                    }}>
+                    <View
+                      style={{flexDirection: 'row', marginLeft: wp('0.5%')}}>
+                      <Image source={Images.PROFILE} />
+                      <View style={{justifyContent: 'center'}}>
+                        <Text
+                          style={{
+                            marginLeft: wp('2.5%'),
+                            fontSize: hp('1.5%'),
+                            color: '#FFFFFF',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          {Strings.USER_NAME}
+                        </Text>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                        height: hp('5%'),
+                        borderRadius: 10,
+                        marginTop: hp('1%'),
+                        justifyContent: 'center',
+                      }}>
+                      <TextInput
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}
+                        // onChangeText={e => isValidated(e, 'user_name')}
+                        underlineColorAndroid="transparent"
+                        placeholder={Strings.ENTER_USER_NAME}
+                        placeholderTextColor="#FFFFFF"
+                        autoCapitalize="none"
+                        style={{
+                          textAlign: 'left',
+                          marginLeft: wp('2%'),
+                        }}
+                      />
+                    </View>
+                  </View>
 
-            {/* Password text input */}
-            <View
-              style={{
-                width: '90%',
-                marginTop: hp('2.5%'),
-              }}>
-              <View style={{flexDirection: 'row', marginLeft: wp('0.5%')}}>
-                <Image source={Images.LOCK} />
-                <View style={{justifyContent: 'center'}}>
-                  <Text
+                  {/* Password text input */}
+                  <View
                     style={{
-                      marginLeft: wp('2.5%'),
-                      fontSize: hp('1.5%'),
-                      color: '#FFFFFF',
-                      fontWeight: 'bold',
-                      textAlign: 'center',
+                      width: '90%',
+                      marginTop: hp('2.5%'),
                     }}>
-                    {Strings.PASSWORD}
-                  </Text>
+                    <View
+                      style={{flexDirection: 'row', marginLeft: wp('0.5%')}}>
+                      <Image source={Images.LOCK} />
+                      <View style={{justifyContent: 'center'}}>
+                        <Text
+                          style={{
+                            marginLeft: wp('2.5%'),
+                            fontSize: hp('1.5%'),
+                            color: '#FFFFFF',
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          {Strings.PASSWORD}
+                        </Text>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                        height: hp('5%'),
+                        borderRadius: 10,
+                        marginTop: hp('1%'),
+                        justifyContent: 'center',
+                      }}>
+                      <TextInput
+                        onChangeText={handleChange('pass')}
+                        onBlur={handleBlur('pass')}
+                        value={values.pass}
+                        underlineColorAndroid="transparent"
+                        placeholder={Strings.ENTER_USER_PASSWORD}
+                        placeholderTextColor="#FFFFFF"
+                        autoCapitalize="none"
+                        style={{
+                          textAlign: 'left',
+                          marginLeft: wp('2%'),
+                        }}
+                      />
+                    </View>
+                  </View>
                 </View>
-              </View>
-              <View
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                  height: hp('5%'),
-                  borderRadius: 10,
-                  marginTop: hp('1%'),
-                  justifyContent: 'center',
-                }}>
-                <TextInput
-                  value={password}
-                  onChangeText={e => isValidated(e, 'user_password')}
-                  underlineColorAndroid="transparent"
-                  placeholder={Strings.ENTER_USER_PASSWORD}
-                  placeholderTextColor="#FFFFFF"
-                  autoCapitalize="none"
+                <View style={{height: hp('5%'), marginTop: hp('4%')}}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('ForgotPassword')}>
+                    <Text
+                      numberOfLines={2}
+                      className="font-semibold"
+                      style={{
+                        color: '#F780FB',
+                        fontSize: hp('2%'),
+                        textAlign: 'center',
+                      }}>
+                      {Strings.Forgot_password}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View
                   style={{
-                    textAlign: 'left',
-                    marginLeft: wp('2%'),
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={{height: hp('5%'), marginTop: hp('4%')}}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ForgotPassword')}>
-              <Text
-                numberOfLines={2}
-                className="font-semibold"
-                style={{
-                  color: '#F780FB',
-                  fontSize: hp('2%'),
-                  textAlign: 'center',
-                }}>
-                {Strings.Forgot_password}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              height: hp('8%'),
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
-              // disabled={validatingLoginButton()}
-              onPress={() => signinClick()}
-              activeOpacity={0.7}
-              className="rounded-full border-0 bg-[#F780FB] w-[95%] flex flex-row justify-center items-center "
-              style={{
-                height: hp('6%'),
-              }}>
-              <Text
-                className="font-semibold text-black"
-                style={{
-                  marginLeft: wp('2%'),
-                  fontSize: hp('2%'),
-                }}>
-                {Strings.LOGIN}
-              </Text>
-            </TouchableOpacity>
-          </View>
+                    height: hp('8%'),
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <TouchableOpacity
+                    // disabled={validatingLoginButton()}
+                    onPress={() => handleSubmit()}
+                    activeOpacity={0.7}
+                    className="rounded-full border-0 bg-[#F780FB] w-[95%] flex flex-row justify-center items-center "
+                    style={{
+                      height: hp('6%'),
+                    }}>
+                    <Text
+                      className="font-semibold text-black"
+                      style={{
+                        marginLeft: wp('2%'),
+                        fontSize: hp('2%'),
+                      }}>
+                      {Strings.LOGIN}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+          </Formik>
           <View
             className="items-center justify-center border-0"
             style={{
@@ -339,5 +324,13 @@ const LoginScreen = ({navigation}: any) => {
   );
 };
 
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addUserInfo: (user: any) => {
+      dispatch(userInfoAdd(user));
+    },
+  };
+};
+
 //make this component available to the app
-export default LoginScreen;
+export default connect(null, mapDispatchToProps)(LoginScreen);

@@ -17,6 +17,7 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.17",
     "axios": "^1.5.0",
+    "formik": "^2.4.4",
     "i": "^0.3.7",
     "lottie-react-native": "^6.2.0",
     "nativewind": "^2.0.11",
@@ -44,7 +45,8 @@
     "react-redux": "^8.1.2",
     "redux": "^4.2.1",
     "rn-fetch-blob": "^0.12.0",
-    "start": "^5.1.0"
+    "start": "^5.1.0",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

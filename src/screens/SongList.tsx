@@ -20,6 +20,7 @@ import {addTracks, setupPlayer} from '../service/trackPlayerServices';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {Slider} from '@react-native-assets/slider';
 import TrackPlayerModal from '../components/Modal/TrackPlayerModal';
+import {LyricsSongList} from '../service/lyricsService';
 
 function SongList({navigation}: any) {
   const [Song, setSong] = useState<any>(null);
@@ -30,7 +31,8 @@ function SongList({navigation}: any) {
       console.log(isSetup);
       const queue = await TrackPlayer.getQueue();
       if (isSetup && queue.length <= 0) {
-        await addTracks();
+        TrackPlayer.reset();
+        await TrackPlayer.add(LyricsSongList);
       }
     }
 
@@ -79,24 +81,17 @@ function SongList({navigation}: any) {
         </View>
         {/* //Song List */}
         <View className="flex-1 px-4 mt-10 ">
-          {[
-            {
-              id: 1,
-              albumCover:
-                'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
-              name: 'Boten Anna',
-              artist: 'Basshunter',
-            },
-          ].map((item: any, index: number) => (
+          {LyricsSongList.map((item: any, index: number) => (
             <TouchableOpacity
               className={`flex flex-row items-center  justify-between p-3 bg-[#6836691A] rounded-2xl border-2 border-transparent  ${
                 item.id === Song?.id && 'border-[#F780FB]'
               } drop-shadow-md mb-3 `}
               key={index + 1}
-              onPress={() => {
+              onPress={async () => {
                 setSong(item);
                 setIsPlay(true);
-                TrackPlayer.play();
+
+                await TrackPlayer.play();
               }}>
               <View className={`flex flex-row items-center`}>
                 <Image

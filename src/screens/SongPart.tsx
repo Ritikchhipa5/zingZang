@@ -61,13 +61,18 @@ function SongPart({navigation}: any) {
           <ScrollView
             contentContainerStyle={{paddingHorizontal: 16, paddingTop: 12}}>
             <View className="flex-row flex-wrap justify-between">
-              {[{id: 1}, {id: 2}, {id: 3}].map((part, index) => (
+              {[
+                {id: 1, start: 0},
+                {id: 2, start: 66},
+                {id: 3, start: 132},
+              ].map((part, index) => (
                 <TouchableOpacity
                   key={index + 1}
                   className="w-[31.33%]"
                   onPress={() => {
                     if (!isPlay) {
                       setIsPlay(true);
+                      TrackPlayer.seekTo(part.start);
                       TrackPlayer.play();
                     } else {
                       setIsPlay(false);

@@ -22,7 +22,7 @@ function StackNavigation() {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="SignScreen"
+      initialRouteName="LoginScreen"
       screenOptions={{
         headerShown: false,
       }}>

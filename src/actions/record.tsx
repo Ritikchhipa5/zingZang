@@ -1,4 +1,4 @@
-import {ADD_LYRICS, ADD_RECORDING} from './types';
+import {ADD_LYRICS, ADD_RECORDING, USER_INFO} from './types';
 
 export const addRecording = (rec: any) => {
   return {
@@ -11,5 +11,11 @@ export const addLyrics = (lyrics: any) => {
   return {
     type: ADD_LYRICS,
     payload: lyrics,
+  };
+};
+export const userInfoAdd = (user: any) => {
+  return {
+    type: USER_INFO,
+    payload: user,
   };
 };

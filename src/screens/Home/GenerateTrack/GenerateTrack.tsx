@@ -9,14 +9,23 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
-import {heightPercentageToDP} from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import {Images} from '../../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Picker} from '@react-native-picker/picker';
+import * as Yup from 'yup';
+import {Formik} from 'formik';
+import {createTextSong} from '../../../api/generateTrack';
 const GenerateTrack = ({navigation}: any) => {
-  const [MusicGenre, setMusicGenre] = useState('pop');
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const validation = Yup.object({
+    text: Yup.string().required('Text is required'),
+    duration: Yup.string().required('Duration is required'),
+    title: Yup.string().required('Title is required'),
+    id: Yup.string().required('ID is required'),
+  });
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -26,7 +35,7 @@ const GenerateTrack = ({navigation}: any) => {
         edges={['right', 'left', 'top', 'bottom']}>
         {/* // Search Box */}
         <View className="flex flex-row items-center justify-between px-4">
-          <TouchableOpacity className="" onPress={() => navigation.goBack(' ')}>
+          <TouchableOpacity className="" onPress={() => navigation.goBack('')}>
             <MaterialIcons color="white" name="keyboard-arrow-left" size={42} />
           </TouchableOpacity>
           <Text className="text-2xl font-semibold text-center text-white ">
@@ -37,69 +46,103 @@ const GenerateTrack = ({navigation}: any) => {
             <MaterialIcons color="white" name="close" size={32} />
           </TouchableOpacity>
         </View>
-        <ScrollView className="flex-1 px-4 gap-y-4 ">
-          <View className="gap-y-2">
-            <Text className="text-lg font-semibold text-white">
-              1. Select music genre
-            </Text>
-            <TouchableOpacity
-              className="w-full py-3   bg-[#FFFFFF1A]   rounded-md   items-left    leading-2 px-5"
-              onPress={() => {
-                setIsModalVisible(true);
-              }}>
-              <Text className="text-xl  text-left font-medium text-[#C6C3C6] ">
-                {MusicGenre}
-              </Text>
-            </TouchableOpacity>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={isModalVisible}>
+
+        <Formik
+          initialValues={{
+            uid: '123dasd3',
+            duration: '10',
+            text: 'a cool song m sdfnnsmdfn,ka s,m,dfma fk ',
+            title: 'mi master pice',
+            id: 'iqag02hi7VRQLwAG',
+          }}
+          validationSchema={validation}
+          onSubmit={async values => {
+            console.log(values);
+            try {
+              let data = await createTextSong(values);
+
+              Alert.alert(data?.message);
+              console.log(data?.message);
+            } catch (error) {
+              console.log(error);
+            }
+          }}>
+          {({handleChange, handleBlur, handleSubmit, values, errors}: any) => (
+            <>
+              <ScrollView className="flex-1 px-4 gap-y-4 ">
+                <View className=" gap-y-4">
+                  <View className="gap-y-4">
+                    <Text className="text-lg font-semibold text-white">
+                      1. Music Name
+                    </Text>
+
+                    <TextInput
+                      onChangeText={handleChange('title')}
+                      onBlur={handleBlur('title')}
+                      value={values.title}
+                      placeholder="Track Name "
+                      className="w-full py-3 text-xl font-medium  bg-[#FFFFFF1A] text-[#C6C3C6] rounded-md  items-center leading-2 px-5"
+                      placeholderTextColor="#C6C3C6"
+                    />
+                  </View>
+                  <View className=" gap-y-2">
+                    <Text className="text-lg font-semibold text-white">
+                      2. Describe your track
+                    </Text>
+                    <TextInput
+                      placeholder="Relaxing video background track..."
+                      onChangeText={handleChange('text')}
+                      onBlur={handleBlur('text')}
+                      value={values.text}
+                      numberOfLines={4}
+                      multiline
+                      className="w-full py-3 text-xl font-medium h-[200]  bg-[#FFFFFF1A]   text-[#C6C3C6] rounded-md  items-center leading-2 px-5"
+                      placeholderTextColor="#C6C3C6"
+                    />
+                  </View>
+                  <View className="gap-y-2">
+                    <Text className="text-lg font-semibold text-white">
+                      3. Enter duration
+                    </Text>
+                    <TextInput
+                      onChangeText={handleChange('duration')}
+                      onBlur={handleBlur('duration')}
+                      value={values.duration}
+                      placeholder="00:25"
+                      keyboardType="numeric"
+                      className="w-full py-3 text-xl font-medium  bg-[#FFFFFF1A] text-[#C6C3C6] rounded-md  items-center leading-2 px-5"
+                      placeholderTextColor="#C6C3C6"
+                    />
+                  </View>
+                </View>
+              </ScrollView>
               <View
                 style={{
-                  backgroundColor: '#190D1A',
-                  position: 'absolute',
-                  width: '100%',
-                  bottom: 0,
+                  height: heightPercentageToDP('8%'),
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}>
-                <Picker
-                  selectedValue={MusicGenre}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setMusicGenre(itemValue);
-                    setIsModalVisible(false);
+                <TouchableOpacity
+                  // disabled={validatingLoginButton()}
+                  onPress={() => handleSubmit()}
+                  activeOpacity={0.7}
+                  className="rounded-full border-0 bg-[#F780FB] w-[95%] flex flex-row justify-center items-center "
+                  style={{
+                    height: heightPercentageToDP('6%'),
                   }}>
-                  <Picker.Item color="white" label="Pop" value="pop" />
-                  <Picker.Item color="white" label="Rock" value="rock" />
-                  <Picker.Item color="white" label="Jazz" value="jazz" />
-                  <Picker.Item color="white" label="Bass" value="bass" />
-                </Picker>
+                  <Text
+                    className="font-semibold text-black"
+                    style={{
+                      marginLeft: widthPercentageToDP('2%'),
+                      fontSize: heightPercentageToDP('2%'),
+                    }}>
+                    Generate Track
+                  </Text>
+                </TouchableOpacity>
               </View>
-            </Modal>
-          </View>
-          <View className=" gap-y-2">
-            <Text className="text-lg font-semibold text-white">
-              2. Describe your track
-            </Text>
-            <TextInput
-              placeholder="Relaxing video background track..."
-              numberOfLines={4}
-              multiline
-              className="w-full py-3 text-xl font-medium h-[200]  bg-[#FFFFFF1A]   text-[#C6C3C6] rounded-md  items-center leading-2 px-5"
-              placeholderTextColor="#C6C3C6"
-            />
-          </View>
-          <View className="gap-y-2">
-            <Text className="text-lg font-semibold text-white">
-              3. Enter duration
-            </Text>
-            <TextInput
-              placeholder="00:25"
-              keyboardType="numeric"
-              className="w-full py-3 text-xl font-medium  bg-[#FFFFFF1A] text-[#C6C3C6] rounded-md  items-center leading-2 px-5"
-              placeholderTextColor="#C6C3C6"
-            />
-          </View>
-        </ScrollView>
+            </>
+          )}
+        </Formik>
       </SafeAreaView>
     </ImageBackground>
   );

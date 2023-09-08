@@ -50,6 +50,10 @@ export async function addTracks() {
   ]);
   await TrackPlayer.setRepeatMode(RepeatMode.Queue);
 }
+// export async function playTrackById(id: any) {
+//   await TrackPlayer.skip(id); // Skip to the new track
+//   await TrackPlayer.play(); // Start playing the new track
+// }
 
 export async function playbackService() {
   // TODO: Attach remote event handlers

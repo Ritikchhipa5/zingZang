@@ -115,10 +115,10 @@ class RadioButton extends Component<any, any> {
     const {value} = this.state;
     return (
       <View>
-        {data.map((res: any) => {
+        {data.map((res: any, index: number) => {
           return (
             <TouchableOpacity
-              key={res.key}
+              key={index}
               style={styles.container}
               onPress={() => {
                 this.setState({
