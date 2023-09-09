@@ -17,12 +17,13 @@ import LyricsPlayer from '../screens/Home/CustomLyrics/LyricsPlayer';
 import CustomLyrics from '../screens/Home/CustomLyrics/CustomLyrics';
 import AlbumCover from '../screens/Home/Record/AlbumCover';
 import GenerateTrack from '../screens/Home/GenerateTrack/GenerateTrack';
+import AlbumCoverPage from '../screens/Home/Record/AlbumCoverPage';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="LoginScreen"
+      initialRouteName="SignScreen"
       screenOptions={{
         headerShown: false,
       }}>
@@ -102,6 +103,11 @@ function StackNavigation() {
         options={{headerShown: false}}
         name="GenerateTrack"
         component={GenerateTrack}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="AlbumCoverPage"
+        component={AlbumCoverPage}
       />
     </Stack.Navigator>
   );

@@ -12,13 +12,18 @@ import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {Images} from '../../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {changeLyrics} from '../../../api/record';
-import RNFS from 'react-native-fs';
+
 import {connect} from 'react-redux';
 import Loading from '../../../components/Loading';
-const AlbumCover = ({navigation, recordedAudios}: any) => {
-  const [Album, setAlbum] = useState('');
+import {createAlbumCoverSong} from '../../../api/generateTrack';
+const AlbumCover = ({navigation, recordedAudios, route}: any) => {
+  const [Album, setAlbum] = useState(
+    'A futuristic techno coverart, in the style of electronic music.',
+  );
   const [isLoading, setIsLoading] = useState(false);
+  const [AlbumCover, setAlbumCover] = useState<any>({});
+  const {pickSong, songName} = route.params;
+  console.log(pickSong, songName);
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -51,6 +56,7 @@ const AlbumCover = ({navigation, recordedAudios}: any) => {
                 console.log(text);
                 setAlbum(text);
               }}
+              value={Album}
               multiline={true}
               numberOfLines={5}
               placeholder="Two clasped hands on a red base..."
@@ -59,32 +65,54 @@ const AlbumCover = ({navigation, recordedAudios}: any) => {
             />
           </View>
         </View>
+
         <View className="px-4 gap-y-3">
           <TouchableOpacity
             className=""
             activeOpacity={0.7}
-            onPress={() => {
-              let data = new FormData();
-              console.log(
-                recordedAudios[0]?.uri?.replace(
-                  `file://${RNFS.DocumentDirectoryPath}/`,
-                  '',
-                ),
-                recordedAudios[0]?.uri,
-              );
-              data.append('input_files', {
-                uri: recordedAudios[0]?.uri,
-                type: 'audio/m4a',
-                name: recordedAudios[0]?.uri?.replace(
-                  `file://${RNFS.DocumentDirectoryPath}/`,
-                  '',
-                ),
-              });
+            onPress={async () => {
+              // let data = new FormData();
+              // console.log(
+              //   recordedAudios[0]?.uri?.replace(
+              //     `file://${RNFS.DocumentDirectoryPath}/`,
+              //     '',
+              //   ),
+              //   recordedAudios[0]?.uri,
+              // );
+              // data.append('input_files', {
+              //   uri: recordedAudios[0]?.uri,
+              //   type: 'audio/m4a',
+              //   name: recordedAudios[0]?.uri?.replace(
+              //     `file://${RNFS.DocumentDirectoryPath}/`,
+              //     '',
+              //   ),
+              // });
+              // setIsLoading(true);
+              // changeLyrics({value: data})
+              //   .then(status => {
+              //     console.log(status);
+              //     navigation.navigate('TrackPlayer');
+              //   })
+              //   .finally(() => {
+              //     setIsLoading(false);
+              //   });
               setIsLoading(true);
-              changeLyrics({value: data})
-                .then(status => {
-                  console.log(status);
-                  navigation.navigate('TrackPlayer');
+              await createAlbumCoverSong({
+                prompt: Album,
+                negative_prompt: '',
+                client_id: 'MjrK0Yx7O2UlkLqU',
+                current_key: '1oovbp1z5ExvCf3o',
+              })
+                .then(data => {
+                  setAlbumCover({
+                    uri: `data:image/jpeg;base64,${data.images[0]}`,
+                  });
+                  navigation.navigate('AlbumCoverPage', {
+                    albumCover: {
+                      uri: `data:image/jpeg;base64,${data.images[0]}`,
+                    },
+                  });
+                  setIsLoading(false);
                 })
                 .finally(() => {
                   setIsLoading(false);

@@ -46,6 +46,7 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
     await audioRecorderPlayer.stopPlayer();
     setIsPlaying(false);
   };
+
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -85,7 +86,11 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
           className="px-4 "
           activeOpacity={0.7}
           onPress={() => {
-            navigation.navigate('SongNameEdit');
+            if (pickSong !== '') {
+              navigation.navigate('SongNameEdit', {pickSong});
+            } else {
+              Alert.alert('Please select a recording');
+            }
             onStopPlay();
           }}>
           <View className={`py-4 bg-[#F780FB] rounded-full `}>

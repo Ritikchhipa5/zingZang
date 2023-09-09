@@ -128,55 +128,53 @@ const Register = ({navigation}: any) => {
                       name: 'confirmPass',
                     },
                   ].map((item: any, index: number) => (
-                    <>
+                    <View
+                      key={index}
+                      className="w-[90%]"
+                      style={{
+                        marginTop: hp('2.5%'),
+                      }}>
                       <View
-                        key={index}
-                        className="w-[90%]"
-                        style={{
-                          marginTop: hp('2.5%'),
-                        }}>
-                        <View
-                          className="flex flex-row"
-                          style={{marginLeft: wp('0.5%')}}>
-                          <Image source={item.icon} />
-                          <View className="justify-center">
-                            <Text
-                              className="font-semibold text-center text-white"
-                              style={{
-                                marginLeft: wp('2.5%'),
-                                fontSize: hp('1.8%'),
-                              }}>
-                              {item.title}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={{
-                            backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                            height: hp('5%'),
-                            borderRadius: 10,
-                            marginTop: hp('1%'),
-                            justifyContent: 'center',
-                          }}>
-                          <TextInput
-                            // value={userName}
-                            // onChangeText={e => isValidated(e, 'user_name')}
-                            onChangeText={handleChange(item.name)}
-                            onBlur={handleBlur(item.name)}
-                            value={values[item.name]}
-                            underlineColorAndroid="transparent"
-                            placeholder={item.placeholder}
-                            placeholderTextColor="#FFFFFF"
-                            autoCapitalize="none"
+                        className="flex flex-row"
+                        style={{marginLeft: wp('0.5%')}}>
+                        <Image source={item.icon} />
+                        <View className="justify-center">
+                          <Text
+                            className="font-semibold text-center text-white"
                             style={{
-                              textAlign: 'left',
-                              paddingHorizontal: 8,
-                              marginLeft: wp('2%'),
-                            }}
-                          />
+                              marginLeft: wp('2.5%'),
+                              fontSize: hp('1.8%'),
+                            }}>
+                            {item.title}
+                          </Text>
                         </View>
                       </View>
-                    </>
+                      <View
+                        style={{
+                          backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                          height: hp('5%'),
+                          borderRadius: 10,
+                          marginTop: hp('1%'),
+                          justifyContent: 'center',
+                        }}>
+                        <TextInput
+                          // value={userName}
+                          // onChangeText={e => isValidated(e, 'user_name')}
+                          onChangeText={handleChange(item.name)}
+                          onBlur={handleBlur(item.name)}
+                          value={values[item.name]}
+                          underlineColorAndroid="transparent"
+                          placeholder={item.placeholder}
+                          placeholderTextColor="#FFFFFF"
+                          autoCapitalize="none"
+                          style={{
+                            textAlign: 'left',
+                            paddingHorizontal: 8,
+                            marginLeft: wp('2%'),
+                          }}
+                        />
+                      </View>
+                    </View>
                   ))}
                 </View>
 

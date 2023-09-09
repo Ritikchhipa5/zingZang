@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Button,
+  Alert,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -50,7 +51,8 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
       if (data?.status) {
         navigation.navigate('CreateProject');
       } else {
-        navigation.navigate('Register');
+        Alert.alert(data?.message);
+        // navigation.navigate('Register');
       }
       console.log(data);
     } catch (error) {
@@ -141,6 +143,7 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
                         style={{
                           textAlign: 'left',
                           marginLeft: wp('2%'),
+                          color: 'white',
                         }}
                       />
                     </View>
@@ -186,6 +189,7 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
                         autoCapitalize="none"
                         style={{
                           textAlign: 'left',
+                          color: 'white',
                           marginLeft: wp('2%'),
                         }}
                       />
@@ -306,8 +310,7 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
                 }}>
                 {Strings.DO_NOT_HAVE_ACCOUNT}
               </Text>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('SignUPWithEmailScreen')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                 <Text
                   className="font-semibold text-[#F780FB]"
                   style={{

@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   TextInput,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
@@ -11,8 +12,10 @@ import {Images} from '../../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Loading from '../../../components/Loading';
-const SongNameEdit = ({navigation}: any) => {
+const SongNameEdit = ({navigation, route}: any) => {
   const [Name, setName] = useState('');
+  const {pickSong} = route.params;
+
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -53,7 +56,16 @@ const SongNameEdit = ({navigation}: any) => {
         <TouchableOpacity
           className="px-4 "
           activeOpacity={0.7}
-          onPress={() => navigation.navigate('AlbumCover')}>
+          onPress={() => {
+            if (Name !== '') {
+              navigation.navigate('AlbumCover', {
+                pickSong: pickSong,
+                songName: Name,
+              });
+            } else {
+              Alert.alert('Enter a Song Name');
+            }
+          }}>
           <View className={'py-4 bg-[#F780FB] rounded-full'}>
             <Text className="text-xl font-semibold text-center text-black">
               Continue to Album Cover

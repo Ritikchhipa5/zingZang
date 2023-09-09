@@ -1,4 +1,4 @@
-import {GENERATE_TRACK} from './constant';
+import {ALBUM, GENERATE_TRACK} from './constant';
 
 const createTextSong = async (body: any) => {
   return await fetch(GENERATE_TRACK.CREATE_TEXT_SONG, {
@@ -34,4 +34,22 @@ const requestTextSongs = async (body: any) => {
       console.log(error);
     });
 };
-export {createTextSong, requestTextSongs};
+
+const createAlbumCoverSong = async (body: any) => {
+  return await fetch(ALBUM.CREATE_ALBUM_COVER, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+    .then(response => response.json())
+    .then(value => {
+      return value;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
+
+export {createTextSong, requestTextSongs, createAlbumCoverSong};
