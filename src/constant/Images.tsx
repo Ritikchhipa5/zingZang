@@ -13,6 +13,7 @@ export const Images = {
   SEARCH: require('../assets/icons/Search.png'),
   PLAY: require('../assets/icons/play.png'),
   PAUSE: require('../assets/icons/stop.png'),
+  LOADING: require('../assets/Blob.mp4'),
 
   //Images
   HEADPHONE: require('../assets/image/headphone_animation.png'),

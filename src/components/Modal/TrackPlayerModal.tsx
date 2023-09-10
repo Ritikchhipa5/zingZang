@@ -8,22 +8,18 @@ import {
 } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {ActiveTrackDetails} from '../ActiveTrackDetails';
+import ActiveTrackDetails from '../ActiveTrackDetails';
 import {Slider} from '@react-native-assets/slider';
 import PlayerController from '../PlayerController';
-const TrackPlayerModal = ({
-  navigation,
-  showTrackPlayer,
-  setShowTrackPlayer,
-  data,
-}: any) => {
+import {connect} from 'react-redux';
+const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
   return (
     <Modal transparent={true} visible={showTrackPlayer}>
       <View className="absolute top-0 bottom-0 w-full">
         <ImageBackground
           className="justify-center flex-1 bg-cover"
           source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+            uri: song?.currentSong?.albumCover,
           }}
           blurRadius={30}>
           <View className="flex-[0.7] justify-evenly  ">
@@ -73,4 +69,9 @@ const TrackPlayerModal = ({
   );
 };
 
-export default TrackPlayerModal;
+const mapStateToProps = (state: any) => {
+  return {
+    song: state.songs,
+  };
+};
+export default connect(mapStateToProps, null)(TrackPlayerModal);

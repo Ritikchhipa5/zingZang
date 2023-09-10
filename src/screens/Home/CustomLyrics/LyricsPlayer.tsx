@@ -63,7 +63,7 @@ function LyricsPlayer({navigation, addLyric, lyrics}: any) {
               />
             </TouchableOpacity>
             <Text className="text-2xl font-semibold text-center text-white ">
-              Song Name
+              Custom lyrics
             </Text>
 
             <TouchableOpacity className="">
@@ -136,13 +136,18 @@ const WheelPicker: React.FC<Props> = props => {
       inputRange,
       outputRange: [0.8, 1, 0.8],
     });
+    const opacity = scrollY.interpolate({
+      inputRange,
+      outputRange: [0.5, 1, 0.5], // Adjust these values as needed
+      extrapolate: 'clamp',
+    });
 
     return (
       <>
         <Animated.View
           style={[
             {
-              height: itemHeight,
+              // height: itemHeight,
               width: '100%',
               // transform: [{scale}],
             },
@@ -152,11 +157,13 @@ const WheelPicker: React.FC<Props> = props => {
             onChangeText={(value: string) => {
               handleTextInputChange(index, value);
             }}
+            multiline
             value={props.updateLyrics[index]}
             placeholderTextColor="#fff"
             className="w-full py-3  text-xl font-bold text-center bg-[#FFFFFF1A] text-white rounded-md  items-center leading-2 px-5"
             style={{
-              height: itemHeight,
+              // height: itemHeight,
+
               width: '100%',
               // transform: [{scale}],
             }}

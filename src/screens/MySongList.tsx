@@ -20,8 +20,9 @@ import TrackPlayer from 'react-native-track-player';
 import {setupPlayer} from '../service/trackPlayerServices';
 import {userInfoAdd} from '../actions/record';
 import {connect} from 'react-redux';
+import {addCurrentSong} from '../actions/songs';
 
-function MySongList({navigation, user}: any) {
+function MySongList({navigation, user, addPlaySong}: any) {
   const [Song, setSong] = useState<any>(null);
   const [SongList, setSongList] = useState<any>([]);
   const [isPlay, setIsPlay] = useState<any>(false);
@@ -131,6 +132,7 @@ function MySongList({navigation, user}: any) {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('TrackPlayer');
+                addPlaySong(Song);
               }}
               className="flex-row items-center justify-between rounded-lg drop-shadow-md">
               <View className="flex flex-row items-center p-3 ">
@@ -179,6 +181,9 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     userInfoAdd: (user: any) => {
       dispatch(userInfoAdd(user));
+    },
+    addPlaySong: (song: any) => {
+      dispatch(addCurrentSong(song));
     },
   };
 };

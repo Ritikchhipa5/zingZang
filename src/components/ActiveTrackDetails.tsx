@@ -1,8 +1,9 @@
 import React from 'react';
 import {View, StyleSheet, Dimensions, Image, Text} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {connect} from 'react-redux';
 
-export const ActiveTrackDetails = () => {
+const ActiveTrackDetails = ({song}: any) => {
   return (
     <View className="h-full">
       <View>
@@ -19,12 +20,12 @@ export const ActiveTrackDetails = () => {
         <Text
           className="text-3xl font-semibold text-center text-white"
           numberOfLines={1}>
-          Boten Anna
+          {song?.currentSong?.title}
         </Text>
         <Text
           className="text-xl font-medium text-white opacity-50"
           numberOfLines={1}>
-          Basshunter
+          {song?.currentSong?.artist}
         </Text>
       </View>
     </View>
@@ -43,3 +44,9 @@ const styles = StyleSheet.create({
     marginVertical: 24,
   },
 });
+const mapStateToProps = (state: any) => {
+  return {
+    song: state.songs,
+  };
+};
+export default connect(mapStateToProps, null)(ActiveTrackDetails);

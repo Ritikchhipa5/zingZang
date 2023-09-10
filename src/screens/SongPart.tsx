@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Strings} from '../constant/Strings';
 import {Images} from '../constant/Images';
 import {
+  Animated,
+  Easing,
   Image,
   ImageBackground,
   ScrollView,
@@ -14,7 +16,7 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import WaveAnimation from '../components/WaveAnimation';
 import {addTracks, setupPlayer} from '../service/trackPlayerServices';
 import TrackPlayer from 'react-native-track-player';
-
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 function SongPart({navigation}: any) {
   const [Part, setPart] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
@@ -31,8 +33,22 @@ function SongPart({navigation}: any) {
 
     setup();
   }, []);
+
   return (
     <ImageBackground className="h-screen" source={Images.BG_1}>
+      <AnimatedLinearGradient
+        customColors={[
+          // 'rgb(64, 81, 187)',
+          // 'rgb(62, 67, 161)',
+          'rgb(59, 49, 128)',
+          'rgb(58, 41, 113)',
+          'rgb(56, 29, 91)',
+          'rgb(55, 24, 82)',
+          'rgb(54, 17, 69)',
+        ]}
+        speed={1500}
+      />
+
       <SafeAreaView className="h-full ">
         {/* // Heading  */}
         <View className="px-4">

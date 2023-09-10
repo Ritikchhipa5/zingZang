@@ -8,17 +8,20 @@ import {
 } from 'react-native';
 import React from 'react';
 
-import {ActiveTrackDetails} from '../components/ActiveTrackDetails';
+import ActiveTrackDetails from '../components/ActiveTrackDetails';
 import {Slider} from '@react-native-assets/slider';
 import PlayerController from '../components/PlayerController';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-export default function TrackPlayer({navigation}: any) {
+import {connect} from 'react-redux';
+import {addCurrentSong} from '../actions/songs';
+function TrackPlayer({navigation, song}: any) {
+  console.log(song);
   return (
     <View className="flex-1 h-full">
       <ImageBackground
         className="justify-center flex-1 bg-cover"
         source={{
-          uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+          uri: song?.currentSong?.url,
         }}
         blurRadius={30}>
         <View className="flex-[0.7] justify-evenly  ">
@@ -66,3 +69,11 @@ export default function TrackPlayer({navigation}: any) {
     </View>
   );
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    song: state.songs,
+  };
+};
+
+export default connect(mapStateToProps, null)(TrackPlayer);

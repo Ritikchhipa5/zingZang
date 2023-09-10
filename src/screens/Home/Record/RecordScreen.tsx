@@ -34,6 +34,7 @@ import {screenWidth} from '../../../utils/utils';
 import {connect} from 'react-redux';
 import {addRecording} from '../../../actions/record';
 import StopRecordingModal from '../../../components/Modal/StopRecordingModal';
+
 interface State {
   isRecording: boolean;
   recordSecs: number;
@@ -197,6 +198,7 @@ class RecordScreen extends Component<any, State> {
               {this.props.lyrics.map((text: string) => text + '\n')}
             </Text>
           </View>
+
           <View className="px-5 ">
             <View className="h-1.5 bg-zinc-600" />
             <View className="mt-5">

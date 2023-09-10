@@ -21,8 +21,10 @@ import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {Slider} from '@react-native-assets/slider';
 import TrackPlayerModal from '../components/Modal/TrackPlayerModal';
 import {LyricsSongList} from '../service/lyricsService';
+import {addCurrentSong} from '../actions/songs';
+import {connect} from 'react-redux';
 
-function SongList({navigation}: any) {
+function SongList({navigation, song, addPlaySong}: any) {
   const [Song, setSong] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
   useEffect(() => {
@@ -40,6 +42,8 @@ function SongList({navigation}: any) {
   }, []);
   const {position, duration} = useProgress();
   const [showTrackPlayer, setShowTrackPlayer] = useState(false);
+
+  console.log(song);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
@@ -102,7 +106,7 @@ function SongList({navigation}: any) {
                 />
                 <View>
                   <Text className="text-xl font-semibold text-white">
-                    {item.name}
+                    {item.title}
                   </Text>
                   <Text className="font-normal text-md text-zinc-300 ">
                     {item.artist}
@@ -145,7 +149,11 @@ function SongList({navigation}: any) {
               <View className="flex flex-row items-center justify-between py-2">
                 <View className="flex-row items-center justify-between rounded-lg drop-shadow-md">
                   <TouchableOpacity
-                    onPress={() => setShowTrackPlayer(true)}
+                    onPress={() => {
+                      setShowTrackPlayer(true);
+
+                      addPlaySong(Song);
+                    }}
                     className="flex flex-row items-center p-3 ">
                     <Image
                       source={{
@@ -155,7 +163,7 @@ function SongList({navigation}: any) {
                     />
                     <View>
                       <Text className="text-xl font-semibold text-white">
-                        {Song?.name}
+                        {Song?.title}
                       </Text>
                       <Text className="font-normal text-md text-zinc-300 ">
                         {Song?.artist}
@@ -203,12 +211,23 @@ function SongList({navigation}: any) {
       </SafeAreaView>
       <TrackPlayerModal
         showTrackPlayer={showTrackPlayer}
-        navigation={navigation}
         setShowTrackPlayer={setShowTrackPlayer}
-        data={Song}
       />
     </ImageBackground>
   );
 }
 
-export default SongList;
+const mapStateToProps = (state: any) => {
+  return {
+    song: state.songs,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addPlaySong: (song: any) => {
+      dispatch(addCurrentSong(song));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SongList);
