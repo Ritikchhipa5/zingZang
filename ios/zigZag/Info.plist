@@ -62,6 +62,12 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+ <dict>
+ <!--Include to allow all connections (DANGER)-->
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+ </dict>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Give $(PRODUCT_NAME) permission to use your microphone. Your record wont be shared without your permission.</string>
 	<key>UISupportedInterfaceOrientations</key>
