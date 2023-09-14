@@ -24,7 +24,7 @@ function StackNavigation() {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="VideoPost"
+      initialRouteName="CreateProject"
       screenOptions={{
         headerShown: false,
       }}>

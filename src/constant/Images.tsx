@@ -19,6 +19,7 @@ export const Images = {
   HEADPHONE: require('../assets/image/headphone_animation.png'),
   ISOTYPE: require('../assets/image/Isotype.png'),
   BG: require('../assets/image/bg.png'),
+  BG_BLOB: require('../assets/image/BG_BLOB.gif'),
   BG_1: require('../assets/image/bg1.png'),
   BG_2: require('../assets/image/bg2.png'),
   REC: require('../assets/image/Icon_Record.png'),
