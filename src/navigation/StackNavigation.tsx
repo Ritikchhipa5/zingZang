@@ -18,12 +18,13 @@ import CustomLyrics from '../screens/Home/CustomLyrics/CustomLyrics';
 import AlbumCover from '../screens/Home/Record/AlbumCover';
 import GenerateTrack from '../screens/Home/GenerateTrack/GenerateTrack';
 import AlbumCoverPage from '../screens/Home/Record/AlbumCoverPage';
+import VideoPost from '../screens/Home/VideoPost/VideoPost';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="SignScreen"
+      initialRouteName="VideoPost"
       screenOptions={{
         headerShown: false,
       }}>
@@ -108,6 +109,11 @@ function StackNavigation() {
         options={{headerShown: false}}
         name="AlbumCoverPage"
         component={AlbumCoverPage}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="VideoPost"
+        component={VideoPost}
       />
     </Stack.Navigator>
   );

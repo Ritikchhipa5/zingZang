@@ -12,6 +12,7 @@ import type {
 } from 'react-native-audio-recorder-player';
 import {
   Animated,
+  Easing,
   Image,
   ImageBackground,
   PermissionsAndroid,
@@ -22,7 +23,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import RNFS from 'react-native-fs';
 import type {ReactElement} from 'react';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
@@ -194,9 +195,10 @@ class RecordScreen extends Component<any, State> {
                 size={32}
               />
             </View>
-            <Text className="text-[#E174E4] font-semibold text-center text-xl leading-7">
+            {/* <Text className="text-[#E174E4] font-semibold text-center text-xl leading-7">
               {this.props.lyrics.map((text: string) => text + '\n')}
-            </Text>
+            </Text> */}
+            <KaraokeText lyrics={this.props.lyrics} isRecording={isRecording} />
           </View>
 
           <View className="px-5 ">
@@ -504,3 +506,38 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecordScreen);
+
+function KaraokeText({lyrics, isRecording}: any) {
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    if (isRecording) {
+      interval = setInterval(() => {
+        setCurrentColorIndex(prevIndex =>
+          prevIndex < lyrics.length - 1 ? prevIndex + 1 : prevIndex,
+        );
+      }, 3000);
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [lyrics, isRecording]);
+
+  return (
+    <>
+      {lyrics.map((text: string, index: number) => (
+        <Text
+          key={index}
+          className={`font-semibold text-center text-xl leading-7 ${
+            index <= currentColorIndex ? 'text-[#E174E4]' : 'text-white'
+          }`}>
+          {text}
+        </Text>
+      ))}
+    </>
+  );
+}
