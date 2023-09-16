@@ -9,21 +9,31 @@ import React, {useState} from 'react';
 import {Images} from '../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const CreateProject = ({navigation}: any) => {
-  const [isCreateProject, setIsCreateProject] = useState(true);
+  const [isCreateProject, setIsCreateProject] = useState(false);
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
-      <SafeAreaView className="h-full px-3">
-        <View className="relative flex flex-row items-center justify-end ">
+      <SafeAreaView
+        className="flex-1 h-full"
+        edges={['bottom', 'top', 'left', 'right']}>
+        <View
+          className={`relative flex flex-row items-center  ${
+            isCreateProject && 'justify-end'
+          } px-3 `}>
           {!isCreateProject ? (
             <TouchableOpacity
+              className=""
               onPress={() => {
                 setIsCreateProject(true);
               }}>
-              <AntDesign name="close" color="white" size={30} />
+              <MaterialIcons
+                color="white"
+                name="keyboard-arrow-left"
+                size={42}
+              />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
@@ -36,11 +46,11 @@ const CreateProject = ({navigation}: any) => {
           )}
         </View>
 
-        <View className="items-center py-[30%] gap-3 flex-1  ">
+        <View className="items-center h-full ">
           {isCreateProject ? (
-            <>
+            <View className="flex justify-around flex-1 w-full ">
               <TouchableOpacity
-                className="w-full mb-[10%]"
+                className="w-full "
                 activeOpacity={0.7}
                 onPress={() => {
                   setIsCreateProject(false);
@@ -71,7 +81,7 @@ const CreateProject = ({navigation}: any) => {
                   resizeMode="cover"
                 />
               </TouchableOpacity>
-            </>
+            </View>
           ) : (
             <CreateProjectOption
               setIsCreateProject={setIsCreateProject}
@@ -87,18 +97,23 @@ const CreateProject = ({navigation}: any) => {
 function CreateProjectOption({navigation, setIsCreateProject}: any) {
   return (
     <>
-      <View className="flex flex-col items-center gap-10 gap-x-10 ">
+      <View className="flex flex-col items-center justify-center flex-1 w-full ">
         <TouchableOpacity
+          className="flex items-center justify-center flex-1 w-full "
           onPress={() => {
             navigation.navigate('GenerateTrack');
           }}>
-          <Image source={Images.AI_GENERATED_SONG} />
+          <Image
+            source={Images.AI_GENERATED_SONG}
+            className="w-[60%] h-[60%]"
+          />
         </TouchableOpacity>
         <TouchableOpacity
+          className="flex items-center justify-center flex-1 w-full "
           onPress={() => {
             navigation.navigate('SongList');
           }}>
-          <Image source={Images.REMIX_A_SONG} />
+          <Image source={Images.REMIX_A_SONG} className="w-[60%] h-[60%]" />
         </TouchableOpacity>
       </View>
     </>
