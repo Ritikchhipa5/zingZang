@@ -7,6 +7,7 @@ import {
   TextInput,
   Image,
 } from 'react-native';
+import RNFS from 'react-native-fs';
 import React, {useState} from 'react';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {Images} from '../../../constant/Images';
@@ -16,6 +17,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {connect} from 'react-redux';
 import Loading from '../../../components/Loading';
 import {createAlbumCoverSong} from '../../../api/generateTrack';
+import {changeLyrics} from '../../../api/record';
 const AlbumCover = ({navigation, recordedAudios, route}: any) => {
   const [Album, setAlbum] = useState(
     'A futuristic techno coverart, in the style of electronic music.',
@@ -71,31 +73,36 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
             className=""
             activeOpacity={0.7}
             onPress={async () => {
-              // let data = new FormData();
-              // console.log(
-              //   recordedAudios[0]?.uri?.replace(
-              //     `file://${RNFS.DocumentDirectoryPath}/`,
-              //     '',
-              //   ),
-              //   recordedAudios[0]?.uri,
-              // );
-              // data.append('input_files', {
-              //   uri: recordedAudios[0]?.uri,
-              //   type: 'audio/m4a',
-              //   name: recordedAudios[0]?.uri?.replace(
-              //     `file://${RNFS.DocumentDirectoryPath}/`,
-              //     '',
-              //   ),
-              // });
-              // setIsLoading(true);
-              // changeLyrics({value: data})
-              //   .then(status => {
-              //     console.log(status);
-              //     navigation.navigate('TrackPlayer');
-              //   })
-              //   .finally(() => {
-              //     setIsLoading(false);
-              //   });
+              let data = new FormData();
+              console.log(
+                recordedAudios[0]?.uri?.replace(
+                  `file://${RNFS.DocumentDirectoryPath}/`,
+                  '',
+                ),
+                recordedAudios[0]?.uri,
+              );
+              data.append('input_files', {
+                uri: recordedAudios[0]?.uri,
+                type: 'audio/m4a',
+                name: recordedAudios[0]?.uri?.replace(
+                  `file://${RNFS.DocumentDirectoryPath}/`,
+                  '',
+                ),
+              });
+              setIsLoading(true);
+
+              await changeLyrics({value: data})
+                .then(status => {
+                  console.log(data, status);
+                  // navigation.navigate('TrackPlayer');
+                })
+                .catch(err => {
+                  console.log(err, 'wejrjhwjehgrj');
+                })
+
+                .finally(() => {
+                  setIsLoading(false);
+                });
               setIsLoading(true);
               await createAlbumCoverSong({
                 prompt: Album,

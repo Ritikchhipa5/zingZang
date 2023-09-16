@@ -14,6 +14,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
 export default function AlbumCoverPage({navigation, route}: any) {
   const {albumCover} = route.params;
+  console.log(albumCover);
   return (
     <View className="flex-1 h-full">
       <ImageBackground

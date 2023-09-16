@@ -18,8 +18,7 @@ const CreateProject = ({navigation}: any) => {
       source={Images.BG_1}>
       <SafeAreaView className="h-full px-3">
         <View className="flex flex-row justify-end ">
-          <TouchableOpacity
-            onPress={() => navigation.navigate('GenerateTrack')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
             <Image
               source={Images.USER_PROFILE}
               className=""
@@ -32,7 +31,7 @@ const CreateProject = ({navigation}: any) => {
           {isCreateProject ? (
             <>
               <TouchableOpacity
-                className="w-full"
+                className="w-full mb-[10%]"
                 activeOpacity={0.7}
                 onPress={() => {
                   setIsCreateProject(false);
@@ -51,6 +50,16 @@ const CreateProject = ({navigation}: any) => {
                   source={Images.LOADING_PROJECT}
                   className="w-full"
                   resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="w-full"
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('Reels')}>
+                <Image
+                  source={Images.BG_BLOB}
+                  className="w-full ml-[20] -mt-10"
+                  resizeMode="cover"
                 />
               </TouchableOpacity>
             </>

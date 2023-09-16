@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -19,8 +20,10 @@ const Setting = ({navigation}: any) => {
         {/* // Header  */}
         <View className="flex flex-row items-center">
           <TouchableOpacity
-            // onPress={() => navigation.goBack('')}
-            className="absolute">
+            onPress={() => {
+              navigation.goBack(' ');
+            }}
+            className="absolute z-10">
             <MaterialIcons color="white" name="keyboard-arrow-left" size={42} />
           </TouchableOpacity>
           <Text className="flex-1 text-2xl font-semibold text-center text-white">

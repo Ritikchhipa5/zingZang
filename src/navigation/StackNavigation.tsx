@@ -19,6 +19,7 @@ import AlbumCover from '../screens/Home/Record/AlbumCover';
 import GenerateTrack from '../screens/Home/GenerateTrack/GenerateTrack';
 import AlbumCoverPage from '../screens/Home/Record/AlbumCoverPage';
 import VideoPost from '../screens/Home/VideoPost/VideoPost';
+import Reels from '../screens/Home/VideoPost/VideoPost';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
@@ -112,8 +113,8 @@ function StackNavigation() {
       />
       <Stack.Screen
         options={{headerShown: false}}
-        name="VideoPost"
-        component={VideoPost}
+        name="Reels"
+        component={Reels}
       />
     </Stack.Navigator>
   );

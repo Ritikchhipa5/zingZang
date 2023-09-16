@@ -2,7 +2,7 @@ import {View} from 'react-native';
 import React from 'react';
 import ReelsComponent from '../../../components/ReelsComponent';
 
-const VideoPost = () => {
+const Reels = () => {
   return (
     <View>
       <ReelsComponent />
@@ -10,4 +10,4 @@ const VideoPost = () => {
   );
 };
 
-export default VideoPost;
+export default Reels;
