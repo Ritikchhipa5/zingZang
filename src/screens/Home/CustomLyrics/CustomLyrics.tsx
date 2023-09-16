@@ -1,4 +1,11 @@
-import {Alert, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  ImageBackground,
+  Keyboard,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -9,9 +16,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const CustomLyrics = ({navigation}: any) => {
   return (
     <ImageBackground className="h-screen" source={Images.BG_1}>
-      <SafeAreaView className="h-full " edges={['top', 'bottom']}>
+      <SafeAreaView className="h-full" edges={['top', 'bottom']}>
         {/* // Heading  */}
-        <View className="px-4">
+        <View className="px-4" on>
           <View className="flex flex-row items-center ">
             <TouchableOpacity onPress={() => navigation.goBack(' ')}>
               <Image source={Images.BACK} />

@@ -4,9 +4,11 @@ import {
   Animated,
   Image,
   ImageBackground,
+  Keyboard,
   ListRenderItemInfo,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -45,76 +47,79 @@ function LyricsPlayer({navigation, addLyric, lyrics}: any) {
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
       {/* <Loading /> */}
-      <ImageBackground
-        style={{height: heightPercentageToDP('100%')}}
-        source={Images.BG_1}>
-        <SafeAreaView
-          className="h-full "
-          edges={['right', 'left', 'top', 'bottom']}>
-          {/* // Search Box */}
-          <View className="flex flex-row items-center justify-between px-4">
-            <TouchableOpacity
-              className=""
-              onPress={() => navigation.goBack(' ')}>
-              <MaterialIcons
-                color="white"
-                name="keyboard-arrow-left"
-                size={42}
-              />
-            </TouchableOpacity>
-            <Text className="text-2xl font-semibold text-center text-white ">
-              Custom lyrics
-            </Text>
+      <Pressable onPress={() => Keyboard.dismiss()}>
+        <ImageBackground
+          style={{height: heightPercentageToDP('100%')}}
+          source={Images.BG_1}>
+          <SafeAreaView
+            className="h-full "
+            edges={['right', 'left', 'top', 'bottom']}>
+            {/* // Search Box */}
+            <View className="flex flex-row items-center justify-between px-4">
+              <TouchableOpacity
+                className=""
+                onPress={() => navigation.goBack(' ')}>
+                <MaterialIcons
+                  color="white"
+                  name="keyboard-arrow-left"
+                  size={42}
+                />
+              </TouchableOpacity>
+              <Text className="text-2xl font-semibold text-center text-white ">
+                Custom lyrics
+              </Text>
 
-            <TouchableOpacity className="">
-              <MaterialIcons color="white" name="close" size={32} />
-            </TouchableOpacity>
-          </View>
-          <View className="flex-1 p-4">
-            <Text className="text-[#C6C3C6] text-xl font-medium text-center ">
-              Click on the text of the song to customize the lyrics
-            </Text>
-            <View className="justify-center flex-1 ">
-              <WheelPicker
-                items={lyricsString}
-                onIndexChange={handleIndexChange}
-                setUpdateLyrics={setUpdateLyrics}
-                updateLyrics={updateLyrics}
-                itemHeight={50} // Adjust this value based on your design
-              />
+              <TouchableOpacity className="">
+                <MaterialIcons color="white" name="close" size={32} />
+              </TouchableOpacity>
             </View>
-          </View>
-          <View className="gap-y-3">
-            <TouchableOpacity
-              className="px-4 "
-              activeOpacity={0.7}
-              onPress={() => {
-                addLyric(updateLyrics);
-                navigation.navigate('RecordScreen');
-              }}>
-              <View className={`py-4 bg-[#F780FB] rounded-full `}>
-                <Text className="text-xl font-semibold text-center text-black">
-                  Start Singing
-                </Text>
+            <View className="flex-1 p-4">
+              <Text className="text-[#C6C3C6] text-xl font-medium text-center ">
+                Click on the text of the song to customize the lyrics
+              </Text>
+              <View className="justify-center flex-1 ">
+                <WheelPicker
+                  items={lyricsString}
+                  onIndexChange={handleIndexChange}
+                  setUpdateLyrics={setUpdateLyrics}
+                  updateLyrics={updateLyrics}
+                  itemHeight={50} // Adjust this value based on your design
+                />
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="px-4 "
-              activeOpacity={0.7}
-              onPress={() => {
-                addLyric(lyricsString);
-                setUpdateLyrics(lyricsString);
-                navigation.navigate('RecordScreen');
-              }}>
-              <View className={`py-4 border-[#F780FB] border-2 rounded-full `}>
-                <Text className="text-xl font-semibold text-center text-[#F780FB]">
-                  Reset Changes
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </ImageBackground>
+            </View>
+            <View className="gap-y-3">
+              <TouchableOpacity
+                className="px-4 "
+                activeOpacity={0.7}
+                onPress={() => {
+                  addLyric(updateLyrics);
+                  navigation.navigate('RecordScreen');
+                }}>
+                <View className={`py-4 bg-[#F780FB] rounded-full `}>
+                  <Text className="text-xl font-semibold text-center text-black">
+                    Start Singing
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="px-4 "
+                activeOpacity={0.7}
+                onPress={() => {
+                  addLyric(lyricsString);
+                  setUpdateLyrics(lyricsString);
+                  navigation.navigate('RecordScreen');
+                }}>
+                <View
+                  className={`py-4 border-[#F780FB] border-2 rounded-full `}>
+                  <Text className="text-xl font-semibold text-center text-[#F780FB]">
+                    Reset Changes
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </SafeAreaView>
+        </ImageBackground>
+      </Pressable>
     </ImageBackground>
   );
 }

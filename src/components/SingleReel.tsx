@@ -6,11 +6,12 @@ import Ionic from 'react-native-vector-icons/Ionicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useNavigation} from '@react-navigation/native';
 const SingleReel = ({item, index, currentIndex}: any) => {
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
-
+  const navigation = useNavigation();
   const videoRef = useRef<any>(null);
 
   const onBuffer = (buffer: any) => {
@@ -33,6 +34,11 @@ const SingleReel = ({item, index, currentIndex}: any) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack(' ')}
+        className="absolute z-10 right-5 top-10">
+        <MaterialIcons color="white" name="close" size={32} />
+      </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.9}
         onPress={() => setMute(!mute)}
