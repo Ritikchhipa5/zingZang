@@ -18,10 +18,14 @@ const CustomLyrics = ({navigation}: any) => {
     <ImageBackground className="h-screen" source={Images.BG_1}>
       <SafeAreaView className="h-full" edges={['top', 'bottom']}>
         {/* // Heading  */}
-        <View className="px-4" on>
+        <View className="px-4">
           <View className="flex flex-row items-center ">
             <TouchableOpacity onPress={() => navigation.goBack(' ')}>
-              <Image source={Images.BACK} />
+              <MaterialIcons
+                color="white"
+                name="keyboard-arrow-left"
+                size={42}
+              />
             </TouchableOpacity>
             <View
               className="flex flex-row items-center justify-center flex-1"

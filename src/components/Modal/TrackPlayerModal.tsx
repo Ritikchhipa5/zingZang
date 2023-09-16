@@ -28,7 +28,7 @@ const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
               className="absolute top-[15%] right-0 px-5">
               <AntDesign name="close" color={'#fff'} size={28} />
             </TouchableOpacity>
-            <View className=" h-1/2 min-h-[350]">
+            <View className=" mt-10 h-1/2 min-h-[350]">
               <ActiveTrackDetails />
             </View>
           </View>

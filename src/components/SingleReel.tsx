@@ -35,7 +35,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
         alignItems: 'center',
       }}>
       <TouchableOpacity
-        onPress={() => navigation.goBack(' ')}
+        onPress={() => navigation.navigate('MySongList')}
         className="absolute z-10 right-5 top-10">
         <MaterialIcons color="white" name="close" size={32} />
       </TouchableOpacity>
@@ -90,7 +90,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
           padding: 10,
         }}>
         <View style={{}}>
-          <TouchableOpacity style={{width: 150}}>
+          <TouchableOpacity style={{width: 150, marginBottom: 30}}>
             <View
               style={{width: 100, flexDirection: 'row', alignItems: 'center'}}>
               <View
@@ -114,22 +114,12 @@ const SingleReel = ({item, index, currentIndex}: any) => {
               <Text style={{color: 'white', fontSize: 16}}>{item.title}</Text>
             </View>
           </TouchableOpacity>
-          <Text style={{color: 'white', fontSize: 14, marginHorizontal: 10}}>
-            {item.description}
-          </Text>
-          {/* <View style={{flexDirection: 'row', padding: 10}}>
-            <Ionic
-              name="ios-musical-note"
-              style={{color: 'white', fontSize: 16}}
-            />
-            <Text style={{color: 'white'}}>Original Audio</Text>
-          </View> */}
         </View>
       </View>
       <View
         style={{
           position: 'absolute',
-          bottom: 10, //edited
+          bottom: '10%', //edited
           right: 0,
         }}>
         <TouchableOpacity onPress={() => setLike(!like)} style={{padding: 10}}>
@@ -151,37 +141,6 @@ const SingleReel = ({item, index, currentIndex}: any) => {
             color={like ? '#F780FB' : '#361145'}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={{padding: 10}}>
-          <Ionic
-            name="paper-plane-outline"
-            style={{color: 'white', fontSize: 25}}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={{padding: 10}}>
-          <Feather
-            name="more-vertical"
-            style={{color: 'white', fontSize: 25}}
-          />
-        </TouchableOpacity>
-        <View
-          style={{
-            width: 30,
-            height: 30,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: 'white',
-            margin: 10,
-          }}>
-          <Image
-            source={item.postProfile}
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: 10,
-              resizeMode: 'cover',
-            }}
-          />
-        </View>
       </View>
     </View>
   );

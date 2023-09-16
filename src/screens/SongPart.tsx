@@ -17,6 +17,8 @@ import WaveAnimation from '../components/WaveAnimation';
 import {addTracks, setupPlayer} from '../service/trackPlayerServices';
 import TrackPlayer from 'react-native-track-player';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 function SongPart({navigation}: any) {
   const [Part, setPart] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
@@ -54,7 +56,11 @@ function SongPart({navigation}: any) {
         <View className="px-4">
           <View className="flex flex-row items-center ">
             <TouchableOpacity onPress={() => navigation.goBack(' ')}>
-              <Image source={Images.BACK} />
+              <MaterialIcons
+                color="white"
+                name="keyboard-arrow-left"
+                size={42}
+              />
             </TouchableOpacity>
             <View
               className="flex flex-row items-center justify-center flex-1"

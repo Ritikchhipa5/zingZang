@@ -20,6 +20,8 @@ import GenerateTrack from '../screens/Home/GenerateTrack/GenerateTrack';
 import AlbumCoverPage from '../screens/Home/Record/AlbumCoverPage';
 import VideoPost from '../screens/Home/VideoPost/VideoPost';
 import Reels from '../screens/Home/VideoPost/VideoPost';
+import VideoCoverPage from '../screens/Home/GenerateTrack/VideoCoverPage';
+import GenerateSongList from '../screens/Home/GenerateTrack/GenerateSongList';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
@@ -105,6 +107,16 @@ function StackNavigation() {
         options={{headerShown: false}}
         name="GenerateTrack"
         component={GenerateTrack}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="GenerateSongList"
+        component={GenerateSongList}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="VideoCoverPage"
+        component={VideoCoverPage}
       />
       <Stack.Screen
         options={{headerShown: false}}

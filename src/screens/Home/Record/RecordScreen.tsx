@@ -157,14 +157,6 @@ class RecordScreen extends Component<any, State> {
               className={`absolute z-10 w-full h-full bg-black opacity-30`}
             />
           )}
-
-          <Animated.View
-            style={[
-              styles.overlay,
-              {opacity, transform: [{scale: scaleValue}]},
-            ]}>
-            <Text style={styles.countdownText}>{countdown}</Text>
-          </Animated.View>
         </>
         {/* )} */}
         <SafeAreaView className="justify-between flex-1 h-full gap-10 ">
@@ -186,6 +178,13 @@ class RecordScreen extends Component<any, State> {
               reducedTransparencyFallbackColor="white"
             />
             <View className=" h-full bg-[#E174E420]" />
+            <Animated.View
+              style={[
+                styles.overlay,
+                {opacity, transform: [{scale: scaleValue}]},
+              ]}>
+              <Text style={styles.countdownText}>{countdown}</Text>
+            </Animated.View>
           </View>
           <View className="h-[20%] justify-center px-4">
             <View className="flex flex-row justify-center">

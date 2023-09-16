@@ -7,25 +7,27 @@ import {
   View,
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
-import {Strings} from '../constant/Strings';
+
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Images} from '../constant/Images';
+
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SoundWave from '../components/SoundWave';
-import WaveAnimation from '../components/WaveAnimation';
-import {addTracks, setupPlayer} from '../service/trackPlayerServices';
+
 import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {Slider} from '@react-native-assets/slider';
-import TrackPlayerModal from '../components/Modal/TrackPlayerModal';
-import {LyricsSongList} from '../service/lyricsService';
-import {addCurrentSong} from '../actions/songs';
-import {connect} from 'react-redux';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-function SongList({navigation, song, addPlaySong}: any) {
+import {connect} from 'react-redux';
+import {addCurrentSong} from '../../../actions/songs';
+import {setupPlayer} from '../../../service/trackPlayerServices';
+import {LyricsSongList} from '../../../service/lyricsService';
+import {Images} from '../../../constant/Images';
+import {Strings} from '../../../constant/Strings';
+import TrackPlayerModal from '../../../components/Modal/TrackPlayerModal';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import WaveAnimation from '../../../components/WaveAnimation';
+function GenerateSongList({navigation, song, addPlaySong}: any) {
   const [Song, setSong] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
   useEffect(() => {
@@ -49,44 +51,18 @@ function SongList({navigation, song, addPlaySong}: any) {
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
-        <View className="px-4 mt-3">
-          <View className="flex flex-row items-center ">
-            <TouchableOpacity
-              onPress={() => navigation.goBack(' ')}
-              activeOpacity={0.7}>
-              <MaterialIcons
-                color="white"
-                name="keyboard-arrow-left"
-                size={42}
-              />
-            </TouchableOpacity>
-
-            <View
-              className="flex flex-row flex-1 rounded-full"
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                height: hp('5%'),
-              }}>
-              <TextInput
-                value={''}
-                //   onChangeText={e => isValidated(e, 'user_name')}
-                underlineColorAndroid="transparent"
-                placeholder={Strings.Search}
-                placeholderTextColor="#FFFFFF"
-                autoCapitalize="none"
-                className="px-2"
-                style={{
-                  textAlign: 'left',
-                  marginLeft: wp('2%'),
-                }}
-              />
-            </View>
-          </View>
+        <View className="flex flex-row items-center justify-center px-4">
           <Text
             className="px-4 mt-5 font-medium text-center text-white"
             style={{fontSize: hp('2.5%')}}>
-            Select the song you would like to remix
+            Generate Track
           </Text>
+
+          <TouchableOpacity
+            className="absolute right-5 top-5"
+            onPress={() => navigation.goBack(' ')}>
+            <MaterialIcons color="white" name="close" size={32} />
+          </TouchableOpacity>
         </View>
         {/* //Song List */}
         <View className="flex-1 px-4 mt-10 ">
@@ -200,7 +176,7 @@ function SongList({navigation, song, addPlaySong}: any) {
             className="px-4 "
             activeOpacity={0.7}
             onPress={() => {
-              navigation.navigate('SongPart');
+              navigation.navigate('VideoCoverPage');
               TrackPlayer.pause();
             }}>
             <View
@@ -235,4 +211,4 @@ const mapDispatchToProps = (dispatch: any) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SongList);
+export default connect(mapStateToProps, mapDispatchToProps)(GenerateSongList);

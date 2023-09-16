@@ -34,17 +34,19 @@ const GenerateTrack = ({navigation}: any) => {
         className="h-full "
         edges={['right', 'left', 'top', 'bottom']}>
         {/* // Search Box */}
-        <View className="flex flex-row items-center justify-between px-4">
-          <TouchableOpacity className="" onPress={() => navigation.goBack('')}>
+        <View className="flex flex-row items-center justify-center px-4">
+          <TouchableOpacity
+            className="absolute left-0 z-10"
+            onPress={() => navigation.goBack('')}>
             <MaterialIcons color="white" name="keyboard-arrow-left" size={42} />
           </TouchableOpacity>
           <Text className="text-2xl font-semibold text-center text-white ">
             Generate Track
           </Text>
 
-          <TouchableOpacity className="">
+          {/* <TouchableOpacity className="">
             <MaterialIcons color="white" name="close" size={32} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <Formik
@@ -58,14 +60,14 @@ const GenerateTrack = ({navigation}: any) => {
           validationSchema={validation}
           onSubmit={async values => {
             console.log(values);
-            try {
-              let data = await createTextSong(values);
-
-              Alert.alert(data?.message);
-              console.log(data?.message);
-            } catch (error) {
-              console.log(error);
-            }
+            navigation.navigate('GenerateSongList');
+            // try {
+            //   let data = await createTextSong(values);
+            //   Alert.alert(data?.message);
+            //   console.log(data?.message);
+            // } catch (error) {
+            //   console.log(error);
+            // }
           }}>
           {({handleChange, handleBlur, handleSubmit, values, errors}: any) => (
             <>
