@@ -27,6 +27,7 @@ import {Strings} from '../../../constant/Strings';
 import TrackPlayerModal from '../../../components/Modal/TrackPlayerModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import WaveAnimation from '../../../components/WaveAnimation';
+import Loading from '../../../components/Loading';
 function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   const [Song, setSong] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
@@ -38,23 +39,23 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
       let isSetup = await setupPlayer();
       console.log(isSetup);
       const queue = await TrackPlayer.getQueue();
-      console.log(queue);
-      if (isSetup && queue.length <= 0) {
-        await TrackPlayer.reset();
-        setSongList([generateSong]);
-        await TrackPlayer.add([generateSong]);
-      }
+      await TrackPlayer.reset();
+      // if (isSetup) {
+      setSongList([generateSong]);
+      await TrackPlayer.add([generateSong]);
+      // }
     }
 
     setup();
-  }, []);
+  }, [generateSong]);
 
   const {position, duration} = useProgress();
   const [showTrackPlayer, setShowTrackPlayer] = useState(false);
 
-  console.log(position, duration);
+  console.log(position, duration, SongList);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
+      {(!duration || !SongList.length) && <Loading />}
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
         <View className="flex flex-row items-center justify-center px-4">
