@@ -38,8 +38,8 @@ const GenerateTrack = ({navigation}: any) => {
         {/* // Search Box */}
         <View className="flex flex-row items-center justify-center px-4">
           <TouchableOpacity
-            className="absolute left-0 z-10"
-            onPress={() => navigation.goBack('')}>
+            className="absolute left-0 z-20"
+            onPress={() => navigation.goBack(' ')}>
             <MaterialIcons color="white" name="keyboard-arrow-left" size={42} />
           </TouchableOpacity>
           <Text className="text-2xl font-semibold text-center text-white ">
@@ -60,8 +60,33 @@ const GenerateTrack = ({navigation}: any) => {
             try {
               setIsLoading(true);
               let data = await createTextSong(values);
+
               Alert.alert('Song created successfully');
-              navigation.navigate('GenerateSongList');
+              setTimeout(() => {
+                setIsLoading(false);
+                navigation.navigate('GenerateSongList', {
+                  generateSong: {
+                    id: '1',
+                    url: data?.data?.link,
+                    isLiveStream: true,
+                    duration: values?.duration,
+                    artist: 'DEMO',
+                    albumCover:
+                      'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+                    title: values?.title || 'Unknown Title', // Provide a
+                  },
+                });
+              }, 1000);
+
+              console.log({
+                id: '1',
+                url: data?.data?.link,
+                isLiveStream: true,
+                duration: values?.duration,
+                artist: 'DEMO',
+                albumCover: '',
+                title: values?.title || 'Unknown Title', // Provide a
+              });
             } catch (error) {
               console.log(error);
             } finally {

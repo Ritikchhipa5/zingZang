@@ -27,26 +27,32 @@ import {Strings} from '../../../constant/Strings';
 import TrackPlayerModal from '../../../components/Modal/TrackPlayerModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import WaveAnimation from '../../../components/WaveAnimation';
-function GenerateSongList({navigation, song, addPlaySong}: any) {
+function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   const [Song, setSong] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
+  const [SongList, setSongList] = useState<any>([]);
+  const {generateSong} = route.params;
+
   useEffect(() => {
     async function setup() {
       let isSetup = await setupPlayer();
       console.log(isSetup);
       const queue = await TrackPlayer.getQueue();
+      console.log(queue);
       if (isSetup && queue.length <= 0) {
-        TrackPlayer.reset();
-        await TrackPlayer.add(LyricsSongList);
+        await TrackPlayer.reset();
+        setSongList([generateSong]);
+        await TrackPlayer.add([generateSong]);
       }
     }
 
     setup();
   }, []);
+
   const {position, duration} = useProgress();
   const [showTrackPlayer, setShowTrackPlayer] = useState(false);
 
-  console.log(song);
+  console.log(position, duration);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
@@ -60,13 +66,16 @@ function GenerateSongList({navigation, song, addPlaySong}: any) {
 
           <TouchableOpacity
             className="absolute right-5 top-5"
-            onPress={() => navigation.goBack(' ')}>
+            onPress={async () => {
+              navigation.goBack(' ');
+              await TrackPlayer.reset();
+            }}>
             <MaterialIcons color="white" name="close" size={32} />
           </TouchableOpacity>
         </View>
         {/* //Song List */}
         <View className="flex-1 px-4 mt-10 ">
-          {LyricsSongList.map((item: any, index: number) => (
+          {SongList.map((item: any, index: number) => (
             <TouchableOpacity
               className={`flex flex-row items-center  justify-between p-3 bg-[#6836691A] rounded-2xl border-2 border-transparent  ${
                 item.id === Song?.id && 'border-[#F780FB]'
@@ -75,7 +84,6 @@ function GenerateSongList({navigation, song, addPlaySong}: any) {
               onPress={async () => {
                 setSong(item);
                 setIsPlay(true);
-
                 await TrackPlayer.play();
               }}>
               <View className={`flex flex-row items-center`}>
@@ -132,7 +140,6 @@ function GenerateSongList({navigation, song, addPlaySong}: any) {
                   <TouchableOpacity
                     onPress={() => {
                       setShowTrackPlayer(true);
-
                       addPlaySong(Song);
                     }}
                     className="flex flex-row items-center p-3 ">
@@ -175,9 +182,10 @@ function GenerateSongList({navigation, song, addPlaySong}: any) {
           <TouchableOpacity
             className="px-4 "
             activeOpacity={0.7}
-            onPress={() => {
-              navigation.navigate('VideoCoverPage');
-              TrackPlayer.pause();
+            onPress={async () => {
+              navigation.navigate('VideoCoverPage', {generateSong});
+              await TrackPlayer.pause();
+              await TrackPlayer.reset();
             }}>
             <View
               className={`py-4 ${

@@ -13,6 +13,7 @@ export const ALBUM = {
 export const GENERATE_TRACK = {
   CREATE_TEXT_SONG: API + '/api/Spotify/createTextSong',
   REQUEST_TEXT_SONGS: API + '/api/Spotify/requestTextSongs',
+  VIDEO_CREATE: API + '/api/tiktok/addVideo',
 };
 
 export const REELS = {

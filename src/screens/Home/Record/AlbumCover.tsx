@@ -111,6 +111,7 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                 current_key: '1oovbp1z5ExvCf3o',
               })
                 .then(data => {
+                  console.log(data);
                   setAlbumCover({
                     uri: `data:image/jpeg;base64,${data.images[0]}`,
                   });

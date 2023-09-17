@@ -16,19 +16,21 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {connect} from 'react-redux';
 import Loading from '../../../components/Loading';
+import {addVideo} from '../../../api/generateTrack';
 
-const VideoCoverPage = ({navigation}: any) => {
+const VideoCoverPage = ({navigation, route}: any) => {
   const [Album, setAlbum] = useState(
     'A futuristic techno coverart, in the style of electronic music.',
   );
   const [isLoading, setIsLoading] = useState(false);
   const [AlbumCover, setAlbumCover] = useState<any>({});
-
+  const {generateSong} = route.params;
+  console.log(generateSong);
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
-      {isLoading ? <Loading /> : null}
+      {isLoading && <Loading />}
       <SafeAreaView
         className="h-full "
         edges={['right', 'left', 'top', 'bottom']}>
@@ -74,8 +76,22 @@ const VideoCoverPage = ({navigation}: any) => {
           <TouchableOpacity
             className=""
             activeOpacity={0.7}
-            onPress={() => {
-              Alert.alert('Done');
+            onPress={async () => {
+              setIsLoading(true);
+              await addVideo({
+                id: 'MjrK0Yx7O2UlkLqU',
+                link: 'outputs/MjrK0Yx7O2UlkLqU/recording_1694968702381.m4a_full_song.wav',
+                description: 'asd',
+                title: 'asd',
+                postProfile: 'asd',
+              })
+                .then(res => {
+                  navigation.navigate('Reels');
+                  Alert.alert('Video reel is created successfully');
+                })
+                .finally(() => {
+                  setIsLoading(false);
+                });
             }}>
             <View className={'py-4 bg-[#F780FB] rounded-full'}>
               <Text className="text-xl font-semibold text-center text-black">

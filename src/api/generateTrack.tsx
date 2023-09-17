@@ -52,4 +52,20 @@ const createAlbumCoverSong = async (body: any) => {
     });
 };
 
-export {createTextSong, requestTextSongs, createAlbumCoverSong};
+async function addVideo(data: any) {
+  fetch(GENERATE_TRACK.VIDEO_CREATE, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: await JSON.stringify(data),
+  })
+    .then(async data => {
+      console.log(await data.json());
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+export {createTextSong, requestTextSongs, createAlbumCoverSong, addVideo};
