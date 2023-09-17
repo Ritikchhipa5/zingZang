@@ -25,12 +25,14 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {connect} from 'react-redux';
 import {userInfoAdd} from '../../actions/record';
+import Loading from '../../components/Loading';
 // create a component
 const LoginScreen = ({navigation, addUserInfo}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginButton, setIsLoginButton] = useState(true);
   const [isValidating, setIsValidating] = useState(0);
+  const [isLoading, setLoading] = useState(false);
   //   const [isSignUpDisableButton, setIsSignUpDisableButton] = useState(false);
 
   useEffect(() => {
@@ -46,10 +48,11 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
   //SignUp Button Click
   const signinClick = async (values: any, {setSubmitting}: any) => {
     try {
+      setLoading(true);
       let data = await singInEmail(values);
       addUserInfo(data.data);
       if (data?.status) {
-        navigation.navigate('CreateProject');
+        navigation.replace('CreateProject');
       } else {
         Alert.alert(data?.message);
         // navigation.navigate('Register');
@@ -57,11 +60,14 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
       console.log(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG}>
+      {isLoading && <Loading />}
       <SafeAreaView style={{flex: 1}}>
         <ScrollView style={{flex: 1}}>
           <View style={{height: hp('5%'), borderWidth: 0}}>

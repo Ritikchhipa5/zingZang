@@ -5,15 +5,19 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Images} from '../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {ICONS_SVG} from '../../assets/svg/icons/Icon';
 import {IMAGES_SVG} from '../../assets/svg/images/images';
+import {getInfo} from '../../utils/aws';
 const CreateProject = ({navigation}: any) => {
   const [isCreateProject, setIsCreateProject] = useState(true);
+  useEffect(() => {
+    getInfo();
+  }, []);
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}

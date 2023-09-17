@@ -30,8 +30,8 @@ function MySongList({navigation, user, addPlaySong}: any) {
   useEffect(() => {
     async function setup() {
       let isSetup = await setupPlayer();
-      console.log(isSetup);
       const queue = await TrackPlayer.getQueue();
+      console.log(isSetup, queue?.length);
       if (isSetup && queue.length <= 0) {
         await loadAndPlayTracks();
       }
@@ -44,15 +44,18 @@ function MySongList({navigation, user, addPlaySong}: any) {
 
   async function loadAndPlayTracks() {
     requestTextSongs({
-      id: user?.user?.id,
+      id: user?.user?.id ?? 'm56jBT1HlYaOtpn4',
     }).then(async data => {
+      console.log(data.data);
       TrackPlayer.reset();
-      let newData = data.map((item: any, index: number) => {
+      let newData = data.data.map((item: any, index: number) => {
         return {
           id: index,
           url: item.link,
           isLiveStream: true,
           duration: 200,
+          artist: item?.artist,
+          albumCover: item?.albumCover,
           title: item.title || 'Unknown Title', // Provide a
         };
       });
@@ -99,14 +102,14 @@ function MySongList({navigation, user, addPlaySong}: any) {
                 onPress={async () => {
                   setSong(item);
                   setIsPlay(true);
-                  console.log(item.url);
+                  console.log(item);
                   await TrackPlayer.skip(index);
                   await TrackPlayer.play();
                 }}>
                 <View className="flex flex-row items-center p-3 ">
                   <Image
                     source={{
-                      uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+                      uri: item?.albumCover,
                     }}
                     className="w-12 h-12 mr-5 rounded-lg"
                   />
@@ -147,7 +150,7 @@ function MySongList({navigation, user, addPlaySong}: any) {
                     {Song?.title?.slice(0, 20)}
                   </Text>
                   <Text className="font-normal text-md text-zinc-300 ">
-                    {Song?.name}
+                    {Song?.artist}
                   </Text>
                 </View>
               </View>

@@ -19,7 +19,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {createTextSong} from '../../../api/generateTrack';
+import Loading from '../../../components/Loading';
 const GenerateTrack = ({navigation}: any) => {
+  const [isLoading, setIsLoading] = useState(false);
   const validation = Yup.object({
     text: Yup.string().required('Text is required'),
     duration: Yup.string().required('Duration is required'),
@@ -43,10 +45,6 @@ const GenerateTrack = ({navigation}: any) => {
           <Text className="text-2xl font-semibold text-center text-white ">
             Generate Track
           </Text>
-
-          {/* <TouchableOpacity className="">
-            <MaterialIcons color="white" name="close" size={32} />
-          </TouchableOpacity> */}
         </View>
 
         <Formik
@@ -59,18 +57,20 @@ const GenerateTrack = ({navigation}: any) => {
           }}
           validationSchema={validation}
           onSubmit={async values => {
-            console.log(values);
-            navigation.navigate('GenerateSongList');
-            // try {
-            //   let data = await createTextSong(values);
-            //   Alert.alert(data?.message);
-            //   console.log(data?.message);
-            // } catch (error) {
-            //   console.log(error);
-            // }
+            try {
+              setIsLoading(true);
+              let data = await createTextSong(values);
+              Alert.alert('Song created successfully');
+              navigation.navigate('GenerateSongList');
+            } catch (error) {
+              console.log(error);
+            } finally {
+              setIsLoading(false);
+            }
           }}>
           {({handleChange, handleBlur, handleSubmit, values, errors}: any) => (
             <>
+              {isLoading && <Loading />}
               <ScrollView className="flex-1 px-4 gap-y-4 ">
                 <View className=" gap-y-4">
                   <View className="gap-y-4">

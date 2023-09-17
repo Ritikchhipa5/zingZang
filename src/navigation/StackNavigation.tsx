@@ -18,7 +18,6 @@ import CustomLyrics from '../screens/Home/CustomLyrics/CustomLyrics';
 import AlbumCover from '../screens/Home/Record/AlbumCover';
 import GenerateTrack from '../screens/Home/GenerateTrack/GenerateTrack';
 import AlbumCoverPage from '../screens/Home/Record/AlbumCoverPage';
-import VideoPost from '../screens/Home/VideoPost/VideoPost';
 import Reels from '../screens/Home/VideoPost/VideoPost';
 import VideoCoverPage from '../screens/Home/GenerateTrack/VideoCoverPage';
 import GenerateSongList from '../screens/Home/GenerateTrack/GenerateSongList';
@@ -27,7 +26,7 @@ function StackNavigation() {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="CreateProject"
+      initialRouteName="SignScreen"
       screenOptions={{
         headerShown: false,
       }}>

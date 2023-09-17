@@ -41,7 +41,11 @@ const VideoCoverPage = ({navigation}: any) => {
             Video Reel
           </Text>
 
-          <TouchableOpacity className="">
+          <TouchableOpacity
+            className=""
+            onPress={() => {
+              navigation.navigate('CreateProject');
+            }}>
             <MaterialIcons color="white" name="close" size={32} />
           </TouchableOpacity>
         </View>

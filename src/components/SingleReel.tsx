@@ -35,7 +35,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
         alignItems: 'center',
       }}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('MySongList')}
+        onPress={() => navigation.navigate('CreateProject')}
         className="absolute z-10 right-5 top-10">
         <MaterialIcons color="white" name="close" size={32} />
       </TouchableOpacity>

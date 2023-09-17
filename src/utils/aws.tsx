@@ -1,13 +1,13 @@
 import * as AWS from 'aws-sdk';
 
 AWS.config.update({
-  accessKeyId: 'YOUR_ACCESS_KEY',
-  secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
-  region: 'YOUR_REGION',
+  accessKeyId: 'AKIAX7S6GKEMIQOXVR5P',
+  secretAccessKey: 'QM6sjABL0KqsqrdrET49Kw6VvYRHGM9e8PNGbDOG',
+  region: 'eu-central-1',
 });
 const s3 = new AWS.S3();
 
-const bucketName = 'your-bucket-name';
+const bucketName = 'zing-zang-vc';
 const s3Key =
   'outputs/MjrK0Yx7O2UlkLqU/recording_1694945325603.m4a_full_song.wav';
 
@@ -16,11 +16,13 @@ const params = {
   Key: s3Key,
 };
 
-s3.getObject(params, (err, data) => {
-  if (err) {
-    console.error('Error getting S3 object:', err);
-  } else {
-    // const objectPath = data.Key;
-    // console.log('S3 object path:', objectPath);
-  }
-});
+export const getInfo = () => {
+  s3.getObject(params, (err, data: any) => {
+    if (err) {
+      console.error('Error getting S3 object:', err);
+    } else {
+      const objectPath = data.Key;
+      console.log('S3 object path:', data?.path);
+    }
+  });
+};

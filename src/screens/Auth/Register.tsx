@@ -24,6 +24,7 @@ import {Strings} from '../../constant/Strings';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {singUpEmail} from '../../api/auth';
+import Loading from '../../components/Loading';
 interface componentNameProps {}
 // create a component
 const Register = ({navigation}: any) => {
@@ -32,24 +33,29 @@ const Register = ({navigation}: any) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValidating, setIsValidating] = useState(0);
+  const [isLoading, setLoading] = useState(false);
 
   //SignUp Button Click
   const signupClick = async (values: any, {setSubmitting}: any) => {
-    console.log(values);
+    setLoading(true);
     try {
-      let data = await singUpEmail({
+      await singUpEmail({
         user: {
           name: values?.username,
         },
         email: values?.email,
         pass: values?.pass,
-      });
-      if (data?.status) {
-        navigation.navigate('CreateProject');
-      } else {
-        Alert.alert(data?.message);
-      }
-      console.log(data);
+      })
+        .then(data => {
+          if (data?.status) {
+            navigation.navigate('CreateProject');
+          } else {
+            Alert.alert(data?.message);
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +71,7 @@ const Register = ({navigation}: any) => {
   });
   return (
     <ScrollView>
+      {isLoading && <Loading />}
       <ImageBackground style={{height: hp('100%')}} source={Images.BG}>
         <SafeAreaView style={{flex: 1}}>
           <View className="flex-[0.2] border-0">
