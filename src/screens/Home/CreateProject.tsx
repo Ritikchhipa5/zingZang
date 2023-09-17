@@ -10,8 +10,10 @@ import {Images} from '../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {ICONS_SVG} from '../../assets/svg/icons/Icon';
+import {IMAGES_SVG} from '../../assets/svg/images/images';
 const CreateProject = ({navigation}: any) => {
-  const [isCreateProject, setIsCreateProject] = useState(false);
+  const [isCreateProject, setIsCreateProject] = useState(true);
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -37,11 +39,12 @@ const CreateProject = ({navigation}: any) => {
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
-              <Image
+              {/* <Image
                 source={Images.USER_PROFILE}
                 className=""
                 resizeMode="contain"
-              />
+              /> */}
+              <ICONS_SVG.USER height={45} width={45} />
             </TouchableOpacity>
           )}
         </View>
@@ -50,26 +53,28 @@ const CreateProject = ({navigation}: any) => {
           {isCreateProject ? (
             <View className="flex justify-around flex-1 w-full ">
               <TouchableOpacity
-                className="w-full "
+                className="items-center w-full "
                 activeOpacity={0.7}
                 onPress={() => {
                   setIsCreateProject(false);
                 }}>
-                <Image
+                {/* <Image
                   source={Images.CREATE_PROJECT}
                   className="w-full "
                   resizeMode="contain"
-                />
+                /> */}
+                <IMAGES_SVG.CREATE_NEW_PROJECT className="w-full " />
               </TouchableOpacity>
               <TouchableOpacity
-                className="w-full"
+                className="items-center w-full"
                 activeOpacity={0.7}
                 onPress={() => navigation.navigate('MySongList')}>
-                <Image
+                {/* <Image
                   source={Images.LOADING_PROJECT}
                   className="w-full"
                   resizeMode="contain"
-                />
+                /> */}
+                <IMAGES_SVG.LOAD_PROJECT className="w-full " />
               </TouchableOpacity>
               <TouchableOpacity
                 className="w-full"
