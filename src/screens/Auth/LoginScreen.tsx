@@ -26,6 +26,8 @@ import * as Yup from 'yup';
 import {connect} from 'react-redux';
 import {userInfoAdd} from '../../actions/record';
 import Loading from '../../components/Loading';
+import DefaultLoading from '../../components/DefaultLoading';
+
 // create a component
 const LoginScreen = ({navigation, addUserInfo}: any) => {
   const [email, setEmail] = useState('');
@@ -50,8 +52,10 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
     try {
       setLoading(true);
       let data = await singInEmail(values);
-      addUserInfo(data.data);
+      console.log(data, values);
+
       if (data?.status) {
+        addUserInfo(data.data);
         navigation.replace('CreateProject');
       } else {
         Alert.alert(data?.message);
@@ -67,7 +71,7 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
 
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG}>
-      {isLoading && <Loading />}
+      {isLoading && <DefaultLoading />}
       <SafeAreaView style={{flex: 1}}>
         <ScrollView style={{flex: 1}}>
           <View style={{height: hp('5%'), borderWidth: 0}}>
@@ -94,7 +98,7 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
           <Formik
             initialValues={{
               email: 'test1117@gmail.com',
-              pass: 'test12',
+              pass: 'confirmPass',
             }}
             validationSchema={validation}
             onSubmit={signinClick}>

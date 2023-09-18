@@ -13,6 +13,7 @@ import {Slider} from '@react-native-assets/slider';
 import PlayerController from '../PlayerController';
 import {connect} from 'react-redux';
 const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
+  console.log(song);
   return (
     <Modal transparent={true} visible={showTrackPlayer}>
       <View className="absolute top-0 bottom-0 w-full">

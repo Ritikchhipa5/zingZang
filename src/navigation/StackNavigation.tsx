@@ -21,112 +21,124 @@ import AlbumCoverPage from '../screens/Home/Record/AlbumCoverPage';
 import Reels from '../screens/Home/VideoPost/VideoPost';
 import VideoCoverPage from '../screens/Home/GenerateTrack/VideoCoverPage';
 import GenerateSongList from '../screens/Home/GenerateTrack/GenerateSongList';
+import {useSelector} from 'react-redux';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
+  const isLoggedIn =
+    useSelector((state: any) => state?.userData)?.user === null ? false : true;
+  console.log(isLoggedIn);
   return (
     <Stack.Navigator
       initialRouteName="SignScreen"
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="CreateProject" component={CreateProject} />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="SignScreen"
-        component={SignScreen}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="LoginScreen"
-        component={LoginScreen}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="Register"
-        component={Register}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="TrackPlayer"
-        component={TrackPlayer}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="SongList"
-        component={SongList}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="SongPart"
-        component={SongPart}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="Setting"
-        component={Setting}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="MySongList"
-        component={MySongList}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="RecordScreen"
-        component={RecordScreen}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="CustomLyrics"
-        component={CustomLyrics}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="LyricsPlayer"
-        component={LyricsPlayer}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="SelectRecording"
-        component={SelectRecording}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="SongNameEdit"
-        component={SongNameEdit}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="AlbumCover"
-        component={AlbumCover}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="GenerateTrack"
-        component={GenerateTrack}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="GenerateSongList"
-        component={GenerateSongList}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="VideoCoverPage"
-        component={VideoCoverPage}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="AlbumCoverPage"
-        component={AlbumCoverPage}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="Reels"
-        component={Reels}
-      />
+      {!isLoggedIn ? (
+        <>
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="SignScreen"
+            component={SignScreen}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="LoginScreen"
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="Register"
+            component={Register}
+          />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="CreateProject" component={CreateProject} />
+
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="TrackPlayer"
+            component={TrackPlayer}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="SongList"
+            component={SongList}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="SongPart"
+            component={SongPart}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="Setting"
+            component={Setting}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="MySongList"
+            component={MySongList}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="RecordScreen"
+            component={RecordScreen}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="CustomLyrics"
+            component={CustomLyrics}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="LyricsPlayer"
+            component={LyricsPlayer}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="SelectRecording"
+            component={SelectRecording}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="SongNameEdit"
+            component={SongNameEdit}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="AlbumCover"
+            component={AlbumCover}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="GenerateTrack"
+            component={GenerateTrack}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="GenerateSongList"
+            component={GenerateSongList}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="VideoCoverPage"
+            component={VideoCoverPage}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="AlbumCoverPage"
+            component={AlbumCoverPage}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="Reels"
+            component={Reels}
+          />
+        </>
+      )}
     </Stack.Navigator>
   );
 }

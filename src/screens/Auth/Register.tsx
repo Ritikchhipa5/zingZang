@@ -48,7 +48,7 @@ const Register = ({navigation}: any) => {
       })
         .then(data => {
           if (data?.status) {
-            navigation.navigate('CreateProject');
+            navigation.navigate('LoginScreen');
           } else {
             Alert.alert(data?.message);
           }

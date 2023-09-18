@@ -20,6 +20,7 @@ const Loading = () => {
         <Video
           source={Images.LOADING}
           paused={false}
+          repeat={true}
           resizeMode={'cover'}
           className="absolute top-0 bottom-0 left-0 -right-[30%] "
           rate={1.0}

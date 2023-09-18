@@ -5,7 +5,6 @@ import {
   ImageBackground,
   Alert,
   TextInput,
-  Image,
 } from 'react-native';
 import RNFS from 'react-native-fs';
 import React, {useState} from 'react';
@@ -16,16 +15,21 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {connect} from 'react-redux';
 import Loading from '../../../components/Loading';
-import {createAlbumCoverSong} from '../../../api/generateTrack';
+import {
+  createAlbumCoverSong,
+  requestDownloadLink,
+} from '../../../api/generateTrack';
 import {changeLyrics} from '../../../api/record';
 const AlbumCover = ({navigation, recordedAudios, route}: any) => {
   const [Album, setAlbum] = useState(
-    'A futuristic techno coverart, in the style of electronic music.',
+    // 'A futuristic techno coverart, in the style of electronic music.',
+    'futuristic',
   );
   const [isLoading, setIsLoading] = useState(false);
   const [AlbumCover, setAlbumCover] = useState<any>({});
+  const [NewSong, setNewSong] = useState(null);
   const {pickSong, songName} = route.params;
-  console.log(pickSong, songName);
+
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -55,7 +59,6 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
             </Text>
             <TextInput
               onChangeText={(text: any) => {
-                console.log(text);
                 setAlbum(text);
               }}
               value={Album}
@@ -89,11 +92,48 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                   '',
                 ),
               });
+
+              console.log(data?.getParts());
               setIsLoading(true);
 
-              await changeLyrics({value: data})
-                .then(status => {
-                  console.log(data, status);
+              let song = {
+                s0_original: 2.77,
+                sf_original: 4.003,
+                s0_record: 2.815,
+                sf_record: 10,
+              };
+              console.log(
+                Math.abs(
+                  song?.sf_original -
+                    song?.s0_original -
+                    (song?.sf_record - song?.s0_record),
+                ),
+                Math.abs(
+                  song?.sf_original -
+                    song?.s0_original -
+                    (song?.sf_record - song?.s0_record),
+                ) <= 0.3,
+              );
+
+              await changeLyrics({
+                value: {
+                  client_id: 'MjrK0Yx7O2UlkLqU',
+                  current_key: '1oovbp1z5ExvCf3o',
+                  s0: 3,
+                  s1: 6,
+                  r0: 2,
+                  r1: 5,
+                  data: data,
+                },
+              })
+                .then(async status => {
+                  let path: any = await requestDownloadLink({
+                    path: status?.s3_key,
+                  });
+                  console.log(status?.s3_key, 'sdfjsdfbkjsbfsdfkjb');
+
+                  setNewSong(path?.s3_key);
+                  console.log(path);
                   // navigation.navigate('TrackPlayer');
                 })
                 .catch(err => {
@@ -110,15 +150,21 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                 client_id: 'MjrK0Yx7O2UlkLqU',
                 current_key: '1oovbp1z5ExvCf3o',
               })
-                .then(data => {
-                  console.log(data);
+                .then(async (data: any) => {
+                  console.log(data?.images[0]);
+                  let path: any = await requestDownloadLink({
+                    path: data?.images[0],
+                  });
+                  console.log(path, 'jskdjnfnsdjnfjk');
                   setAlbumCover({
-                    uri: `data:image/jpeg;base64,${data.images[0]}`,
+                    uri: path?.data,
                   });
                   navigation.navigate('AlbumCoverPage', {
                     albumCover: {
-                      uri: `data:image/jpeg;base64,${data.images[0]}`,
+                      uri: path?.data,
                     },
+                    song: NewSong,
+                    songName: songName,
                   });
                   setIsLoading(false);
                 })

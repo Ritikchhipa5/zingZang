@@ -4,6 +4,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Images} from '../../constant/Images';
@@ -26,7 +27,7 @@ const CreateProject = ({navigation}: any) => {
         className="flex-1 h-full"
         edges={['bottom', 'top', 'left', 'right']}>
         <View
-          className={`relative flex flex-row items-center  ${
+          className={`bg-red-500 relative flex flex-row items-center  ${
             isCreateProject && 'justify-end'
           } px-3 `}>
           {!isCreateProject ? (
@@ -42,18 +43,17 @@ const CreateProject = ({navigation}: any) => {
               />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
-              {/* <Image
-                source={Images.USER_PROFILE}
-                className=""
-                resizeMode="contain"
-              /> */}
+            <TouchableOpacity
+              className=""
+              onPress={() => {
+                navigation.navigate('Setting');
+              }}>
               <ICONS_SVG.USER height={45} width={45} />
             </TouchableOpacity>
           )}
         </View>
 
-        <View className="items-center h-full ">
+        <View className="items-center h-full bg-black ">
           {isCreateProject ? (
             <View className="flex justify-center flex-1 w-full gap-y-[20%] ">
               <TouchableOpacity
@@ -62,11 +62,6 @@ const CreateProject = ({navigation}: any) => {
                 onPress={() => {
                   setIsCreateProject(false);
                 }}>
-                {/* <Image
-                  source={Images.CREATE_PROJECT}
-                  className="w-full "
-                  resizeMode="contain"
-                /> */}
                 <IMAGES_SVG.CREATE_NEW_PROJECT className="w-full " />
               </TouchableOpacity>
               <TouchableOpacity

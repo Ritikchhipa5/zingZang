@@ -8,9 +8,11 @@ const ActiveTrackDetails = ({song}: any) => {
     <View className="h-full ">
       <View>
         <FastImage
-          source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
-          }}
+          source={
+            song?.currentSong?.albumCover ?? {
+              uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+            }
+          }
           className="mx-auto rounded-lg shadow-2xl "
           style={styles.artCover}
           resizeMode="cover"

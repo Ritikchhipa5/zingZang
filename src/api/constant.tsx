@@ -10,10 +10,16 @@ export const ALBUM = {
   CREATE_ALBUM_COVER: AI_API + '/sdapi/v1/txt2img',
 };
 
+export const LINK = {
+  REQUEST_LINK: API + '/api/security/requestDownloadLink',
+  CHANGE_LYRICS: 'http://3.64.26.250:8000/change_lyrics',
+};
+
 export const GENERATE_TRACK = {
   CREATE_TEXT_SONG: API + '/api/Spotify/createTextSong',
   REQUEST_TEXT_SONGS: API + '/api/Spotify/requestTextSongs',
-  VIDEO_CREATE: API + '/api/tiktok/addVideo',
+  ADD_CREATE: API + '/api/tiktok/addVideo',
+  VIDEO_CREATE: AI_API + '/deforum/run',
 };
 
 export const REELS = {

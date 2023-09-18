@@ -13,6 +13,7 @@
     "@aws-sdk/client-s3": "^3.414.0",
     "@miblanchard/react-native-slider": "^2.3.1",
     "@react-native-assets/slider": "^7.0.3",
+    "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-native-community/blur": "^4.3.2",
     "@react-native-picker/picker": "^2.5.0",
     "@react-navigation/native": "^6.1.7",

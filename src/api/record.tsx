@@ -1,19 +1,21 @@
 import axios from 'axios';
+import {LINK} from './constant';
 export const changeLyrics = async ({value}: any) => {
-  return await axios
-    .request({
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: 'http://3.64.26.250:8000/change_lyrics?client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o&s0_original=2.770&sf_original=4.003&s0_replacement=2.815&sf_replacement=4.077&song_to_replace=Boten_Anna',
-      headers: {
-        accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
-      data: value,
-    })
+  const url =
+    LINK.CHANGE_LYRICS +
+    `?client_id=${value.client_id}&current_key=${value.current_key}&s0_original=${value.s0}&sf_original=${value.s1}&s0_replacement=${value.r0}&sf_replacement=${value.r1}&song_to_replace=Boten_Anna`;
+
+  //
+  console.log(url);
+  return await fetch(url, {
+    method: 'POST',
+    body: value.data,
+    // headers: {
+    //   'Content-Type': 'multipart/form-data', // Set the content type for FormData
+    // },
+  })
     .then(response => {
-      console.log(response.data);
-      return true;
+      return response.json();
     })
     .catch(error => {
       console.log(error.message);

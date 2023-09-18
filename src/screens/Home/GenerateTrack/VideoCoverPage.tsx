@@ -16,7 +16,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {connect} from 'react-redux';
 import Loading from '../../../components/Loading';
-import {addVideo} from '../../../api/generateTrack';
+import {addVideo, createVideoSong} from '../../../api/generateTrack';
+import DefaultLoading from '../../../components/DefaultLoading';
 
 const VideoCoverPage = ({navigation, route}: any) => {
   const [Album, setAlbum] = useState(
@@ -30,7 +31,7 @@ const VideoCoverPage = ({navigation, route}: any) => {
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
-      {isLoading && <Loading />}
+      {isLoading && <DefaultLoading />}
       <SafeAreaView
         className="h-full "
         edges={['right', 'left', 'top', 'bottom']}>
@@ -78,20 +79,29 @@ const VideoCoverPage = ({navigation, route}: any) => {
             activeOpacity={0.7}
             onPress={async () => {
               setIsLoading(true);
-              await addVideo({
-                id: 'MjrK0Yx7O2UlkLqU',
-                link: 'outputs/MjrK0Yx7O2UlkLqU/recording_1694968702381.m4a_full_song.wav',
-                description: 'asd',
-                title: 'asd',
-                postProfile: 'asd',
-              })
-                .then(res => {
-                  navigation.navigate('Reels');
-                  Alert.alert('Video reel is created successfully');
+              createVideoSong()
+                .then(data => {
+                  console.log(data);
+                })
+                .catch(error => {
+                  console.log(error);
                 })
                 .finally(() => {
                   setIsLoading(false);
                 });
+              // await addVideo({
+              //   id: 'MjrK0Yx7O2UlkLqU',
+              //   link: 'outputs/MjrK0Yx7O2UlkLqU/recording_1694968702381.m4a_full_song.wav',
+              //   description: 'asd',
+              //   title: 'asd',
+              //   postProfile: 'asd',
+              // })
+              //   .then(res => {
+              //     navigation.navigate('Reels');
+              //     Alert.alert('Video reel is created successfully');
+              //   }).finally(() => {
+              //   setIsLoading(false);
+              // });
             }}>
             <View className={'py-4 bg-[#F780FB] rounded-full'}>
               <Text className="text-xl font-semibold text-center text-black">
