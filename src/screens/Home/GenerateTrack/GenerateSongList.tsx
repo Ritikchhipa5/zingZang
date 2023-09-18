@@ -15,12 +15,15 @@ import {
 
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import TrackPlayer, {useProgress} from 'react-native-track-player';
+import TrackPlayer, {Event, useProgress} from 'react-native-track-player';
 import {Slider} from '@react-native-assets/slider';
 
 import {connect} from 'react-redux';
 import {addCurrentSong} from '../../../actions/songs';
-import {setupPlayer} from '../../../service/trackPlayerServices';
+import {
+  addTracksOnTrackPlayer,
+  setupPlayer,
+} from '../../../service/trackPlayerServices';
 import {LyricsSongList} from '../../../service/lyricsService';
 import {Images} from '../../../constant/Images';
 import {Strings} from '../../../constant/Strings';
@@ -32,30 +35,36 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   const [Song, setSong] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
   const [SongList, setSongList] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+  const [isDurationLoaded, setIsDurationLoaded] = useState(false); // Track if duration is loaded
+
   const {generateSong} = route.params;
-
-  useEffect(() => {
-    async function setup() {
-      let isSetup = await setupPlayer();
-      console.log(isSetup);
-      const queue = await TrackPlayer.getQueue();
-      await TrackPlayer.reset();
-      // if (isSetup) {
-      setSongList([generateSong]);
-      await TrackPlayer.add([generateSong]);
-      // }
-    }
-
-    setup();
-  }, [generateSong]);
-
   const {position, duration} = useProgress();
   const [showTrackPlayer, setShowTrackPlayer] = useState(false);
+  useEffect(() => {
+    async function setupAndLoadSong() {
+      setLoading(true);
+      await setupPlayer(); // Your setupPlayer function
+
+      // // Load the selected song
+      // await TrackPlayer.reset();
+      // await TrackPlayer.add([generateSong]);
+
+      // // Set the song list and mark loading as complete
+
+      setSongList([generateSong]);
+      await TrackPlayer.play();
+      addTracksOnTrackPlayer(generateSong);
+      setLoading(false);
+    }
+
+    setupAndLoadSong();
+  }, []);
 
   console.log(position, duration, SongList);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
-      {(!duration || !SongList.length) && <Loading />}
+      {loading && <Loading />}
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
         <View className="flex flex-row items-center justify-center px-4">
@@ -130,9 +139,9 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
                   trackStyle={{
                     height: 5,
                   }}
-                  onValueChange={value => {
+                  onValueChange={async value => {
                     console.log(value);
-                    TrackPlayer.seekTo(value);
+                    await TrackPlayer.seekTo(value);
                   }}
                 />
               </TouchableOpacity>
@@ -161,13 +170,13 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity
-                  onPress={() => {
+                  onPress={async () => {
                     if (!isPlay) {
                       setIsPlay(true);
-                      TrackPlayer.play();
+                      await TrackPlayer.play();
                     } else {
                       setIsPlay(false);
-                      TrackPlayer.pause();
+                      await TrackPlayer.pause();
                     }
                   }}
                   className="mr-2">

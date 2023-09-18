@@ -20,6 +20,7 @@ import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {createTextSong} from '../../../api/generateTrack';
 import Loading from '../../../components/Loading';
+import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 const GenerateTrack = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const validation = Yup.object({
@@ -62,21 +63,34 @@ const GenerateTrack = ({navigation}: any) => {
               let data = await createTextSong(values);
 
               Alert.alert('Song created successfully');
-              setTimeout(() => {
-                setIsLoading(false);
-                navigation.navigate('GenerateSongList', {
-                  generateSong: {
-                    id: '1',
-                    url: data?.data?.link,
-                    isLiveStream: true,
-                    duration: values?.duration,
-                    artist: 'DEMO',
-                    albumCover:
-                      'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
-                    title: values?.title || 'Unknown Title', // Provide a
-                  },
-                });
-              }, 1000);
+              // setTimeout(() => {
+              setIsLoading(false);
+              navigation.navigate('GenerateSongList', {
+                generateSong: {
+                  id: '1',
+                  url: data?.data?.link,
+                  isLiveStream: true,
+                  duration: values?.duration,
+                  artist: 'DEMO',
+                  albumCover:
+                    'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+                  title: values?.title || 'Unknown Title', // Provide a
+                },
+              });
+
+              // addTracksOnTrackPlayer([
+              //   {
+              //     id: '1',
+              //     url: data?.data?.link,
+              //     isLiveStream: true,
+              //     duration: values?.duration,
+              //     artist: 'DEMO',
+              //     albumCover:
+              //       'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+              //     title: values?.title || 'Unknown Title', // Provide a
+              //   },
+              // ]);
+              // }, 1000);
 
               console.log({
                 id: '1',

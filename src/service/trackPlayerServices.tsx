@@ -3,7 +3,9 @@ import TrackPlayer, {
   Capability,
   RepeatMode,
   Event,
+  State,
 } from 'react-native-track-player';
+import {seekToCurrentTime} from './seekToCurrentTime';
 
 export async function setupPlayer() {
   let isSetup = false;
@@ -11,7 +13,9 @@ export async function setupPlayer() {
     await TrackPlayer.getCurrentTrack();
     isSetup = true;
   } catch {
-    await TrackPlayer.setupPlayer();
+    await TrackPlayer.setupPlayer({
+      minBuffer: 3,
+    });
     await TrackPlayer.updateOptions({
       android: {
         appKilledPlaybackBehavior:
@@ -38,6 +42,49 @@ export async function setupPlayer() {
   }
 }
 
+// export async function setupPlayer() {
+//   let isSetup = false;
+//   try {
+//     await TrackPlayer.getCurrentTrack();
+//     isSetup = true;
+//   } catch {
+//     await TrackPlayer.setupPlayer();
+//     await TrackPlayer.updateOptions({
+//       android: {
+//         appKilledPlaybackBehavior:
+//           AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
+//       },
+//       capabilities: [
+//         Capability.Play,
+//         Capability.Pause,
+//         Capability.SkipToNext,
+//         Capability.SkipToPrevious,
+//       ],
+//       compactCapabilities: [
+//         Capability.Play,
+//         Capability.Pause,
+//         Capability.SkipToNext,
+//       ],
+//       progressUpdateEventInterval: 2,
+//     });
+
+//     await TrackPlayer.setRepeatMode(RepeatMode.Queue);
+//     isSetup = true;
+//   } finally {
+//     // eslint-disable-next-line no-unsafe-finally
+//     return isSetup;
+//   }
+// }
+
+export async function addTracksOnTrackPlayer(tracks: any) {
+  if (tracks) {
+    await TrackPlayer.reset();
+    await TrackPlayer.add(tracks);
+    // await seekToCurrentTime();
+    // await TrackPlayer.play();
+  }
+}
+
 export async function addTracks() {
   await TrackPlayer.add([
     {
@@ -48,13 +95,21 @@ export async function addTracks() {
       duration: 60,
     },
   ]);
-  await TrackPlayer.setRepeatMode(RepeatMode.Queue);
+  // await TrackPlayer.setRepeatMode(RepeatMode.Queue);
 }
-// export async function playTrackById(id: any) {
-//   await TrackPlayer.skip(id); // Skip to the new track
-//   await TrackPlayer.play(); // Start playing the new track
-// }
 
 export async function playbackService() {
-  // TODO: Attach remote event handlers
+  // Add event listeners for remote control events (play, pause, next, etc.)
+  // TrackPlayer.addEventListener(Event.RemotePlay, () => {
+  //   TrackPlayer.play();
+  // });
+  // TrackPlayer.addEventListener(Event.RemotePause, () => {
+  //   TrackPlayer.pause();
+  // });
+  // TrackPlayer.addEventListener(Event.RemoteNext, () => {
+  //   TrackPlayer.skipToNext();
+  // });
+  // TrackPlayer.addEventListener(Event.RemotePrevious, () => {
+  //   TrackPlayer.skipToPrevious();
+  // });
 }
