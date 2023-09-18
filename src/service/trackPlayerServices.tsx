@@ -15,6 +15,9 @@ export async function setupPlayer() {
   } catch {
     await TrackPlayer.setupPlayer({
       minBuffer: 3,
+      playBuffer: 4,
+      maxBuffer: 100,
+      maxCacheSize: 100,
     });
     await TrackPlayer.updateOptions({
       android: {

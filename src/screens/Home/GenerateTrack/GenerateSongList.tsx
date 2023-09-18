@@ -31,6 +31,7 @@ import TrackPlayerModal from '../../../components/Modal/TrackPlayerModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import WaveAnimation from '../../../components/WaveAnimation';
 import Loading from '../../../components/Loading';
+import DefaultLoading from '../../../components/DefaultLoading';
 function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   const [Song, setSong] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
@@ -64,7 +65,7 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   console.log(position, duration, SongList);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
-      {loading && <Loading />}
+      {loading && <DefaultLoading />}
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
         <View className="flex flex-row items-center justify-center px-4">

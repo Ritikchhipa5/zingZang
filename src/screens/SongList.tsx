@@ -16,7 +16,11 @@ import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SoundWave from '../components/SoundWave';
 import WaveAnimation from '../components/WaveAnimation';
-import {addTracks, setupPlayer} from '../service/trackPlayerServices';
+import {
+  addTracks,
+  addTracksOnTrackPlayer,
+  setupPlayer,
+} from '../service/trackPlayerServices';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {Slider} from '@react-native-assets/slider';
 import TrackPlayerModal from '../components/Modal/TrackPlayerModal';
@@ -33,10 +37,11 @@ function SongList({navigation, song, addPlaySong}: any) {
       let isSetup = await setupPlayer();
       console.log(isSetup);
       const queue = await TrackPlayer.getQueue();
-      if (isSetup && queue.length <= 0) {
-        TrackPlayer.reset();
-        await TrackPlayer.add(LyricsSongList);
-      }
+      // if (isSetup && queue.length <= 0) {
+      // TrackPlayer.reset();
+      // await TrackPlayer.add(LyricsSongList);
+      addTracksOnTrackPlayer(LyricsSongList);
+      // }
     }
 
     setup();
@@ -52,7 +57,10 @@ function SongList({navigation, song, addPlaySong}: any) {
         <View className="px-4 mt-3">
           <View className="flex flex-row items-center ">
             <TouchableOpacity
-              onPress={() => navigation.goBack(' ')}
+              onPress={async () => {
+                navigation.goBack(' ');
+                await TrackPlayer.reset();
+              }}
               activeOpacity={0.7}>
               <MaterialIcons
                 color="white"

@@ -22,7 +22,7 @@ const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
             uri: song?.currentSong?.albumCover,
           }}
           blurRadius={30}>
-          <View className="flex-[0.7] justify-evenly  ">
+          <View className="flex-[0.8] justify-evenly  ">
             <TouchableOpacity
               onPress={() => setShowTrackPlayer(false)}
               className="absolute top-[15%] right-0 px-5">
@@ -33,7 +33,7 @@ const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
             </View>
           </View>
 
-          <View className="flex-[0.3] justify-center">
+          <View className="flex-[0.2] justify-center ">
             <View className="items-center justify-center">
               <Slider
                 style={{

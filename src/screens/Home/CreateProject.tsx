@@ -55,7 +55,7 @@ const CreateProject = ({navigation}: any) => {
 
         <View className="items-center h-full ">
           {isCreateProject ? (
-            <View className="flex justify-around flex-1 w-full ">
+            <View className="flex justify-center flex-1 w-full gap-y-[20%] ">
               <TouchableOpacity
                 className="items-center w-full "
                 activeOpacity={0.7}
@@ -70,7 +70,7 @@ const CreateProject = ({navigation}: any) => {
                 <IMAGES_SVG.CREATE_NEW_PROJECT className="w-full " />
               </TouchableOpacity>
               <TouchableOpacity
-                className="items-center w-full"
+                className="items-center w-full "
                 activeOpacity={0.7}
                 onPress={() => navigation.navigate('MySongList')}>
                 {/* <Image
@@ -81,12 +81,12 @@ const CreateProject = ({navigation}: any) => {
                 <IMAGES_SVG.LOAD_PROJECT className="w-full " />
               </TouchableOpacity>
               <TouchableOpacity
-                className="w-full"
+                className="w-full flex-[0.3]"
                 activeOpacity={0.7}
                 onPress={() => navigation.navigate('Reels')}>
                 <Image
                   source={Images.BG_BLOB}
-                  className="w-full ml-[20] -mt-10"
+                  className="flex-1 w-full  ml-[20]   "
                   resizeMode="cover"
                 />
               </TouchableOpacity>

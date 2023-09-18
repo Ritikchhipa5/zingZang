@@ -36,7 +36,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
       }}>
       <TouchableOpacity
         onPress={() => navigation.navigate('CreateProject')}
-        className="absolute z-10 right-5 top-10">
+        className="absolute z-10 right-5 top-[10%]">
         <MaterialIcons color="white" name="close" size={32} />
       </TouchableOpacity>
       <TouchableOpacity

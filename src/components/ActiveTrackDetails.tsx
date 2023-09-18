@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 const ActiveTrackDetails = ({song}: any) => {
   return (
-    <View className="h-full">
+    <View className="h-full ">
       <View>
         <FastImage
           source={{
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     // marginHorizontal: 16,
-    marginVertical: 24,
+    marginVertical: '10%',
   },
 });
 const mapStateToProps = (state: any) => {
