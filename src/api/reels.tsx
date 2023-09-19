@@ -66,21 +66,40 @@ async function saveVideo() {
 
 async function getSavedVideos() {
   const data = {
-    id: 'MjrK0Yx7O2UlkLqU',
+    id: 'm56jBT1HlYaOtpn4',
   };
-  fetch(REELS.GET_ALL_SAVE_REEL, {
-    method: 'POST',
+  return fetch(REELS.GET_ALL_SAVE_REEL, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   })
     .then(async data => {
-      console.log(await data.json());
+      return await data.json();
     })
     .catch(error => {
       console.log(error);
     });
 }
 
-export {addReelVideo, likeVideo, saveVideo, getSavedVideos};
+async function getAllVideos() {
+  const data = {
+    id: 'm56jBT1HlYaOtpn4',
+  };
+  return fetch(REELS.GET_ALL_REELS, {
+    // method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(async (data: any) => {
+      return await data.json();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+export {addReelVideo, likeVideo, saveVideo, getSavedVideos, getAllVideos};

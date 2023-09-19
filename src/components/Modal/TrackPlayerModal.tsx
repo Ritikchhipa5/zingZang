@@ -6,14 +6,35 @@ import {
   Dimensions,
   Modal,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ActiveTrackDetails from '../ActiveTrackDetails';
 import {Slider} from '@react-native-assets/slider';
 import PlayerController from '../PlayerController';
 import {connect} from 'react-redux';
+import {
+  addTracksOnTrackPlayer,
+  setupPlayer,
+} from '../../service/trackPlayerServices';
+import TrackPlayer from 'react-native-track-player';
 const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
-  console.log(song);
+  console.log(song?.currentSong, '!!!!!!!');
+  // useEffect(() => {
+  //   async function setup() {
+  //     let isSetup = await setupPlayer();
+  //     console.log(isSetup);
+  //     const queue = await TrackPlayer.getQueue();
+  //     // if (isSetup && queue.length <= 0) {
+  //     // TrackPlayer.reset();
+  //     // await TrackPlayer.add(LyricsSongList);
+  //     // addTracksOnTrackPlayer(song?.currentSong);
+  //     // await TrackPlayer.play();
+  //     // }
+  //   }
+
+  //   setup();
+  // }, []);
+
   return (
     <Modal transparent={true} visible={showTrackPlayer}>
       <View className="absolute top-0 bottom-0 w-full">

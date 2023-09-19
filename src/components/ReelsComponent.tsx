@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 // import {videoData} from './Database';
 import SingleReel from './SingleReel';
+import {getAllVideos} from '../api/reels';
 
 const ReelsComponent = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -10,6 +11,12 @@ const ReelsComponent = () => {
   const handleChangeIndexValue = ({index}: any) => {
     setCurrentIndex(index);
   };
+
+  useEffect(() => {
+    getAllVideos().then(data => {
+      console.log(data);
+    });
+  });
 
   const posts = [
     {

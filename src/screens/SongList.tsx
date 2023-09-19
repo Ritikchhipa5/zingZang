@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Animated,
   Image,
   ImageBackground,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import {PanGestureHandler, TextInput} from 'react-native-gesture-handler';
 import {Strings} from '../constant/Strings';
 import {
   heightPercentageToDP as hp,
@@ -32,7 +33,9 @@ import {ICONS_SVG} from '../assets/svg/icons/Icon';
 
 function SongList({navigation, song, addPlaySong}: any) {
   const [Song, setSong] = useState<any>(null);
+
   const [isPlay, setIsPlay] = useState<any>(false);
+
   useEffect(() => {
     async function setup() {
       let isSetup = await setupPlayer();
@@ -219,6 +222,7 @@ function SongList({navigation, song, addPlaySong}: any) {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+
       <TrackPlayerModal
         showTrackPlayer={showTrackPlayer}
         setShowTrackPlayer={setShowTrackPlayer}

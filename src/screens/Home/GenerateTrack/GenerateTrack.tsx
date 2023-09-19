@@ -22,14 +22,17 @@ import {createTextSong} from '../../../api/generateTrack';
 import Loading from '../../../components/Loading';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import DefaultLoading from '../../../components/DefaultLoading';
+import {useSelector} from 'react-redux';
 const GenerateTrack = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
+  const user = useSelector((state: any) => state?.userData)?.user;
   const validation = Yup.object({
     text: Yup.string().required('Text is required'),
     duration: Yup.string().required('Duration is required'),
     title: Yup.string().required('Title is required'),
     id: Yup.string().required('ID is required'),
   });
+
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -55,38 +58,26 @@ const GenerateTrack = ({navigation}: any) => {
             duration: '10',
             text: 'a cool song m sdfnnsmdfn,ka s,m,dfma fk ',
             title: 'mi master pice',
-            id: 'iqag02hi7VRQLwAG',
+            id: user?.user?.id,
           }}
           validationSchema={validation}
           onSubmit={async values => {
             try {
               setIsLoading(true);
               let data = await createTextSong(values);
-
-              // Alert.alert('Song created successfully');
-              // setTimeout(() => {
+              console.log(data);
               setIsLoading(false);
               navigation.navigate('GenerateSongList', {
                 generateSong: {
                   id: '1',
                   url: data?.data?.link,
-                  isLiveStream: true,
+                  // isLiveStream: true,
                   duration: values?.duration,
-                  artist: 'DEMO',
+                  artist: user?.user?.name,
                   albumCover:
                     'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
                   title: values?.title || 'Unknown Title', // Provide a
                 },
-              });
-
-              console.log({
-                id: '1',
-                url: data?.data?.link,
-                isLiveStream: true,
-                duration: values?.duration,
-                artist: 'DEMO',
-                albumCover: '',
-                title: values?.title || 'Unknown Title', // Provide a
               });
             } catch (error) {
               console.log(error);

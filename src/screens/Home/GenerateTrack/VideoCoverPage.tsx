@@ -16,7 +16,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {connect, useSelector} from 'react-redux';
 import Loading from '../../../components/Loading';
-import {addVideo, createVideoSong} from '../../../api/generateTrack';
+import {
+  addVideo,
+  createVideoSong,
+  requestDownloadLink,
+} from '../../../api/generateTrack';
 import DefaultLoading from '../../../components/DefaultLoading';
 
 const VideoCoverPage = ({navigation, route}: any) => {
@@ -80,33 +84,52 @@ const VideoCoverPage = ({navigation, route}: any) => {
             activeOpacity={0.7}
             onPress={async () => {
               setIsLoading(true);
-              // createVideoSong()
-              //   .then(data => {
-              //     console.log(data);
-              //   })
-              //   .catch(error => {
-              //     console.log(error);
-              //   })
-              //   .finally(() => {
-              //     setIsLoading(false);
-              //   });
-              await addVideo({
-                id: userInfo?.user?.id,
-                link: 'outputs/MjrK0Yx7O2UlkLqU/recording_1694968702381.m4a_full_song.wav',
-                description: Album,
-                title: generateSong?.title,
-                postProfile: generateSong?.title,
-              })
-                .then((res: any) => {
-                  console.log(res, 'ljkjlijoi');
-                  if (res?.status) {
-                    // navigation.navigate('Reels');
-                    Alert.alert('Video reel is created successfully');
-                  }
-                })
-                .finally(() => {
-                  setIsLoading(false);
+              try {
+                let data: any = await createVideoSong({
+                  description: Album,
                 });
+                // .then(data => {
+                //   console.log(data, 'akdfasdjasdnkjask');
+                // })
+                // .catch(error => {
+                //   console.log(error);
+                // })
+                // .finally(() => {
+                //   setIsLoading(false);
+                // });
+
+                let path: any = await requestDownloadLink({
+                  path: data?.s3_key,
+                });
+
+                await addVideo({
+                  id: userInfo?.user?.id,
+                  link: path?.data,
+                  description: Album,
+                  title: generateSong?.title,
+                  postProfile: generateSong?.title,
+                })
+                  .then((res: any) => {
+                    console.log(res, 'Video Link');
+                    if (res?.status) {
+                      navigation.navigate('GenerateReel', {
+                        id: userInfo?.user?.id,
+                        video: path?.data,
+                        title: generateSong?.title,
+                        description: Album,
+                        likes: '245k',
+                        isLike: false,
+                      });
+                      Alert.alert('Video reel is created successfully');
+                    }
+                  })
+                  .finally(() => {
+                    setIsLoading(false);
+                  });
+              } catch (error) {
+              } finally {
+                setIsLoading(false);
+              }
             }}>
             <View className={'py-4 bg-[#F780FB] rounded-full'}>
               <Text className="text-xl font-semibold text-center text-black">

@@ -22,6 +22,7 @@ import Reels from '../screens/Home/VideoPost/VideoPost';
 import VideoCoverPage from '../screens/Home/GenerateTrack/VideoCoverPage';
 import GenerateSongList from '../screens/Home/GenerateTrack/GenerateSongList';
 import {useSelector} from 'react-redux';
+import GenerateReel from '../screens/Home/GenerateTrack/GenerateReel';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
@@ -127,6 +128,12 @@ function StackNavigation() {
             name="VideoCoverPage"
             component={VideoCoverPage}
           />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="GenerateReel"
+            component={GenerateReel}
+          />
+
           <Stack.Screen
             options={{headerShown: false}}
             name="AlbumCoverPage"

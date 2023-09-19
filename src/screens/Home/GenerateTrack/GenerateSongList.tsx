@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
 
 import {
   heightPercentageToDP as hp,
@@ -15,7 +14,10 @@ import {
 
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import TrackPlayer, {Event, useProgress} from 'react-native-track-player';
+import TrackPlayer, {
+  usePlaybackState,
+  useProgress,
+} from 'react-native-track-player';
 import {Slider} from '@react-native-assets/slider';
 
 import {connect} from 'react-redux';
@@ -40,43 +42,40 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   const [isDurationLoaded, setIsDurationLoaded] = useState(false); // Track if duration is loaded
 
   const {generateSong} = route.params;
-  const {position, duration} = useProgress();
+  const {position, duration, buffered} = useProgress();
   const [showTrackPlayer, setShowTrackPlayer] = useState(false);
+  const [reload, setReload] = useState(false);
+
   useEffect(() => {
-    async function setupAndLoadSong() {
-      setLoading(true);
-      await setupPlayer(); // Your setupPlayer function
+    setSongList([generateSong]);
+    addTracksOnTrackPlayer(generateSong);
+  }, [reload]);
 
-      // // Load the selected song
-      // await TrackPlayer.reset();
-      // await TrackPlayer.add([generateSong]);
+  const state = usePlaybackState();
 
-      // // Set the song list and mark loading as complete
+  console.log(state, buffered, duration, position);
 
-      setSongList([generateSong]);
-      await TrackPlayer.play();
-      addTracksOnTrackPlayer(generateSong);
-      setLoading(false);
-    }
+  const handleReload = () => {
+    setReload(!reload);
+  };
 
-    setupAndLoadSong();
-  }, []);
-
-  console.log(position, duration, SongList);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
       {loading && <DefaultLoading />}
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
-        <View className="flex flex-row items-center justify-center px-4">
+        <View className="flex flex-row items-center justify-between p-4 ">
+          <TouchableOpacity onPress={() => handleReload()}>
+            <MaterialIcons color="white" name="refresh" size={32} />
+          </TouchableOpacity>
           <Text
-            className="px-4 mt-5 font-medium text-center text-white"
+            className="font-medium text-center text-white "
             style={{fontSize: hp('2.5%')}}>
             Generate Track
           </Text>
 
           <TouchableOpacity
-            className="absolute right-5 top-5"
+            className=""
             onPress={async () => {
               navigation.goBack(' ');
               await TrackPlayer.reset();
