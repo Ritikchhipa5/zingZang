@@ -17,6 +17,7 @@ import {connect} from 'react-redux';
 import AudioRecorderPlayer, {
   PlayBackType,
 } from 'react-native-audio-recorder-player';
+import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 const SelectRecording = ({navigation, recordedAudios}: any) => {
   const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
   const [pickSong, setPickSong] = useState('');
@@ -154,13 +155,11 @@ class RadioButton extends Component<any, any> {
                   onPress={
                     isPlaying && value === res.uri ? onPausePlay : onStartPlay
                   }>
-                  <Image
-                    source={
-                      !isPlaying && value === res.uri
-                        ? Images.PLAY
-                        : Images.PAUSE
-                    }
-                  />
+                  {!isPlaying && value === res.uri ? (
+                    <ICONS_SVG.PLAY />
+                  ) : (
+                    <ICONS_SVG.PAUSE />
+                  )}
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>

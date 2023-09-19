@@ -35,6 +35,7 @@ import {screenWidth} from '../../../utils/utils';
 import {connect} from 'react-redux';
 import {addRecording} from '../../../actions/record';
 import StopRecordingModal from '../../../components/Modal/StopRecordingModal';
+import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 
 interface State {
   isRecording: boolean;
@@ -203,12 +204,13 @@ class RecordScreen extends Component<any, State> {
           <View className="px-5 ">
             <View className="h-1.5 bg-zinc-600" />
             <View className="mt-5">
-              <View className="flex flex-row justify-around ">
+              <View className="flex flex-row items-center justify-around ">
                 <TouchableOpacity
                   onPress={() => this.onStopRecord()}
-                  className="flex items-center ">
+                  className="flex items-center gap-2 ">
                   <View>
-                    <Image source={Images.LISTEN} className="w-[60] h-[60] " />
+                    {/* <Image source={Images.LISTEN} className="w-[60] h-[60] " /> */}
+                    <ICONS_SVG.LISTEN_SONG width={45} height={45} />
                   </View>
                   <Text className="text-sm font-bold text-white">
                     Listen Song
@@ -224,12 +226,13 @@ class RecordScreen extends Component<any, State> {
                       this.startRecording();
                     }
                   }}
-                  className="flex items-center ">
+                  className="flex items-center gap-2 ">
                   <View>
-                    <Image
-                      source={isRecording ? Images.STOP : Images.REC}
-                      className="w-[60] h-[60] "
-                    />
+                    {!isRecording ? (
+                      <ICONS_SVG.RECORD width={50} height={50} />
+                    ) : (
+                      <ICONS_SVG.STOP width={50} height={50} />
+                    )}
                   </View>
 
                   <Text className="text-sm font-bold text-white">
@@ -238,12 +241,12 @@ class RecordScreen extends Component<any, State> {
                 </TouchableOpacity>
                 {/* //save  */}
                 <TouchableOpacity
-                  className="flex items-center "
+                  className="flex items-center gap-2 "
                   onPress={() => {
                     this.startOver();
                   }}>
                   <View>
-                    <Image source={Images.REDO} className="w-[60] h-[60] " />
+                    <ICONS_SVG.RELOAD width={45} height={45} />
                   </View>
                   <Text className="text-sm font-bold text-white">
                     Start Over

@@ -28,6 +28,7 @@ import {LyricsSongList} from '../service/lyricsService';
 import {addCurrentSong} from '../actions/songs';
 import {connect} from 'react-redux';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {ICONS_SVG} from '../assets/svg/icons/Icon';
 
 function SongList({navigation, song, addPlaySong}: any) {
   const [Song, setSong] = useState<any>(null);
@@ -195,11 +196,7 @@ function SongList({navigation, song, addPlaySong}: any) {
                     }
                   }}
                   className="mr-2">
-                  {isPlay ? (
-                    <Image source={Images.PAUSE} />
-                  ) : (
-                    <Image source={Images.PLAY} />
-                  )}
+                  {isPlay ? <ICONS_SVG.PAUSE /> : <ICONS_SVG.PLAY />}
                 </TouchableOpacity>
               </View>
             </>

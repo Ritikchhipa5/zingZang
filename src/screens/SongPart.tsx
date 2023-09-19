@@ -19,6 +19,7 @@ import TrackPlayer from 'react-native-track-player';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {ICONS_SVG} from '../assets/svg/icons/Icon';
 function SongPart({navigation}: any) {
   const [Part, setPart] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
@@ -108,14 +109,11 @@ function SongPart({navigation}: any) {
                         Part?.id === part?.id && 'border-2 border-[#FAAAFC]'
                       }`}>
                       <>
-                        <Image
-                          source={
-                            Part?.id === part?.id && isPlay
-                              ? Images.PAUSE
-                              : Images.PLAY
-                          }
-                          className="h-[55] w-[55]"
-                        />
+                        {Part?.id === part?.id && isPlay ? (
+                          <ICONS_SVG.PAUSE />
+                        ) : (
+                          <ICONS_SVG.PLAY />
+                        )}
                         {Part?.id === part?.id && isPlay && (
                           <View className=" flex justify-center flex-row absolute w-[50%] h-[50%]  -bottom-8 ">
                             <WaveAnimation />
