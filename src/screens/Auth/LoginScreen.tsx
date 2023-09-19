@@ -27,6 +27,7 @@ import {connect} from 'react-redux';
 import {userInfoAdd} from '../../actions/record';
 import Loading from '../../components/Loading';
 import DefaultLoading from '../../components/DefaultLoading';
+import {ICONS_SVG} from '../../assets/svg/icons/Icon';
 
 // create a component
 const LoginScreen = ({navigation, addUserInfo}: any) => {
@@ -104,7 +105,6 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
             onSubmit={signinClick}>
             {({handleChange, handleBlur, handleSubmit, values, errors}) => (
               <>
-                {console.log(errors)}
                 <View
                   style={{
                     height: hp('20%'),
@@ -119,7 +119,7 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
                     }}>
                     <View
                       style={{flexDirection: 'row', marginLeft: wp('0.5%')}}>
-                      <Image source={Images.PROFILE} />
+                      <ICONS_SVG.PROFILE />
                       <View style={{justifyContent: 'center'}}>
                         <Text
                           style={{
@@ -167,7 +167,7 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
                     }}>
                     <View
                       style={{flexDirection: 'row', marginLeft: wp('0.5%')}}>
-                      <Image source={Images.LOCK} />
+                      <ICONS_SVG.LOCK />
                       <View style={{justifyContent: 'center'}}>
                         <Text
                           style={{
@@ -274,15 +274,15 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
           <View className="items-center border-0">
             {[
               {
-                icon: Images.GOOGLE_ICON,
+                icon: <ICONS_SVG.GOOGLE />,
                 title: Strings.CONTINUE_WITH_GOOGLE,
               },
               {
-                icon: Images.FACEBOOK_ICON,
+                icon: <ICONS_SVG.FACEBOOK />,
                 title: Strings.CONTINUE_WITH_FACEBOOK,
               },
               {
-                icon: Images.APPLE_ICON,
+                icon: <ICONS_SVG.APPLE />,
                 title: Strings.CONTINUE_WITH_APPLE,
               },
             ].map((item, index) => (
@@ -293,7 +293,7 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
                   height: hp('6%'),
                   marginVertical: hp('1%'),
                 }}>
-                <Image source={item.icon} />
+                {item.icon}
                 <Text
                   className="font-semibold"
                   style={{

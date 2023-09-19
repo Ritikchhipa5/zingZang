@@ -54,7 +54,7 @@ function StackNavigation() {
         </>
       ) : (
         <>
-          <Stack.Screen name="Home" component={Home} />
+          {/* <Stack.Screen name="Home" component={Home} /> */}
           <Stack.Screen name="CreateProject" component={CreateProject} />
 
           <Stack.Screen

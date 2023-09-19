@@ -15,6 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import {Images} from '../../constant/Images';
 import {Strings} from '../../constant/Strings';
+import {ICONS_SVG} from '../../assets/svg/icons/Icon';
 
 // create a component
 const SignScreen = ({navigation}: any) => {
@@ -23,7 +24,7 @@ const SignScreen = ({navigation}: any) => {
       <SafeAreaView style={{flex: 1}}>
         <View style={{flex: 0.3, borderWidth: 0}}>
           <View className="items-center justify-center flex-1 border-0 ">
-            <Image source={Images.HEADPHONE} />
+            <ICONS_SVG.LOGO />
             <Text
               className="font-bold text-white"
               style={{
@@ -37,15 +38,15 @@ const SignScreen = ({navigation}: any) => {
         <View className="flex-[0.3] border-0 items-center ">
           {[
             {
-              icon: Images.GOOGLE_ICON,
+              icon: <ICONS_SVG.GOOGLE />,
               title: Strings.CONTINUE_WITH_GOOGLE,
             },
             {
-              icon: Images.FACEBOOK_ICON,
+              icon: <ICONS_SVG.FACEBOOK />,
               title: Strings.CONTINUE_WITH_FACEBOOK,
             },
             {
-              icon: Images.APPLE_ICON,
+              icon: <ICONS_SVG.APPLE />,
               title: Strings.CONTINUE_WITH_APPLE,
             },
           ].map((item, index) => (
@@ -56,7 +57,8 @@ const SignScreen = ({navigation}: any) => {
                 height: hp('6%'),
                 marginVertical: hp('1%'),
               }}>
-              <Image source={item.icon} />
+              {/* <Image source={item.icon} /> */}
+              {item.icon}
               <Text
                 className="font-semibold"
                 style={{

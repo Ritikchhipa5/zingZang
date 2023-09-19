@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Pressable,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Images} from '../../constant/Images';
@@ -27,9 +28,9 @@ const CreateProject = ({navigation}: any) => {
         className="flex-1 h-full"
         edges={['bottom', 'top', 'left', 'right']}>
         <View
-          className={`bg-red-500 relative flex flex-row items-center  ${
+          className={` flex flex-row items-center px-3 z-20 ${
             isCreateProject && 'justify-end'
-          } px-3 `}>
+          }`}>
           {!isCreateProject ? (
             <TouchableOpacity
               className=""
@@ -48,12 +49,12 @@ const CreateProject = ({navigation}: any) => {
               onPress={() => {
                 navigation.navigate('Setting');
               }}>
-              <ICONS_SVG.USER height={45} width={45} />
+              <ICONS_SVG.USER color="white" width={40} height={40} />
             </TouchableOpacity>
           )}
         </View>
 
-        <View className="items-center h-full bg-black ">
+        <View className="items-center h-full ">
           {isCreateProject ? (
             <View className="flex justify-center flex-1 w-full gap-y-[20%] ">
               <TouchableOpacity

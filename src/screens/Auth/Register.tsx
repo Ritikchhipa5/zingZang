@@ -25,6 +25,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {singUpEmail} from '../../api/auth';
 import Loading from '../../components/Loading';
+import {ICONS_SVG} from '../../assets/svg/icons/Icon';
 interface componentNameProps {}
 // create a component
 const Register = ({navigation}: any) => {
@@ -76,7 +77,7 @@ const Register = ({navigation}: any) => {
         <SafeAreaView style={{flex: 1}}>
           <View className="flex-[0.2] border-0">
             <View className="items-center justify-center">
-              <Image style={{marginTop: hp('2%')}} source={Images.ISOTYPE} />
+              <ICONS_SVG.LOGO2 style={{marginTop: hp('2%')}} />
               <Text
                 className="font-bold text-white"
                 style={{
@@ -111,25 +112,25 @@ const Register = ({navigation}: any) => {
                 <View className="flex-[0.55]  mt-10 items-center">
                   {[
                     {
-                      icon: Images.PROFILE,
+                      icon: <ICONS_SVG.PROFILE />,
                       title: Strings.USER_NAME,
                       placeholder: Strings.ENTER_USER_NAME,
                       name: 'username',
                     },
                     {
-                      icon: Images.EMAIL,
+                      icon: <ICONS_SVG.EMAIL />,
                       title: Strings.EMAIL_ID,
                       placeholder: Strings.ENTER_USER_EMAIL,
                       name: 'email',
                     },
                     {
-                      icon: Images.LOCK,
+                      icon: <ICONS_SVG.LOCK />,
                       title: Strings.PASSWORD,
                       placeholder: Strings.ENTER_USER_PASSWORD,
                       name: 'pass',
                     },
                     {
-                      icon: Images.LOCK,
+                      icon: <ICONS_SVG.LOCK />,
                       title: Strings.CONFIRM_PASSWORD,
                       placeholder: Strings.ENTER_USER_CONFIRM_PASSWORD,
                       name: 'confirmPass',
@@ -144,7 +145,8 @@ const Register = ({navigation}: any) => {
                       <View
                         className="flex flex-row"
                         style={{marginLeft: wp('0.5%')}}>
-                        <Image source={item.icon} />
+                        {/* <Image source={item.icon} /> */}
+                        {item.icon}
                         <View className="justify-center">
                           <Text
                             className="font-semibold text-center text-white"
@@ -176,6 +178,7 @@ const Register = ({navigation}: any) => {
                           autoCapitalize="none"
                           style={{
                             textAlign: 'left',
+                            color: 'white',
                             paddingHorizontal: 8,
                             marginLeft: wp('2%'),
                           }}

@@ -13,7 +13,9 @@ import {Images} from '../constant/Images';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Slider} from '@react-native-assets/slider';
-const Setting = ({navigation}: any) => {
+import {userInfoAdd} from '../actions/record';
+import {connect} from 'react-redux';
+const Setting = ({navigation, addUserInfo}: any) => {
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -67,7 +69,10 @@ const Setting = ({navigation}: any) => {
           <TouchableOpacity
             className="px-4"
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('SignScreen')}>
+            onPress={() => {
+              // navigation.navigate('SignScreen');
+              addUserInfo(null);
+            }}>
             <View className={'py-4 bg-[#F780FB] rounded-full '}>
               <Text className="text-xl font-semibold text-center text-black">
                 Log Out
@@ -80,4 +85,13 @@ const Setting = ({navigation}: any) => {
   );
 };
 
-export default Setting;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addUserInfo: (user: any) => {
+      dispatch(userInfoAdd(user));
+    },
+  };
+};
+
+//make this component available to the app
+export default connect(null, mapDispatchToProps)(Setting);

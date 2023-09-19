@@ -14,19 +14,20 @@ import {Images} from '../../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import Loading from '../../../components/Loading';
 import {addVideo, createVideoSong} from '../../../api/generateTrack';
 import DefaultLoading from '../../../components/DefaultLoading';
 
 const VideoCoverPage = ({navigation, route}: any) => {
+  const userInfo = useSelector((state: any) => state?.userData)?.user;
   const [Album, setAlbum] = useState(
     'A futuristic techno coverart, in the style of electronic music.',
   );
   const [isLoading, setIsLoading] = useState(false);
   const [AlbumCover, setAlbumCover] = useState<any>({});
   const {generateSong} = route.params;
-  console.log(generateSong);
+  console.log(generateSong?.title, userInfo?.user?.id);
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -79,29 +80,33 @@ const VideoCoverPage = ({navigation, route}: any) => {
             activeOpacity={0.7}
             onPress={async () => {
               setIsLoading(true);
-              createVideoSong()
-                .then(data => {
-                  console.log(data);
-                })
-                .catch(error => {
-                  console.log(error);
+              // createVideoSong()
+              //   .then(data => {
+              //     console.log(data);
+              //   })
+              //   .catch(error => {
+              //     console.log(error);
+              //   })
+              //   .finally(() => {
+              //     setIsLoading(false);
+              //   });
+              await addVideo({
+                id: userInfo?.user?.id,
+                link: 'outputs/MjrK0Yx7O2UlkLqU/recording_1694968702381.m4a_full_song.wav',
+                description: Album,
+                title: generateSong?.title,
+                postProfile: generateSong?.title,
+              })
+                .then((res: any) => {
+                  console.log(res, 'ljkjlijoi');
+                  if (res?.status) {
+                    // navigation.navigate('Reels');
+                    Alert.alert('Video reel is created successfully');
+                  }
                 })
                 .finally(() => {
                   setIsLoading(false);
                 });
-              // await addVideo({
-              //   id: 'MjrK0Yx7O2UlkLqU',
-              //   link: 'outputs/MjrK0Yx7O2UlkLqU/recording_1694968702381.m4a_full_song.wav',
-              //   description: 'asd',
-              //   title: 'asd',
-              //   postProfile: 'asd',
-              // })
-              //   .then(res => {
-              //     navigation.navigate('Reels');
-              //     Alert.alert('Video reel is created successfully');
-              //   }).finally(() => {
-              //   setIsLoading(false);
-              // });
             }}>
             <View className={'py-4 bg-[#F780FB] rounded-full'}>
               <Text className="text-xl font-semibold text-center text-black">

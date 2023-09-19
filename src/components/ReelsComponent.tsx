@@ -48,6 +48,14 @@ const ReelsComponent = () => {
       likes: '245k',
       isLike: false,
     },
+    {
+      id: 4,
+      video: 'https://samplelib.com/lib/preview/mp3/sample-6s.mp3',
+      title: 'Ram_Charan',
+      description: 'Feel the buity of nature',
+      likes: '245k',
+      isLike: false,
+    },
   ];
   return (
     <SwiperFlatList
