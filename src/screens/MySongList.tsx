@@ -65,7 +65,9 @@ function MySongList({navigation, user, addPlaySong}: any) {
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
         <View className="flex flex-row items-center justify-between px-4">
-          <TouchableOpacity className="" onPress={() => navigation.goBack(' ')}>
+          <TouchableOpacity
+            className=""
+            onPress={() => navigation.navigate('CreateProject')}>
             <MaterialIcons color="white" name="keyboard-arrow-left" size={42} />
           </TouchableOpacity>
           <Text className="text-2xl font-semibold text-center text-white ">
