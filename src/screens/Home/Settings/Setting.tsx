@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Images} from '../constant/Images';
+import {Images} from '../../../constant/Images';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Slider} from '@react-native-assets/slider';
-import {userInfoAdd} from '../actions/record';
+import {userInfoAdd} from '../../../actions/record';
 import {connect} from 'react-redux';
 const Setting = ({navigation, addUserInfo}: any) => {
   return (
@@ -37,7 +37,9 @@ const Setting = ({navigation, addUserInfo}: any) => {
 
         {/* options  */}
         <ScrollView className="gap-3 px-3 mt-3 ">
-          <View className="flex flex-row items-center py-4 ">
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AccountInfo')}
+            className="flex flex-row items-center py-4 ">
             <Text className="flex justify-between flex-1 text-lg font-semibold text-white">
               Account information
             </Text>
@@ -46,7 +48,7 @@ const Setting = ({navigation, addUserInfo}: any) => {
               name="keyboard-arrow-right"
               size={32}
             />
-          </View>
+          </TouchableOpacity>
           <View className="flex flex-row items-center py-4 ">
             <Text className="flex justify-between flex-1 text-lg font-semibold text-white">
               Push notifications

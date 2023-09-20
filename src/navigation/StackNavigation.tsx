@@ -8,7 +8,7 @@ import TrackPlayer from '../screens/TrackPlayer';
 import SongList from '../screens/SongList';
 import SongPart from '../screens/SongPart';
 import CreateProject from '../screens/Home/CreateProject';
-import Setting from '../screens/Setting';
+import Setting from '../screens/Home/Settings/Setting';
 import MySongList from '../screens/MySongList';
 import RecordScreen from '../screens/Home/Record/RecordScreen';
 import SelectRecording from '../screens/Home/Record/SelectRecording';
@@ -23,6 +23,7 @@ import VideoCoverPage from '../screens/Home/GenerateTrack/VideoCoverPage';
 import GenerateSongList from '../screens/Home/GenerateTrack/GenerateSongList';
 import {useSelector} from 'react-redux';
 import GenerateReel from '../screens/Home/GenerateTrack/GenerateReel';
+import AccountInfo from '../screens/Home/Settings/AccountInfo';
 
 function StackNavigation() {
   const Stack = createStackNavigator();
@@ -78,6 +79,13 @@ function StackNavigation() {
             name="Setting"
             component={Setting}
           />
+
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="AccountInfo"
+            component={AccountInfo}
+          />
+
           <Stack.Screen
             options={{headerShown: false}}
             name="MySongList"

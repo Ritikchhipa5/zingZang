@@ -21,13 +21,8 @@ const addReelVideo = async (body: any) => {
     });
 };
 
-async function likeVideo() {
-  const data = {
-    id: '5',
-    videoID: 'GyVFDYVL8uFy0fqi',
-    ownerID: '4',
-  };
-  fetch(REELS.LIKE_REEL, {
+async function likeVideo(data: any) {
+  return fetch(REELS.LIKE_REEL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,21 +30,15 @@ async function likeVideo() {
     body: JSON.stringify(data),
   })
     .then(async data => {
-      console.log(await data.json());
+      return await data.json();
     })
     .catch(error => {
       console.log(error);
     });
 }
 
-async function saveVideo() {
-  const data = {
-    id: 'MjrK0Yx7O2UlkLqU',
-    videoID: 'GyVFDYVL8uFy0fqi',
-    ownerID: '4',
-    link: 'example.com',
-  };
-  fetch(REELS.SAVE_REEL, {
+async function unlikeVideo(data: any) {
+  return fetch(REELS.LIKE_REEL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -57,7 +46,39 @@ async function saveVideo() {
     body: JSON.stringify(data),
   })
     .then(async data => {
-      console.log(await data.json());
+      return await data.json();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+async function saveVideo(data: any) {
+  return fetch(REELS.SAVE_REEL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(async data => {
+      return await data.json();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+async function unSaveVideo(data: any) {
+  return fetch(REELS.UNSAVE_REEL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(async data => {
+      console.log(data);
+      return await data.json();
     })
     .catch(error => {
       console.log(error);
@@ -84,15 +105,11 @@ async function getSavedVideos() {
 }
 
 async function getAllVideos() {
-  const data = {
-    id: 'm56jBT1HlYaOtpn4',
-  };
   return fetch(REELS.GET_ALL_REELS, {
     // method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data),
   })
     .then(async (data: any) => {
       return await data.json();
@@ -102,4 +119,12 @@ async function getAllVideos() {
     });
 }
 
-export {addReelVideo, likeVideo, saveVideo, getSavedVideos, getAllVideos};
+export {
+  addReelVideo,
+  unlikeVideo,
+  likeVideo,
+  saveVideo,
+  getSavedVideos,
+  getAllVideos,
+  unSaveVideo,
+};

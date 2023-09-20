@@ -25,7 +25,9 @@ export const GENERATE_TRACK = {
 export const REELS = {
   GET_ALL_REELS: API + '/api/tiktok/requestAllVideos',
   ADD_VIDEO_ON_REEL: API + '/api/tiktok/addVideo',
-  LIKE_REEL: API + '/api/tiktok/likevideo',
+  LIKE_REEL: API + '/api/tiktok/unLikeVideo',
+  DISLIKE_REEL: API + '/api/tiktok/unlikevideo',
   SAVE_REEL: API + '/api/tiktok/saveVideo',
+  UNSAVE_REEL: API + '/api/tiktok/unSaveVideo',
   GET_ALL_SAVE_REEL: API + '/api/tiktok/requestSavedVideos',
 };

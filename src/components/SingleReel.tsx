@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, Dimensions, TouchableOpacity, Image} from 'react-native';
 import Video from 'react-native-video';
 import Ionic from 'react-native-vector-icons/Ionicons';
@@ -8,11 +8,26 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import {likeVideo, saveVideo, unSaveVideo, unlikeVideo} from '../api/reels';
+import {useSelector} from 'react-redux';
 const SingleReel = ({item, index, currentIndex}: any) => {
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const videoRef = useRef<any>(null);
+
+  const [mute, setMute] = useState(false);
+  const [like, setLike] = useState(false);
+  const [save, setSave] = useState(false);
+
+  const user: any = useSelector((state: any) => state?.userData)?.user;
+
+  useEffect(() => {
+    if (user) {
+      const likesArray = item?.likes.L.map((item: any) => item.S);
+      setLike(likesArray?.includes(user?.user?.id));
+    }
+  }, [user]);
 
   const onBuffer = (buffer: any) => {
     console.log('buffring', buffer);
@@ -20,10 +35,33 @@ const SingleReel = ({item, index, currentIndex}: any) => {
   const onError = (error: any) => {
     console.log('error', error);
   };
+  const handleLikeVideo = async (data: any) => {
+    let isLike = await likeVideo(data);
+    if (isLike?.status) {
+      setLike(true);
+    }
+  };
+  const handleDisLikeVideo = async (data: any) => {
+    let isLike = await unlikeVideo(data);
+    if (isLike?.status) {
+      setLike(false);
+    }
+  };
 
-  const [mute, setMute] = useState(false);
+  const handleSaveVideo = async (data: any) => {
+    let isSave = await saveVideo(data);
+    if (isSave?.status) {
+      setSave(true);
+    }
+  };
 
-  const [like, setLike] = useState(item.isLike);
+  const handleUnSaveVideo = async (data: any) => {
+    let isSave = await unSaveVideo(data);
+
+    if (isSave?.status) {
+      setSave(false);
+    }
+  };
 
   return (
     <View
@@ -51,8 +89,11 @@ const SingleReel = ({item, index, currentIndex}: any) => {
           ref={videoRef}
           onBuffer={onBuffer}
           onError={onError}
-          repeat={true}
           resizeMode="cover"
+          posterResizeMode="contain"
+          poster="https://cdn.dribbble.com/users/886358/screenshots/2980235/loading.gif"
+          repeat={true}
+          // resizeMode=""
           paused={currentIndex == index ? false : true}
           source={{uri: item.video}}
           muted={mute}
@@ -60,6 +101,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
             width: '100%',
             height: '100%',
             position: 'absolute',
+            backgroundColor: 'black',
           }}
         />
       </TouchableOpacity>
@@ -75,7 +117,6 @@ const SingleReel = ({item, index, currentIndex}: any) => {
             style={{
               fontSize: 30,
               color: 'white',
-
               padding: mute ? 20 : 0,
             }}
           />
@@ -122,7 +163,25 @@ const SingleReel = ({item, index, currentIndex}: any) => {
           bottom: '10%', //edited
           right: 0,
         }}>
-        <TouchableOpacity onPress={() => setLike(!like)} style={{padding: 10}}>
+        <TouchableOpacity
+          onPress={async () => {
+            try {
+              if (like) {
+                handleDisLikeVideo({
+                  id: user?.user?.id,
+                  videoID: item?.videoID,
+                  ownerID: item?.ownerID,
+                });
+              } else {
+                handleLikeVideo({
+                  id: user?.user?.id,
+                  videoID: item?.videoID,
+                  ownerID: item?.ownerID,
+                });
+              }
+            } catch (error) {}
+          }}
+          style={{padding: 10}}>
           <AntDesign
             name={'heart'}
             size={40}
@@ -132,13 +191,39 @@ const SingleReel = ({item, index, currentIndex}: any) => {
             }}
           />
 
-          <Text style={{color: 'white'}}>{item.likes}</Text>
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              fontWeight: '800',
+              marginTop: 3,
+            }}>
+            {item.likes?.L?.length}
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{padding: 10}}>
+        <TouchableOpacity
+          onPress={async () => {
+            try {
+              if (save) {
+                handleUnSaveVideo({
+                  id: user?.user?.id,
+                  videoID: item?.videoID,
+                  ownerID: item?.ownerID,
+                });
+              } else {
+                handleSaveVideo({
+                  id: user?.user?.id,
+                  videoID: item?.videoID,
+                  ownerID: item?.ownerID,
+                });
+              }
+            } catch (error) {}
+          }}
+          style={{padding: 10}}>
           <Ionicons
             name={'bookmark'}
             size={40}
-            color={like ? '#F780FB' : '#361145'}
+            color={save ? '#F780FB' : '#361145'}
           />
         </TouchableOpacity>
       </View>

@@ -7,16 +7,30 @@ import {getAllVideos} from '../api/reels';
 
 const ReelsComponent = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [videos, setVideos] = useState([]);
 
   const handleChangeIndexValue = ({index}: any) => {
     setCurrentIndex(index);
   };
 
   useEffect(() => {
-    getAllVideos().then(data => {
-      console.log(data);
+    getAllVideos().then(async data => {
+      const convertedData = await data.data.map((item: any, index: any) => {
+        return {
+          id: index,
+          video: item.M.link.S,
+          title: item.M.title.S,
+          description: item.M.description.S,
+          likes: item.M.likes,
+          isLike: false,
+          videoID: item.M.videoID.S,
+          ownerID: item.M.ownerID.S,
+        };
+      });
+
+      setVideos(convertedData);
     });
-  });
+  }, []);
 
   const posts = [
     {
@@ -68,7 +82,7 @@ const ReelsComponent = () => {
     <SwiperFlatList
       vertical={true}
       onChangeIndex={handleChangeIndexValue}
-      data={posts}
+      data={videos}
       renderItem={({item, index}: any) => (
         <SingleReel item={item} index={index} currentIndex={currentIndex} />
       )}
