@@ -35,6 +35,7 @@ function StackNavigation() {
       initialRouteName="SignScreen"
       screenOptions={{
         headerShown: false,
+        gestureEnabled: false,
       }}>
       {!isLoggedIn ? (
         <>

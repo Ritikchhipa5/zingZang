@@ -108,7 +108,9 @@ const AccountInfo = ({navigation}: any) => {
                 confirmPass: 'confirmPass',
               }}
               validationSchema={validation}
-              onSubmit={signupClick}>
+              onSubmit={() => {
+                Alert.alert('Profile is updated');
+              }}>
               {({handleChange, handleBlur, handleSubmit, values}: any) => (
                 <View className="h-full ">
                   {/* /Form  */}

@@ -22,7 +22,6 @@ const GenerateReel = ({navigation, route}: any) => {
   };
 
   const [mute, setMute] = useState(false);
-
   const [like, setLike] = useState(item.isLike);
 
   return (

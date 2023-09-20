@@ -22,24 +22,19 @@ import {Slider} from '@react-native-assets/slider';
 
 import {connect} from 'react-redux';
 import {addCurrentSong} from '../../../actions/songs';
-import {
-  addTracksOnTrackPlayer,
-  setupPlayer,
-} from '../../../service/trackPlayerServices';
-import {LyricsSongList} from '../../../service/lyricsService';
+import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
+
 import {Images} from '../../../constant/Images';
-import {Strings} from '../../../constant/Strings';
+
 import TrackPlayerModal from '../../../components/Modal/TrackPlayerModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import WaveAnimation from '../../../components/WaveAnimation';
-import Loading from '../../../components/Loading';
 import DefaultLoading from '../../../components/DefaultLoading';
 function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   const [Song, setSong] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
   const [SongList, setSongList] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const [isDurationLoaded, setIsDurationLoaded] = useState(false); // Track if duration is loaded
 
   const {generateSong} = route.params;
   const {position, duration, buffered} = useProgress();
@@ -208,10 +203,12 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-      <TrackPlayerModal
-        showTrackPlayer={showTrackPlayer}
-        setShowTrackPlayer={setShowTrackPlayer}
-      />
+      {
+        <TrackPlayerModal
+          showTrackPlayer={showTrackPlayer}
+          setShowTrackPlayer={setShowTrackPlayer}
+        />
+      }
     </ImageBackground>
   );
 }

@@ -157,7 +157,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View
+      {/* <View
         style={{
           position: 'absolute',
           bottom: '10%', //edited
@@ -226,7 +226,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
             color={save ? '#F780FB' : '#361145'}
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };
