@@ -142,7 +142,6 @@ const VideoCoverPage = ({navigation, route}: any) => {
                           likes: '245k',
                           isLike: false,
                         });
-                        Alert.alert('Video reel is created successfully');
                       }
                     })
                     .finally(() => {
