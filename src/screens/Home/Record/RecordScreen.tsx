@@ -164,7 +164,9 @@ class RecordScreen extends Component<any, State> {
           {/* // Close Icons */}
           <View className="flex flex-row justify-end">
             <TouchableOpacity
-              // onPress={() => navigation.goBack(' ')}
+              onPress={() => {
+                this.props.navigation.navigate('CreateProject');
+              }}
               className="right-0 px-5 ">
               <AntDesign name="close" color={'#fff'} size={28} />
             </TouchableOpacity>

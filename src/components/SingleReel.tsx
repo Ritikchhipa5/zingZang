@@ -35,12 +35,14 @@ const SingleReel = ({item, index, currentIndex}: any) => {
   const onError = (error: any) => {
     console.log('error', error);
   };
+
   const handleLikeVideo = async (data: any) => {
     let isLike = await likeVideo(data);
     if (isLike?.status) {
       setLike(true);
     }
   };
+
   const handleDisLikeVideo = async (data: any) => {
     let isLike = await unlikeVideo(data);
     if (isLike?.status) {

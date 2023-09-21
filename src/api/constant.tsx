@@ -20,6 +20,7 @@ export const GENERATE_TRACK = {
   REQUEST_TEXT_SONGS: API + '/api/Spotify/requestTextSongs',
   ADD_CREATE: API + '/api/tiktok/addVideo',
   VIDEO_CREATE: AI_API + '/deforum/run',
+  VIDEO_AUDIO_CREATE: AI_API + '/sdapi/v1/video-music',
 };
 
 export const REELS = {

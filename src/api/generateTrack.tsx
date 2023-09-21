@@ -106,6 +106,27 @@ const createVideoSong = async (data: any) => {
       console.error(error);
     });
 };
+
+const mergeVideoSong = async (data: any) => {
+  return await fetch(
+    GENERATE_TRACK.VIDEO_AUDIO_CREATE +
+      `?video_path=${data?.video_path}&song_path=${data?.song_path}&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  )
+    .then(response => response.json())
+    .then(value => {
+      return value;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
+
 export {
   createTextSong,
   requestTextSongs,
@@ -113,4 +134,5 @@ export {
   addVideo,
   requestDownloadLink,
   createVideoSong,
+  mergeVideoSong,
 };

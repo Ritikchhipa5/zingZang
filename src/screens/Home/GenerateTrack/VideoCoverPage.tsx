@@ -21,6 +21,7 @@ import Loading from '../../../components/Loading';
 import {
   addVideo,
   createVideoSong,
+  mergeVideoSong,
   requestDownloadLink,
 } from '../../../api/generateTrack';
 import DefaultLoading from '../../../components/DefaultLoading';
@@ -34,7 +35,7 @@ const VideoCoverPage = ({navigation, route}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [AlbumCover, setAlbumCover] = useState<any>({});
   const {generateSong} = route.params;
-  console.log(generateSong?.title, userInfo?.user?.id);
+
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -105,25 +106,33 @@ const VideoCoverPage = ({navigation, route}: any) => {
               className=""
               activeOpacity={0.7}
               onPress={async () => {
-                setIsLoading(true);
+                // setIsLoading(true);
+
                 try {
+                  console.log();
                   let data: any = await createVideoSong({
                     description: Album,
+                  })
+                    .then(data => {
+                      console.log(data, 'akdfasdjasdnkjask');
+                    })
+                    .catch(error => {
+                      console.log(error);
+                    })
+                    .finally(() => {
+                      setIsLoading(false);
+                    });
+
+                  let merge = await mergeVideoSong({
+                    video_path: data?.s3_key,
+                    song_path: generateSong?.audioPath,
                   });
-                  // .then(data => {
-                  //   console.log(data, 'akdfasdjasdnkjask');
-                  // })
-                  // .catch(error => {
-                  //   console.log(error);
-                  // })
-                  // .finally(() => {
-                  //   setIsLoading(false);
-                  // });
 
                   let path: any = await requestDownloadLink({
-                    path: data?.s3_key,
+                    path: merge?.s3_key,
                   });
 
+                  console.log(path);
                   await addVideo({
                     id: userInfo?.user?.id,
                     link: path?.data,

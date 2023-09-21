@@ -84,6 +84,7 @@ const GenerateTrack = ({navigation}: any) => {
                 generateSong: {
                   id: '1',
                   url: data?.data?.link,
+                  audioPath: data?.data?.path,
                   // isLiveStream: true,
                   duration: values?.duration,
                   artist: user?.user?.name,
@@ -94,6 +95,7 @@ const GenerateTrack = ({navigation}: any) => {
               });
             } catch (error) {
               console.log(error);
+              setIsLoading(false);
             } finally {
               setIsLoading(false);
             }
