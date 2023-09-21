@@ -13,9 +13,22 @@ import {Image} from 'react-native';
 import {Images} from '../../../constant/Images';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 const CustomLyrics = ({navigation}: any) => {
   return (
     <ImageBackground className="h-screen" source={Images.BG_1}>
+      <AnimatedLinearGradient
+        customColors={[
+          // 'rgb(64, 81, 187)',
+          // 'rgb(62, 67, 161)',
+          'rgb(59, 49, 128)',
+          'rgb(58, 41, 113)',
+          'rgb(56, 29, 91)',
+          'rgb(55, 24, 82)',
+          'rgb(54, 17, 69)',
+        ]}
+        speed={1500}
+      />
       <SafeAreaView className="h-full" edges={['top', 'bottom']}>
         {/* // Heading  */}
         <View className="px-4">

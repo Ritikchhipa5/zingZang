@@ -18,6 +18,7 @@ import AudioRecorderPlayer, {
   PlayBackType,
 } from 'react-native-audio-recorder-player';
 import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 const SelectRecording = ({navigation, recordedAudios}: any) => {
   const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
   const [pickSong, setPickSong] = useState('');
@@ -52,6 +53,18 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
+      <AnimatedLinearGradient
+        customColors={[
+          // 'rgb(64, 81, 187)',
+          // 'rgb(62, 67, 161)',
+          'rgb(59, 49, 128)',
+          'rgb(58, 41, 113)',
+          'rgb(56, 29, 91)',
+          'rgb(55, 24, 82)',
+          'rgb(54, 17, 69)',
+        ]}
+        speed={1500}
+      />
       <SafeAreaView
         className="h-full "
         edges={['right', 'left', 'top', 'bottom']}>

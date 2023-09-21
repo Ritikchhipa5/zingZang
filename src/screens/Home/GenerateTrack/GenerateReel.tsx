@@ -7,6 +7,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 const GenerateReel = ({navigation, route}: any) => {
   const item = route.params;
   const windowWidth = Dimensions.get('window').width;

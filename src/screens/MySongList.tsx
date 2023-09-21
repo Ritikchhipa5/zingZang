@@ -24,6 +24,7 @@ import {
 import {userInfoAdd} from '../actions/record';
 import {connect, useSelector} from 'react-redux';
 import {addCurrentSong} from '../actions/songs';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 
 function MySongList({navigation, user, addPlaySong}: any) {
   const [Song, setSong] = useState<any>(null);
@@ -62,6 +63,18 @@ function MySongList({navigation, user, addPlaySong}: any) {
 
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_2}>
+      <AnimatedLinearGradient
+        customColors={[
+          // 'rgb(64, 81, 187)',
+          // 'rgb(62, 67, 161)',
+          'rgb(59, 49, 128)',
+          'rgb(58, 41, 113)',
+          'rgb(56, 29, 91)',
+          'rgb(55, 24, 82)',
+          'rgb(54, 17, 69)',
+        ]}
+        speed={1500}
+      />
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
         <View className="flex flex-row items-center justify-between px-4">

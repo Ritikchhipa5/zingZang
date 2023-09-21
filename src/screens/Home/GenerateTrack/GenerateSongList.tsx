@@ -30,6 +30,7 @@ import TrackPlayerModal from '../../../components/Modal/TrackPlayerModal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import WaveAnimation from '../../../components/WaveAnimation';
 import DefaultLoading from '../../../components/DefaultLoading';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   const [Song, setSong] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
@@ -56,6 +57,18 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
 
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
+      <AnimatedLinearGradient
+        customColors={[
+          // 'rgb(64, 81, 187)',
+          // 'rgb(62, 67, 161)',
+          'rgb(59, 49, 128)',
+          'rgb(58, 41, 113)',
+          'rgb(56, 29, 91)',
+          'rgb(55, 24, 82)',
+          'rgb(54, 17, 69)',
+        ]}
+        speed={1500}
+      />
       {loading && <DefaultLoading />}
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}

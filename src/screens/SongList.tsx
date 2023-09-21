@@ -30,6 +30,7 @@ import {addCurrentSong} from '../actions/songs';
 import {connect} from 'react-redux';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {ICONS_SVG} from '../assets/svg/icons/Icon';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 
 function SongList({navigation, song, addPlaySong}: any) {
   const [Song, setSong] = useState<any>(null);
@@ -56,6 +57,18 @@ function SongList({navigation, song, addPlaySong}: any) {
   console.log(song);
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
+      <AnimatedLinearGradient
+        customColors={[
+          // 'rgb(64, 81, 187)',
+          // 'rgb(62, 67, 161)',
+          'rgb(59, 49, 128)',
+          'rgb(58, 41, 113)',
+          'rgb(56, 29, 91)',
+          'rgb(55, 24, 82)',
+          'rgb(54, 17, 69)',
+        ]}
+        speed={1500}
+      />
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
         <View className="px-4 mt-3">

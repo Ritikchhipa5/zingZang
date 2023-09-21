@@ -24,6 +24,7 @@ import {lyricsString} from '../../../service/lyricsService';
 
 import {connect} from 'react-redux';
 import {addLyrics} from '../../../actions/record';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 interface Props {
   items: string[];
   onIndexChange: (index: number) => void;
@@ -51,6 +52,18 @@ function LyricsPlayer({navigation, addLyric, lyrics}: any) {
         <ImageBackground
           style={{height: heightPercentageToDP('100%')}}
           source={Images.BG_1}>
+          <AnimatedLinearGradient
+            customColors={[
+              // 'rgb(64, 81, 187)',
+              // 'rgb(62, 67, 161)',
+              'rgb(59, 49, 128)',
+              'rgb(58, 41, 113)',
+              'rgb(56, 29, 91)',
+              'rgb(55, 24, 82)',
+              'rgb(54, 17, 69)',
+            ]}
+            speed={1500}
+          />
           <SafeAreaView
             className="h-full "
             edges={['right', 'left', 'top', 'bottom']}>

@@ -24,6 +24,7 @@ import {
   requestDownloadLink,
 } from '../../../api/generateTrack';
 import DefaultLoading from '../../../components/DefaultLoading';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 
 const VideoCoverPage = ({navigation, route}: any) => {
   const userInfo = useSelector((state: any) => state?.userData)?.user;
@@ -38,6 +39,18 @@ const VideoCoverPage = ({navigation, route}: any) => {
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
+      <AnimatedLinearGradient
+        customColors={[
+          // 'rgb(64, 81, 187)',
+          // 'rgb(62, 67, 161)',
+          'rgb(59, 49, 128)',
+          'rgb(58, 41, 113)',
+          'rgb(56, 29, 91)',
+          'rgb(55, 24, 82)',
+          'rgb(54, 17, 69)',
+        ]}
+        speed={1500}
+      />
       {isLoading && <DefaultLoading />}
       <Pressable onPress={Keyboard.dismiss}>
         <SafeAreaView

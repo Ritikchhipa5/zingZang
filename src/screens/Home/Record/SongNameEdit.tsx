@@ -12,6 +12,7 @@ import {Images} from '../../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Loading from '../../../components/Loading';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 const SongNameEdit = ({navigation, route}: any) => {
   const [Name, setName] = useState('');
   const {pickSong} = route.params;
@@ -20,6 +21,18 @@ const SongNameEdit = ({navigation, route}: any) => {
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
+      <AnimatedLinearGradient
+        customColors={[
+          // 'rgb(64, 81, 187)',
+          // 'rgb(62, 67, 161)',
+          'rgb(59, 49, 128)',
+          'rgb(58, 41, 113)',
+          'rgb(56, 29, 91)',
+          'rgb(55, 24, 82)',
+          'rgb(54, 17, 69)',
+        ]}
+        speed={1500}
+      />
       <SafeAreaView
         className="h-full "
         edges={['right', 'left', 'top', 'bottom']}>

@@ -23,6 +23,7 @@ import Loading from '../../../components/Loading';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import DefaultLoading from '../../../components/DefaultLoading';
 import {useSelector} from 'react-redux';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 const GenerateTrack = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state: any) => state?.userData)?.user;
@@ -37,6 +38,18 @@ const GenerateTrack = ({navigation}: any) => {
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
+      <AnimatedLinearGradient
+        customColors={[
+          // 'rgb(64, 81, 187)',
+          // 'rgb(62, 67, 161)',
+          'rgb(59, 49, 128)',
+          'rgb(58, 41, 113)',
+          'rgb(56, 29, 91)',
+          'rgb(55, 24, 82)',
+          'rgb(54, 17, 69)',
+        ]}
+        speed={1500}
+      />
       <SafeAreaView
         className="h-full "
         edges={['right', 'left', 'top', 'bottom']}>
