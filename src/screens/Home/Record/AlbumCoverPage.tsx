@@ -57,7 +57,7 @@ function AlbumCoverPage({navigation, route, addPlaySong}: any) {
                         id: '1',
                         url: song,
                         // duration: 60,
-                        albumCover: albumCover,
+                        albumCover: albumCover?.uri,
                         title: songName,
                         artist: 'Basshunter',
                       });

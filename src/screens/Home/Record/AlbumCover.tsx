@@ -23,6 +23,7 @@ import {
 } from '../../../api/generateTrack';
 import {changeLyrics} from '../../../api/record';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
+import DefaultLoading from '../../../components/DefaultLoading';
 const AlbumCover = ({navigation, recordedAudios, route}: any) => {
   const [Album, setAlbum] = useState(
     'A futuristic techno coverart, in the style of electronic music.',
@@ -36,7 +37,7 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
-      {isLoading ? <Loading /> : null}
+      {isLoading ? <DefaultLoading /> : null}
       <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',

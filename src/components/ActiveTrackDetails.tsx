@@ -9,7 +9,7 @@ const ActiveTrackDetails = ({song}: any) => {
       <View>
         <FastImage
           source={
-            song?.currentSong?.albumCover ?? {
+            {uri: song?.currentSong?.albumCover} ?? {
               uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
             }
           }

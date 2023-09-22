@@ -1,4 +1,4 @@
-import {ADD_LYRICS, ADD_RECORDING} from '../actions/types';
+import {ADD_LYRICS, ADD_RECORDING, REMOVE_RECORDING} from '../actions/types';
 
 const initialState = {
   recordedAudios: [],
@@ -19,6 +19,11 @@ const recordReducer = (state = initialState, action: any) => {
       return {
         ...state,
         lyrics: action.payload,
+      };
+    case REMOVE_RECORDING:
+      return {
+        ...state,
+        recordedAudios: [],
       };
     default:
       return state;

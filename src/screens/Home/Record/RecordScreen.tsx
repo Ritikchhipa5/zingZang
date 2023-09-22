@@ -5,6 +5,7 @@ import AudioRecorderPlayer, {
   AudioSourceAndroidType,
   OutputFormatAndroidType,
 } from 'react-native-audio-recorder-player';
+
 import type {
   AudioSet,
   PlayBackType,
@@ -13,6 +14,7 @@ import type {
 import {
   Animated,
   Easing,
+  FlatList,
   Image,
   ImageBackground,
   PermissionsAndroid,
@@ -23,7 +25,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component, useEffect, useRef, useState} from 'react';
 import RNFS from 'react-native-fs';
 import type {ReactElement} from 'react';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
@@ -36,7 +38,7 @@ import {connect} from 'react-redux';
 import {addRecording} from '../../../actions/record';
 import StopRecordingModal from '../../../components/Modal/StopRecordingModal';
 import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
-
+import LyricsData from '../../lyricsData.json';
 interface State {
   isRecording: boolean;
   recordSecs: number;
@@ -152,17 +154,33 @@ class RecordScreen extends Component<any, State> {
         style={{height: heightPercentageToDP('100%')}}
         source={Images.BG_1}>
         {/* {isRecording && countdown > 0 && ( */}
+
         <>
           {countdown >= 0 && (
             <View
-              className={`absolute z-10 w-full h-full bg-black opacity-30`}
+              className={`absolute z-[100] w-full h-full bg-black opacity-30`}
             />
           )}
+          <Animated.View
+            style={[
+              styles.overlay,
+              {opacity, transform: [{scale: scaleValue}]},
+            ]}>
+            <Text style={styles.countdownText}>{countdown}</Text>
+          </Animated.View>
         </>
         {/* )} */}
-        <SafeAreaView className="justify-between flex-1 h-full gap-10 ">
+        <SafeAreaView className="justify-between flex-1 h-full ">
           {/* // Close Icons */}
           <View className="flex flex-row justify-end">
+            {/* <View>
+              <Image
+                className="w-20 h-20 rounded-md rounded-lg"
+                source={{
+                  uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+                }}
+              />
+            </View> */}
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate('CreateProject');
@@ -171,25 +189,9 @@ class RecordScreen extends Component<any, State> {
               <AntDesign name="close" color={'#fff'} size={28} />
             </TouchableOpacity>
           </View>
-          {/* // Wave view */}
-          <View className="h-[20%] relative ">
-            <View className="absolute z-10 w-[30%] h-full bg-[#190D1A99] " />
-            <BlurView
-              // style={styles.absolute}
-              blurType="light"
-              blurAmount={10}
-              reducedTransparencyFallbackColor="white"
-            />
-            <View className=" h-full bg-[#E174E420]" />
-            <Animated.View
-              style={[
-                styles.overlay,
-                {opacity, transform: [{scale: scaleValue}]},
-              ]}>
-              <Text style={styles.countdownText}>{countdown}</Text>
-            </Animated.View>
-          </View>
-          <View className="h-[20%] justify-center px-4">
+          <LyricsFlatList isRecording={isRecording} />
+
+          {/* <View className="h-[20%] justify-center px-4">
             <View className="flex flex-row justify-center">
               <Entypo
                 name="dots-three-horizontal"
@@ -197,11 +199,9 @@ class RecordScreen extends Component<any, State> {
                 size={32}
               />
             </View>
-            {/* <Text className="text-[#E174E4] font-semibold text-center text-xl leading-7">
-              {this.props.lyrics.map((text: string) => text + '\n')}
-            </Text> */}
+
             <KaraokeText lyrics={this.props.lyrics} isRecording={isRecording} />
-          </View>
+          </View> */}
 
           <View className="px-5 ">
             <View className="h-1.5 bg-zinc-600" />
@@ -545,3 +545,70 @@ function KaraokeText({lyrics, isRecording}: any) {
     </>
   );
 }
+
+const LyricsFlatList = ({isRecording}: any) => {
+  const [currentTime, setCurrentTime] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(currentTime + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [currentTime]);
+  const flatListRef = useRef<any>(null);
+  const lines = LyricsData.lyrics.lines;
+
+  useEffect(() => {
+    // You can use this effect to trigger play/pause based on your playback logic
+    // Also, update the flat list to scroll to the current line of lyrics
+    if (flatListRef.current && isRecording) {
+      // Calculate the current line index based on the current time
+      const currentIndex = lines.findIndex(
+        (line, index) =>
+          currentTime >= line.time &&
+          (lines[index + 1] ? currentTime < lines[index + 1].time : true),
+      );
+
+      // Scroll to the current line with a smooth animation
+      if (currentIndex >= 0 && currentIndex < lines.length) {
+        // Scroll to the current line with a smooth animation
+        flatListRef.current.scrollToIndex({
+          index: currentIndex,
+          animated: true,
+        });
+      }
+    }
+  }, [currentTime, isRecording]);
+  return (
+    <FlatList
+      ref={flatListRef}
+      showsVerticalScrollIndicator={false}
+      className="relative h-full"
+      data={lines}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({item}) => {
+        const startTime = item.time;
+        const endTime = lines[lines.indexOf(item) + 1]
+          ? lines[lines.indexOf(item) + 1].time
+          : Infinity;
+
+        // Conditionally set text color based on the current time
+        const textColor =
+          currentTime >= startTime && currentTime < endTime
+            ? {color: 'white'}
+            : {color: 'rgba(237, 236, 237, 0.30)', opacity: 10};
+
+        return (
+          <Text
+            className="relative px-4 text-3xl font-bold "
+            style={{
+              paddingVertical: 20,
+
+              ...textColor,
+            }}>
+            {item.words[0].string}
+          </Text>
+        );
+      }}
+    />
+  );
+};

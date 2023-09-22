@@ -52,7 +52,7 @@ function MySongList({navigation, user, addPlaySong}: any) {
           duration: 200,
           artist: item?.artist,
           albumCover: item?.albumCover,
-          title: item.title || 'Unknown Title', // Provide a
+          title: item.title || 'Unknown Title',
         };
       });
 
@@ -138,7 +138,7 @@ function MySongList({navigation, user, addPlaySong}: any) {
               <View className="py-2 pb-10 flex flex-row items-center justify-between bg-[#6836693A]">
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate('TrackPlayer');
+                    // navigation.navigate('TrackPlayer');
                     addPlaySong(Song);
                   }}
                   className="flex-row items-center justify-between rounded-lg drop-shadow-md">

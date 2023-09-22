@@ -14,7 +14,9 @@ import {Images} from '../../../constant/Images';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
-const CustomLyrics = ({navigation}: any) => {
+import {removeRecording} from '../../../actions/record';
+import {connect} from 'react-redux';
+const CustomLyrics = ({navigation, _removeRecording}: any) => {
   return (
     <ImageBackground className="h-screen" source={Images.BG_1}>
       <AnimatedLinearGradient
@@ -73,7 +75,10 @@ const CustomLyrics = ({navigation}: any) => {
           <TouchableOpacity
             className="px-4"
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('LyricsPlayer')}>
+            onPress={() => {
+              navigation.navigate('LyricsPlayer');
+              _removeRecording();
+            }}>
             <View className={'py-4 bg-[#F780FB] rounded-full '}>
               <Text className="text-xl font-semibold text-center text-black">
                 Custom Lyrics
@@ -86,4 +91,11 @@ const CustomLyrics = ({navigation}: any) => {
   );
 };
 
-export default CustomLyrics;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    _removeRecording: () => {
+      dispatch(removeRecording());
+    },
+  };
+};
+export default connect(null, mapDispatchToProps)(CustomLyrics);

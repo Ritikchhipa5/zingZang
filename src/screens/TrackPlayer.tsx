@@ -21,7 +21,7 @@ function TrackPlayer({navigation, song}: any) {
       <ImageBackground
         className="justify-center flex-1 bg-cover"
         source={{
-          uri: song?.currentSong?.url,
+          uri: song?.currentSong?.albumCover,
         }}
         blurRadius={30}>
         <View className="flex-[0.7] justify-evenly  ">

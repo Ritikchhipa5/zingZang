@@ -26,9 +26,9 @@ function SongPart({navigation}: any) {
 
   useEffect(() => {
     async function setup() {
-      let isSetup = await setupPlayer();
+      let isSetup: any = await setupPlayer();
       console.log(isSetup);
-      const queue = await TrackPlayer.getQueue();
+      const queue: any = await TrackPlayer.getQueue();
       if (isSetup && queue.length <= 0) {
         await addTracks();
       }
