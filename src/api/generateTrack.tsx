@@ -108,6 +108,7 @@ const createVideoSong = async (data: any) => {
 };
 
 const mergeVideoSong = async (data: any) => {
+  console.log(data);
   return await fetch(
     GENERATE_TRACK.VIDEO_AUDIO_CREATE +
       `?video_path=${data?.video_path}&song_path=${data?.song_path}&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
@@ -120,10 +121,11 @@ const mergeVideoSong = async (data: any) => {
   )
     .then(response => response.json())
     .then(value => {
+      console.log(value);
       return value;
     })
     .catch(error => {
-      console.error(error);
+      console.log(error);
     });
 };
 

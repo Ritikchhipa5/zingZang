@@ -5,6 +5,8 @@ import {
   ImageBackground,
   Alert,
   TextInput,
+  Keyboard,
+  Pressable,
 } from 'react-native';
 import RNFS from 'react-native-fs';
 import React, {useState} from 'react';
@@ -38,7 +40,7 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
       <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
-          // 'rgb(62, 67, 161)',
+          'rgba(69, 118, 253, 1)',
           'rgb(59, 49, 128)',
           'rgb(58, 41, 113)',
           'rgb(56, 29, 91)',
@@ -59,12 +61,14 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
             Album Cover
           </Text>
 
-          <TouchableOpacity className="">
+          <TouchableOpacity
+            className=""
+            onPress={() => navigation.navigate('CreateProject')}>
             <MaterialIcons color="white" name="close" size={32} />
           </TouchableOpacity>
         </View>
 
-        <View className="flex-1 p-4">
+        <Pressable onPress={() => Keyboard.dismiss()} className="flex-1 p-4">
           <View className="flex-1 h-full gap-y-4">
             <Text className="text-[#C6C3C6] text-lg text-left font-medium ">
               Describe your album cover
@@ -81,7 +85,7 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
               placeholderTextColor="#FFFFFF5A"
             />
           </View>
-        </View>
+        </Pressable>
 
         <View className="px-4 gap-y-3">
           <TouchableOpacity

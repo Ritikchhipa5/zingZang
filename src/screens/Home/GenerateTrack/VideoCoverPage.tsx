@@ -43,7 +43,7 @@ const VideoCoverPage = ({navigation, route}: any) => {
       <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
-          // 'rgb(62, 67, 161)',
+          'rgba(69, 118, 253, 1)',
           'rgb(59, 49, 128)',
           'rgb(58, 41, 113)',
           'rgb(56, 29, 91)',
@@ -106,42 +106,56 @@ const VideoCoverPage = ({navigation, route}: any) => {
               className=""
               activeOpacity={0.7}
               onPress={async () => {
-                // setIsLoading(true);
-
                 try {
-                  console.log();
+                  setIsLoading(true);
                   let data: any = await createVideoSong({
                     description: Album,
-                  })
-                    .then(data => {
-                      console.log(data, 'akdfasdjasdnkjask');
-                    })
-                    .catch(error => {
-                      console.log(error);
-                    })
-                    .finally(() => {
-                      setIsLoading(false);
-                    });
+                  });
+                  // .then(data => {
+                  //   console.log(data, 'akdfasdjasdnkjask');
+                  // })
+                  // .catch(error => {
+                  //   console.log(error);
+                  // })
+                  // .finally(() => {
+                  //   setIsLoading(false);
+                  // });
 
                   let merge = await mergeVideoSong({
-                    video_path: data?.s3_key,
-                    song_path: generateSong?.audioPath,
+                    video_path:
+                      // 'outputs/MjrK0Yx7O2UlkLqU/videoMjrK0Yx7O2UlkLqU.mp4',
+                      data?.s3_key,
+                    song_path:
+                      // 'textSongs/RYVVmRs2G4GgoGY4/My Song is English is working .mp3',
+                      generateSong?.audioPath,
                   });
-
+                  console.log(merge, 'MERGE');
                   let path: any = await requestDownloadLink({
                     path: merge?.s3_key,
                   });
 
-                  console.log(path);
+                  console.log(path, merge);
                   await addVideo({
                     id: userInfo?.user?.id,
                     link: path?.data,
                     description: Album,
                     title: generateSong?.title,
                     postProfile: generateSong?.title,
+                    path: generateSong?.audioPath,
                   })
                     .then((res: any) => {
-                      console.log(res, 'Video Link');
+                      console.log(
+                        res,
+                        {
+                          id: userInfo?.user?.id,
+                          video: path?.data,
+                          title: generateSong?.title,
+                          description: Album,
+                          likes: '245k',
+                          isLike: false,
+                        },
+                        'Video Link',
+                      );
                       if (res?.status) {
                         navigation.navigate('GenerateReel', {
                           id: userInfo?.user?.id,
@@ -157,6 +171,8 @@ const VideoCoverPage = ({navigation, route}: any) => {
                       setIsLoading(false);
                     });
                 } catch (error) {
+                  console.log(error);
+                  setIsLoading(false);
                 } finally {
                   setIsLoading(false);
                 }

@@ -3,11 +3,9 @@ import {View, Text, Dimensions, TouchableOpacity, Image} from 'react-native';
 import Video from 'react-native-video';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useNavigation} from '@react-navigation/native';
-import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
+
 const GenerateReel = ({navigation, route}: any) => {
   const item = route.params;
   const windowWidth = Dimensions.get('window').width;
@@ -53,7 +51,6 @@ const GenerateReel = ({navigation, route}: any) => {
           onError={onError}
           repeat={true}
           resizeMode="cover"
-          // paused={currentIndex == index ? false : true}
           source={{uri: item.video}}
           muted={mute}
           style={{

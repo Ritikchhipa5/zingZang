@@ -29,6 +29,8 @@ const SingleReel = ({item, index, currentIndex}: any) => {
     }
   }, [user]);
 
+  console.log(item);
+
   const onBuffer = (buffer: any) => {
     console.log('buffring', buffer);
   };
@@ -81,7 +83,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.9}
-        onPress={() => setMute(!mute)}
+        // onPress={() => setMute(!mute)}
         style={{
           width: '100%',
           height: '100%',
@@ -95,9 +97,11 @@ const SingleReel = ({item, index, currentIndex}: any) => {
           posterResizeMode="contain"
           poster="https://cdn.dribbble.com/users/886358/screenshots/2980235/loading.gif"
           repeat={true}
-          // resizeMode=""
           paused={currentIndex == index ? false : true}
           source={{uri: item.video}}
+          // source={{
+          //   uri: 'https://zing-zang-vc.s3.eu-central-1.amazonaws.com/https://zing-zang-vc.s3.eu-central-1.amazonaws.com/outputs/MjrK0Yx7O2UlkLqU/TicTock_videoMjrK0Yx7O2UlkLqU.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAX7S6GKEMONKCR2GB%2F20230922%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20230922T173657Z&X-Amz-Expires=900&X-Amz-Signature=68ddee86e6495307d73639ced2eeb91de650a3a80645bcdb87ca4340863f3b67&X-Amz-SignedHeaders=host',
+          // }}
           muted={mute}
           style={{
             width: '100%',

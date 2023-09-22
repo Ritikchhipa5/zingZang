@@ -20,7 +20,7 @@ const CustomLyrics = ({navigation}: any) => {
       <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
-          // 'rgb(62, 67, 161)',
+          'rgba(69, 118, 253, 1)',
           'rgb(59, 49, 128)',
           'rgb(58, 41, 113)',
           'rgb(56, 29, 91)',
@@ -49,7 +49,9 @@ const CustomLyrics = ({navigation}: any) => {
                 Custom lyrics
               </Text>
             </View>
-            <TouchableOpacity className="">
+            <TouchableOpacity
+              className=""
+              onPress={() => navigation.navigate('CreateProject')}>
               <MaterialIcons color="white" name="close" size={32} />
             </TouchableOpacity>
           </View>

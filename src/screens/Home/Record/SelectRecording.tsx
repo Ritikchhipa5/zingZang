@@ -2,6 +2,7 @@ import {
   Alert,
   Image,
   ImageBackground,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -56,7 +57,7 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
       <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
-          // 'rgb(62, 67, 161)',
+          'rgba(69, 118, 253, 1)',
           'rgb(59, 49, 128)',
           'rgb(58, 41, 113)',
           'rgb(56, 29, 91)',
@@ -86,7 +87,7 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
           <Text className="text-[#C6C3C6] text-xl font-medium text-center ">
             That was great! Select the recording that you like the most
           </Text>
-          <View className="my-10">
+          <ScrollView showsVerticalScrollIndicator={false} className="my-10">
             <RadioButton
               data={recordedAudios}
               selectSong={setPickSong}
@@ -94,7 +95,7 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
               isPlaying={isPlaying}
               onPausePlay={onPausePlay}
             />
-          </View>
+          </ScrollView>
         </View>
         <TouchableOpacity
           className="px-4 "

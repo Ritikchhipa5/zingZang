@@ -66,7 +66,7 @@ function MySongList({navigation, user, addPlaySong}: any) {
       <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
-          // 'rgb(62, 67, 161)',
+          'rgba(69, 118, 253, 1)',
           'rgb(59, 49, 128)',
           'rgb(58, 41, 113)',
           'rgb(56, 29, 91)',
@@ -77,18 +77,18 @@ function MySongList({navigation, user, addPlaySong}: any) {
       />
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
-        <View className="flex flex-row items-center justify-between px-4">
+        <View className="flex flex-row items-center justify-center px-4">
           <TouchableOpacity
-            className=""
+            className="absolute left-0"
             onPress={() => navigation.navigate('CreateProject')}>
             <MaterialIcons color="white" name="keyboard-arrow-left" size={42} />
           </TouchableOpacity>
-          <Text className="text-2xl font-semibold text-center text-white ">
+          <Text className="items-start text-2xl font-semibold text-center text-white ">
             My Songs
           </Text>
-          <TouchableOpacity className="" onPress={() => handleReload()}>
+          {/* <TouchableOpacity className="" onPress={() => handleReload()}>
             <Entypo color="white" name="dots-three-horizontal" size={32} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         {/* //Song List */}
 
@@ -123,13 +123,13 @@ function MySongList({navigation, user, addPlaySong}: any) {
                       </Text>
                     </View>
                   </View>
-                  <TouchableOpacity className="mr-2">
+                  {/* <TouchableOpacity className="mr-2">
                     <Entypo
                       color="white"
                       name="dots-three-vertical"
                       size={22}
                     />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </TouchableOpacity>
               ))}
             </ScrollView>

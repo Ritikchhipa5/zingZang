@@ -5,6 +5,7 @@ import {
   ImageBackground,
   TextInput,
   Alert,
+  Keyboard,
 } from 'react-native';
 import React, {useState} from 'react';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
@@ -24,7 +25,7 @@ const SongNameEdit = ({navigation, route}: any) => {
       <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
-          // 'rgb(62, 67, 161)',
+          'rgba(69, 118, 253, 1)',
           'rgb(59, 49, 128)',
           'rgb(58, 41, 113)',
           'rgb(56, 29, 91)',
@@ -45,7 +46,9 @@ const SongNameEdit = ({navigation, route}: any) => {
             Song Name
           </Text>
 
-          <TouchableOpacity className="">
+          <TouchableOpacity
+            className=""
+            onPress={() => navigation.navigate('CreateProject')}>
             <MaterialIcons color="white" name="close" size={32} />
           </TouchableOpacity>
         </View>
@@ -54,7 +57,9 @@ const SongNameEdit = ({navigation, route}: any) => {
           <Text className="text-[#C6C3C6] text-xl font-medium text-center ">
             This amazing song needs a name!
           </Text>
-          <View className="items-center justify-center flex-1 h-full">
+          <TouchableOpacity
+            onPress={() => Keyboard.dismiss()}
+            className="items-center justify-center flex-1 h-full">
             <TextInput
               onChangeText={(text: any) => {
                 console.log(text);
@@ -64,7 +69,7 @@ const SongNameEdit = ({navigation, route}: any) => {
               className="w-full py-3 text-xl font-bold text-center bg-[#FFFFFF1A] text-white rounded-md  items-center leading-2 px-5"
               placeholderTextColor="#fff"
             />
-          </View>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           className="px-4 "
