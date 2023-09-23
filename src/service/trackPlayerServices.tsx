@@ -52,9 +52,15 @@ export async function setupPlayer() {
 export async function SetupPlayer() {
   let isSetup = false;
   try {
-    let setup = await TrackPlayer.setupPlayer();
+    let setup = await TrackPlayer.setupPlayer({
+      maxCacheSize: 1024 * 5, // 5 mb
+    });
     console.log(setup);
     await TrackPlayer.updateOptions({
+      android: {
+        appKilledPlaybackBehavior:
+          AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
+      },
       // Media controls capabilities
       capabilities: [
         Capability.Play,
@@ -66,8 +72,7 @@ export async function SetupPlayer() {
 
       // Capabilities that will show up when the notification is in the compact form on Android
       compactCapabilities: [Capability.Play, Capability.Pause, Capability.Stop],
-
-      // Icons for the notification on Android (if you don't like the default ones)
+      progressUpdateEventInterval: 2,
     });
     isSetup = true;
     return isSetup;
@@ -78,13 +83,15 @@ export async function SetupPlayer() {
   }
 }
 
-export async function addTracksOnTrackPlayer(
-  tracks: any,
-  insertBeforeIndex?: number,
-) {
+export async function addTracksOnTrackPlayer(tracks: any) {
   if (tracks) {
-    await TrackPlayer.reset();
-    await TrackPlayer.add(tracks, insertBeforeIndex);
+    // let queue = await TrackPlayer.getQueue();
+    // await TrackPlayer.reset();
+    await TrackPlayer.add(tracks);
+    console.log(await TrackPlayer.getCurrentTrack());
+    console.log('\n\nAdd Song \n\n\n', tracks);
+    console.log(await TrackPlayer.getVolume(), 'Volute ');
+    await TrackPlayer.setRepeatMode(RepeatMode.Queue);
     // await TrackPlayer.seekTo(0);
     // await seekToCurrentTime();
     // await TrackPlayer.play();
@@ -107,16 +114,19 @@ export async function addTracks() {
 export async function playbackService() {
   // Add event listeners for remote control events (play, pause, next, etc.)
   TrackPlayer.addEventListener(Event.RemotePlay, () => {
-    TrackPlayer.play();
     console.log('Remote Play');
+    TrackPlayer.play();
   });
   TrackPlayer.addEventListener(Event.RemotePause, () => {
+    console.log('Remote Play');
     TrackPlayer.pause();
   });
   TrackPlayer.addEventListener(Event.RemoteNext, () => {
+    console.log('Remote Play');
     TrackPlayer.skipToNext();
   });
   TrackPlayer.addEventListener(Event.RemotePrevious, () => {
+    console.log('Remote Play');
     TrackPlayer.skipToPrevious();
   });
   TrackPlayer.addEventListener(

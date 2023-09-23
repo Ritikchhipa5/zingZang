@@ -12,28 +12,10 @@ import ActiveTrackDetails from '../ActiveTrackDetails';
 import {Slider} from '@react-native-assets/slider';
 import PlayerController from '../PlayerController';
 import {connect} from 'react-redux';
-import {
-  addTracksOnTrackPlayer,
-  setupPlayer,
-} from '../../service/trackPlayerServices';
+
 import TrackPlayer from 'react-native-track-player';
 const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
   console.log(song?.currentSong, '!!!!!!!');
-  // useEffect(() => {
-  //   async function setup() {
-  //     let isSetup = await setupPlayer();
-  //     console.log(isSetup);
-  //     const queue = await TrackPlayer.getQueue();
-  //     // if (isSetup && queue.length <= 0) {
-  //     // TrackPlayer.reset();
-  //     // await TrackPlayer.add(LyricsSongList);
-  //     // addTracksOnTrackPlayer(song?.currentSong);
-  //     // await TrackPlayer.play();
-  //     // }
-  //   }
-
-  //   setup();
-  // }, []);
 
   return (
     <Modal transparent={true} visible={showTrackPlayer}>

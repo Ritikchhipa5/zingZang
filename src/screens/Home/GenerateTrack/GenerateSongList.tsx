@@ -48,19 +48,16 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    const setupPlayer = async () => {
-      // let initialize = await SetupPlayer();
-      // console.log('SetupPlayer', initialize);
+    async function setup() {
+      addTracksOnTrackPlayer(generateSong);
       setSongList([generateSong]);
-      await addTracksOnTrackPlayer([generateSong]);
-      console.log(await TrackPlayer.getCurrentTrack());
-    };
-    setupPlayer();
-    // const setup = async () => {
-    // addTracksOnTrackPlayer([generateSong]);
 
-    // };
-    // setup();
+      // const track: any = await TrackPlayer.getCurrentTrack();
+      // const info = await TrackPlayer.getTrack(track);
+      // console.log(info, 'info');
+    }
+
+    setup();
   }, []);
 
   console.log(state, buffered, duration, position);

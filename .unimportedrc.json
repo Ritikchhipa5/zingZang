@@ -1,0 +1,38 @@
+{
+  "ignoreUnresolved": [],
+  "ignoreUnused": [
+    "cache",
+    "i",
+    "nativewind",
+    "npm",
+    "react",
+    "react-dom",
+    "react-native",
+    "react-native-audio-player-recorder",
+    "react-native-audio-toolkit",
+    "react-native-canvas",
+    "react-native-lyric",
+    "react-native-sound",
+    "react-native-splash-screen",
+    "react-native-svg-transformer",
+    "react-navigation",
+    "rn-fetch-blob",
+    "start"
+  ],
+  "ignoreUnimported": [
+    "src/components/Gradient.tsx",
+    "src/recorder/Recorder.tsx",
+    "src/screens/Lyrics.tsx",
+    "src/service/localStorage.tsx",
+    "src/service/seekToCurrentTime.tsx"
+  ],
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/*.tests.{js,jsx,ts,tsx}",
+    "**/*.test.{js,jsx,ts,tsx}",
+    "**/*.spec.{js,jsx,ts,tsx}",
+    "**/tests/**",
+    "**/__tests__/**",
+    "**/*.d.ts"
+  ]
+}

@@ -34,21 +34,23 @@ export default class extends Component<any, any> {
             </View>
             <View className="flex gap-y-4">
               <TouchableOpacity
-                onPress={onEndRecording}
+                onPress={() => onEndRecording()}
                 className={`py-4 bg-[#F780FB] rounded-full `}>
                 <Text className="text-xl font-semibold text-center text-black">
                   End Recording
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={onResumeRecord}
+                onPress={() => onResumeRecord()}
                 className={`py-4 border-2 border-[#F780FB]  rounded-full `}>
                 <Text className="text-xl font-semibold text-center text-[#F780FB]">
                   Continue Recording
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={onStopRecord}
+                onPress={() => {
+                  onStopRecord();
+                }}
                 className={`py-4 border-2 border-[#F780FB]  rounded-full `}>
                 <Text className="text-xl font-semibold text-center text-[#F780FB]">
                   Save for Comparison

@@ -17,11 +17,7 @@ import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SoundWave from '../components/SoundWave';
 import WaveAnimation from '../components/WaveAnimation';
-import {
-  addTracks,
-  addTracksOnTrackPlayer,
-  setupPlayer,
-} from '../service/trackPlayerServices';
+import {addTracksOnTrackPlayer} from '../service/trackPlayerServices';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {Slider} from '@react-native-assets/slider';
 import TrackPlayerModal from '../components/Modal/TrackPlayerModal';
@@ -174,7 +170,6 @@ function SongList({navigation, song, addPlaySong}: any) {
                   <TouchableOpacity
                     onPress={() => {
                       setShowTrackPlayer(true);
-
                       addPlaySong(Song);
                     }}
                     className="flex flex-row items-center p-3 ">

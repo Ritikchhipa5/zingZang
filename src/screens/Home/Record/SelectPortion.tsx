@@ -21,33 +21,33 @@ import AudioRecorderPlayer, {
 import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 import {Slider} from '@miblanchard/react-native-slider';
+import {LyricsSongList} from '../../../service/lyricsService';
 
 const SelectPortion = ({navigation, recordedAudios}: any) => {
-  const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
   const [pickSong, setPickSong] = useState('');
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
 
-  const onStartPlay = async () => {
-    try {
-      const msg = await audioRecorderPlayer.startPlayer(pickSong);
-      const volume = await audioRecorderPlayer.setVolume(1.0);
-
-      audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-        console.log('playBackListener', e);
-        setIsPlaying(!(e.currentPosition === e.duration));
-      });
-    } catch (err) {
-      console.log('startPlayer error', err);
-    }
-  };
-  const onPausePlay = async (): Promise<void> => {
-    await audioRecorderPlayer.pausePlayer();
-    setIsPlaying(false);
-  };
-  const onStopPlay = async (): Promise<void> => {
-    await audioRecorderPlayer.stopPlayer();
-    setIsPlaying(false);
-  };
+  // const onStartPlay = async () => {
+  //   try {
+  //     const msg = await audioRecorderPlayer.startPlayer(pickSong);
+  //     const volume = await audioRecorderPlayer.setVolume(1.0);
+  //     console.log(msg, volume);
+  //     audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
+  //       console.log('playBackListener', e);
+  //       setIsPlaying(!(e.currentPosition === e.duration));
+  //     });
+  //   } catch (err) {
+  //     console.log('startPlayer error', err);
+  //   }
+  // };
+  // const onPausePlay = async (): Promise<void> => {
+  //   await audioRecorderPlayer.pausePlayer();
+  //   setIsPlaying(false);
+  // };
+  // const onStopPlay = async (): Promise<void> => {
+  //   await audioRecorderPlayer.stopPlayer();
+  //   setIsPlaying(false);
+  // };
 
   return (
     <ImageBackground
@@ -88,11 +88,12 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
           </Text>
           <View className="my-4">
             <IndividualComp
-              data={[recordedAudios[0]]}
+              data={[LyricsSongList[0]]}
               selectSong={setPickSong}
-              onStartPlay={onStartPlay}
-              isPlaying={isPlaying}
-              onPausePlay={onPausePlay}
+              originalSong
+              // onStartPlay={onStartPlay}
+              // isPlaying={isPlaying}
+              // onPausePlay={onPausePlay}
             />
           </View>
           <Text className="text-[#ffffff] text-xl font-medium mt-4 ">
@@ -104,13 +105,14 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
               ' so that it is the same as the part of the original song marked above'
             }
           </Text>
-          <View className="mb-10 mt-8">
+          <View className="mt-8 mb-10">
             <IndividualComp
               data={[recordedAudios[0]]}
               selectSong={setPickSong}
-              onStartPlay={onStartPlay}
-              isPlaying={isPlaying}
-              onPausePlay={onPausePlay}
+
+              // onStartPlay={onStartPlay}
+              // isPlaying={isPlaying}
+              // onPausePlay={onPausePlay}
             />
           </View>
         </View>
@@ -123,7 +125,7 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
             } else {
               Alert.alert('Please select a recording');
             }
-            onStopPlay();
+            // onStopPlay();
           }}>
           <View className={`py-4 bg-[#F780FB] rounded-full `}>
             <Text className="text-xl font-semibold text-center text-black">
@@ -159,7 +161,7 @@ export const SliderContainer = (props: {
   useEffect(() => {
     console.log(`\n\n Slider Values  = ${value}`);
   }, [value]);
-  let renderTrackMarkComponent: React.ReactNode;
+  var renderTrackMarkComponent: any;
   const borderWidth = 4;
 
   if (trackMarks?.length && (!Array.isArray(value) || value?.length === 1)) {
@@ -227,22 +229,47 @@ export const SliderContainer = (props: {
   );
 };
 
-const IndividualComp = ({
-  data,
-  selectSong,
-  isPlaying,
-  onStartPlay,
-  onPausePlay,
-}) => {
+const IndividualComp = ({data, selectSong, originalSong = false}: any) => {
   const [value, setValue] = useState(null);
   const [val1, setVal1] = useState<number>(60);
   const [val2, setVal2] = useState<number>(60);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
+  // audioRecorderPlayer.setSubscriptionDuration(0.09);
+  const onStartPlay = async () => {
+    try {
+      const msg = await audioRecorderPlayer.startPlayer(
+        originalSong ? data[0]?.url : data[0]?.uri,
+      );
+
+      const volume = await audioRecorderPlayer.setVolume(1.0);
+      console.log(msg, volume);
+      // audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {r
+      //   console.log('playBackListener', e);
+      //   setIsPlaying(!(e.currentPosition === e.duration));
+      //   console.log(!(e.currentPosition === e.duration));
+      // });
+    } catch (err) {
+      console.log('startPlayer error', err);
+    }
+  };
+  const onPausePlay = async (): Promise<void> => {
+    await audioRecorderPlayer.pausePlayer();
+    // audioRecorderPlayer.removePlayBackListener();
+    // setIsPlaying(false);
+  };
+  // const onStopPlay = async (): Promise<void> => {
+  //   await audioRecorderPlayer.stopPlayer();
+  //   setIsPlaying(false);
+  // };
   return (
     <View>
+      {console.log(data)}
       {data.map((res: any, index: number) => {
         console.log(`<<<<< res = ${JSON.stringify(res)}`);
         return (
           <View
+            key={index}
             style={{
               backgroundColor: '#27132b',
               alignItems: 'center',
@@ -266,16 +293,16 @@ const IndividualComp = ({
                 height: 60,
                 justifyContent: 'center',
                 alignItems: 'flex-end',
-                //backgroundColor: '#ff0000',
+                // backgroundColor: '#ff0000',
               }}>
-              <SliderContainer sliderValue={[10, 20]}>
+              <SliderContainer sliderValue={[0, 1]}>
                 <Slider
                   animateTransitions
                   containerStyle={{
                     width: 264 + 16,
                     height: 24,
                   }}
-                  maximumValue={100}
+                  maximumValue={res.duration ?? 100}
                   thumbTintColor={'#6af0f3'}
                   //minimumTrackTintColor={'#ff0000'}
                   minimumTrackTintColor="#ffffff88"
@@ -309,14 +336,17 @@ const IndividualComp = ({
                 alignItems: 'center',
               }}>
               <TouchableOpacity
-                onPress={
-                  isPlaying && value === res.uri ? onPausePlay : onStartPlay
-                }>
-                {!isPlaying && value === res.uri ? (
-                  <ICONS_SVG.PLAY />
-                ) : (
-                  <ICONS_SVG.PAUSE />
-                )}
+                onPress={() => {
+                  if (isPlaying) {
+                    // setIsPlaying(false);
+                    onPausePlay();
+                  } else {
+                    selectSong(originalSong ? res?.url : res?.uri);
+                    onStartPlay();
+                    // setIsPlaying(true);
+                  }
+                }}>
+                {isPlaying ? <ICONS_SVG.PLAY /> : <ICONS_SVG.PAUSE />}
               </TouchableOpacity>
             </View>
           </View>

@@ -420,21 +420,25 @@ class RecordScreen extends Component<any, State> {
       isModalVisible: false,
     });
     this.onStopRecord();
-    this.props.navigation.navigate('SelectRecording');
   };
   private onStopRecord = async (): Promise<void> => {
     const result = await this.audioRecorderPlayer.stopRecorder();
-    this.audioRecorderPlayer.removeRecordBackListener();
-    this.setState({
-      recordSecs: 0,
-      isRecording: false,
-      isModalVisible: false,
-    });
     const recordedAudio = {
       uri: result,
       duration: this.state.recordSecs,
       time: new Date().toISOString(), // You can add a timestamp for reference
     };
+    console.log(recordedAudio, 'Record');
+    await this.props.addRecord({
+      recordedAudios: recordedAudio,
+    });
+    this.audioRecorderPlayer.removeRecordBackListener();
+
+    this.setState({
+      recordSecs: 0,
+      isRecording: false,
+      isModalVisible: false,
+    });
     // // Update the list of recorded audios
     this.setState((prevState: any) => ({
       recordedAudios: [...prevState.recordedAudios, recordedAudio],
@@ -442,9 +446,7 @@ class RecordScreen extends Component<any, State> {
       isRecording: false,
     }));
     TrackPlayer.pause();
-    this.props.addRecord({
-      recordedAudios: recordedAudio,
-    });
+    this.props.navigation.navigate('SelectRecording');
   };
 
   private onStartPlay = async (): Promise<void> => {

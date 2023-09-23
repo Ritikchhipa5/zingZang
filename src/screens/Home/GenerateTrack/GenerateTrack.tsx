@@ -96,12 +96,11 @@ const GenerateTrack = ({navigation}: any) => {
               navigation.navigate('GenerateSongList', {
                 generateSong: {
                   id: '11223',
-                  // url: data?.data?.link,
+                  url: data?.data?.link,
                   // url: 'https://demos.loopmasters.com/16672%2FREGGAE_SOUND_CLASH_DEMO.mp3',
-                  url: require('../../../assets/sound/sound.mp3'),
                   audioPath: data?.data?.path,
                   // isLiveStream: true,
-                  // duration: values?.duration,
+                  duration: values?.duration,
                   artist: user?.user?.name,
                   albumCover:
                     'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
