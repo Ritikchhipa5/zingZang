@@ -425,7 +425,7 @@ class RecordScreen extends Component<any, State> {
     const result = await this.audioRecorderPlayer.stopRecorder();
     const recordedAudio = {
       uri: result,
-      duration: this.state.recordSecs,
+      duration: this.state.recordSecs / 1000,
       time: new Date().toISOString(), // You can add a timestamp for reference
     };
     console.log(recordedAudio, 'Record');

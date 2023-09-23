@@ -86,7 +86,7 @@ export async function SetupPlayer() {
 export async function addTracksOnTrackPlayer(tracks: any) {
   if (tracks) {
     // let queue = await TrackPlayer.getQueue();
-    // await TrackPlayer.reset();
+    await TrackPlayer.reset();
     await TrackPlayer.add(tracks);
     console.log(await TrackPlayer.getCurrentTrack());
     console.log('\n\nAdd Song \n\n\n', tracks);

@@ -25,30 +25,20 @@ import {LyricsSongList} from '../../../service/lyricsService';
 
 const SelectPortion = ({navigation, recordedAudios}: any) => {
   const [pickSong, setPickSong] = useState('');
-  // const [isPlaying, setIsPlaying] = useState(false);
+  const [sliderValues, setSliderValues] = useState({
+    original0: 0,
+    original1: 0,
+    rec0: 0,
+    rec1: 0,
+  });
 
-  // const onStartPlay = async () => {
-  //   try {
-  //     const msg = await audioRecorderPlayer.startPlayer(pickSong);
-  //     const volume = await audioRecorderPlayer.setVolume(1.0);
-  //     console.log(msg, volume);
-  //     audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-  //       console.log('playBackListener', e);
-  //       setIsPlaying(!(e.currentPosition === e.duration));
-  //     });
-  //   } catch (err) {
-  //     console.log('startPlayer error', err);
-  //   }
-  // };
-  // const onPausePlay = async (): Promise<void> => {
-  //   await audioRecorderPlayer.pausePlayer();
-  //   setIsPlaying(false);
-  // };
-  // const onStopPlay = async (): Promise<void> => {
-  //   await audioRecorderPlayer.stopPlayer();
-  //   setIsPlaying(false);
-  // };
-
+  // Function to update the slider values
+  const updateSliderValue = (value: any) => {
+    setSliderValues(prevValues => ({
+      ...prevValues,
+      ...value,
+    }));
+  };
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -91,6 +81,7 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
               data={[LyricsSongList[0]]}
               selectSong={setPickSong}
               originalSong
+              updateSliderValue={updateSliderValue}
               // onStartPlay={onStartPlay}
               // isPlaying={isPlaying}
               // onPausePlay={onPausePlay}
@@ -109,7 +100,7 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
             <IndividualComp
               data={[recordedAudios[0]]}
               selectSong={setPickSong}
-
+              updateSliderValue={updateSliderValue}
               // onStartPlay={onStartPlay}
               // isPlaying={isPlaying}
               // onPausePlay={onPausePlay}
@@ -120,12 +111,12 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
           className="px-4 "
           activeOpacity={0.7}
           onPress={() => {
-            if (pickSong !== '') {
-              navigation.navigate('SelectPortion', {pickSong});
-            } else {
-              Alert.alert('Please select a recording');
-            }
-            // onStopPlay();
+            // if (pickSong !== '') {
+            // } else {
+            //   Alert.alert('Please select a recording');
+            // }
+
+            navigation.navigate('AlbumCover', {pickSong, sliderValues});
           }}>
           <View className={`py-4 bg-[#F780FB] rounded-full `}>
             <Text className="text-xl font-semibold text-center text-black">
@@ -158,9 +149,9 @@ export const SliderContainer = (props: {
   const [value, setValue] = React.useState(
     sliderValue ? sliderValue : DEFAULT_VALUE,
   );
-  useEffect(() => {
-    console.log(`\n\n Slider Values  = ${value}`);
-  }, [value]);
+  // useEffect(() => {
+  //   console.log(`\n\n Slider Values  = ${value}`);
+  // }, [value]);
   var renderTrackMarkComponent: any;
   const borderWidth = 4;
 
@@ -229,10 +220,12 @@ export const SliderContainer = (props: {
   );
 };
 
-const IndividualComp = ({data, selectSong, originalSong = false}: any) => {
-  const [value, setValue] = useState(null);
-  const [val1, setVal1] = useState<number>(60);
-  const [val2, setVal2] = useState<number>(60);
+const IndividualComp = ({
+  data,
+  selectSong,
+  originalSong = false,
+  updateSliderValue,
+}: any) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
   // audioRecorderPlayer.setSubscriptionDuration(0.09);
@@ -264,7 +257,7 @@ const IndividualComp = ({data, selectSong, originalSong = false}: any) => {
   // };
   return (
     <View>
-      {console.log(data)}
+      {console.log(data, '')}
       {data.map((res: any, index: number) => {
         console.log(`<<<<< res = ${JSON.stringify(res)}`);
         return (
@@ -295,12 +288,22 @@ const IndividualComp = ({data, selectSong, originalSong = false}: any) => {
                 alignItems: 'flex-end',
                 // backgroundColor: '#ff0000',
               }}>
-              <SliderContainer sliderValue={[0, 1]}>
+              <SliderContainer sliderValue={[0, 10]}>
                 <Slider
                   animateTransitions
                   containerStyle={{
                     width: 264 + 16,
                     height: 24,
+                  }}
+                  onSlidingComplete={value => {
+                    updateSliderValue(
+                      originalSong
+                        ? {
+                            original0: value[0],
+                            original1: value[1],
+                          }
+                        : {rec0: value[0], rec1: value[1]},
+                    );
                   }}
                   maximumValue={res.duration ?? 100}
                   thumbTintColor={'#6af0f3'}
@@ -309,6 +312,7 @@ const IndividualComp = ({data, selectSong, originalSong = false}: any) => {
                   minimumValue={4}
                   //thumbImage={Images.PLAY}
                   //thumbImage={Images.PLAY}
+
                   step={1}
                   thumbStyle={{
                     width: 12,

@@ -83,7 +83,10 @@ function MySongList({navigation, user, addPlaySong}: any) {
         <View className="flex flex-row items-center justify-center px-4">
           <TouchableOpacity
             className="absolute left-0"
-            onPress={() => navigation.navigate('CreateProject')}>
+            onPress={async () => {
+              await TrackPlayer.reset();
+              navigation.navigate('CreateProject');
+            }}>
             <MaterialIcons color="white" name="keyboard-arrow-left" size={42} />
           </TouchableOpacity>
           <Text className="items-start text-2xl font-semibold text-center text-white ">

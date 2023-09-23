@@ -31,8 +31,9 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [AlbumCover, setAlbumCover] = useState<any>({});
   const [NewSong, setNewSong] = useState(null);
-  const {pickSong, songName} = route.params;
+  const {songName, sliderValues} = route.params;
 
+  console.log(sliderValues, 'Adasd');
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -114,10 +115,10 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
               setIsLoading(true);
 
               let song = {
-                s0_original: 2.77,
-                sf_original: 4.003,
-                s0_record: 2.815,
-                sf_record: 10,
+                s0_original: sliderValues?.original0 ?? 2.77,
+                sf_original: sliderValues?.original1 ?? 4.003,
+                s0_record: sliderValues?.rec0 ?? 2.815,
+                sf_record: sliderValues?.rec1 ?? 10,
               };
               console.log(
                 Math.abs(

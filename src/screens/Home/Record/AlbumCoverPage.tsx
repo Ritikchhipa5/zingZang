@@ -27,7 +27,7 @@ function AlbumCoverPage({navigation, route, addPlaySong}: any) {
           <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
             <View className="flex-[0.8] justify-evenly  ">
               <TouchableOpacity
-                onPress={() => navigation.goBack(' ')}
+                onPress={() => navigation.navigate('CreateProject')}
                 className="absolute top-[15%] right-0 px-5">
                 <AntDesign name="close" color={'#fff'} size={28} />
               </TouchableOpacity>
