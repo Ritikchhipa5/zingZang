@@ -39,6 +39,9 @@ import {addRecording} from '../../../actions/record';
 import StopRecordingModal from '../../../components/Modal/StopRecordingModal';
 import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 import LyricsData from '../../lyricsData.json';
+import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
+import {RecordingMusic} from '../../../service/lyricsService';
+import TrackPlayer from 'react-native-track-player';
 interface State {
   isRecording: boolean;
   recordSecs: number;
@@ -87,6 +90,9 @@ class RecordScreen extends Component<any, State> {
     // this.audioRecorderPlayer.setSubscriptionDuration(0.1); // optional. Default is 0.5
   }
 
+  componentDidMount(): void {
+    addTracksOnTrackPlayer(RecordingMusic);
+  }
   startPulseAnimation() {
     return Animated.loop(
       Animated.sequence([
@@ -133,6 +139,8 @@ class RecordScreen extends Component<any, State> {
       });
       this.startPulseAnimation().stop();
       this.onStartRecord();
+      TrackPlayer.seekTo(0);
+      TrackPlayer.play();
     } else {
       this.setState(prevState => ({
         countdown: prevState.countdown - 1,
@@ -184,6 +192,7 @@ class RecordScreen extends Component<any, State> {
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate('CreateProject');
+                TrackPlayer.pause();
               }}
               className="right-0 px-5 ">
               <AntDesign name="close" color={'#fff'} size={28} />
@@ -224,6 +233,7 @@ class RecordScreen extends Component<any, State> {
                   onPress={() => {
                     if (isRecording) {
                       this.handleStopRecordingModal();
+                      TrackPlayer.pause();
                     } else {
                       this.startRecording();
                     }
@@ -389,6 +399,7 @@ class RecordScreen extends Component<any, State> {
       isModalVisible: false,
       isRecording: true,
     });
+    TrackPlayer.play();
   };
 
   private startOver = () => {
@@ -430,6 +441,7 @@ class RecordScreen extends Component<any, State> {
       recordSecs: 0,
       isRecording: false,
     }));
+    TrackPlayer.pause();
     this.props.addRecord({
       recordedAudios: recordedAudio,
     });
@@ -549,11 +561,13 @@ function KaraokeText({lyrics, isRecording}: any) {
 const LyricsFlatList = ({isRecording}: any) => {
   const [currentTime, setCurrentTime] = useState(0);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(currentTime + 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [currentTime]);
+    if (isRecording) {
+      const interval = setInterval(() => {
+        setCurrentTime(currentTime + 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [currentTime, isRecording]);
   const flatListRef = useRef<any>(null);
   const lines = LyricsData.lyrics.lines;
 

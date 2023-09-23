@@ -49,6 +49,7 @@ export async function setupPlayer() {
 }
 
 export async function SetupPlayer() {
+  let isSetup = false;
   try {
     await TrackPlayer.setupPlayer();
 
@@ -67,6 +68,8 @@ export async function SetupPlayer() {
 
       // Icons for the notification on Android (if you don't like the default ones)
     });
+    isSetup = true;
+    return isSetup;
   } catch (error) {
     console.log(error);
   }

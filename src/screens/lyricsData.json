@@ -4,41 +4,19 @@
     "kind": "LINE",
     "trackId": "37BZB0z9T8Xu7U3e65qxFy",
     "lines": [
-      {"time": 10, "words": [{"string": "Jag känner en bot"}]},
-      {"time": 20, "words": [{"string": "Hon heter Anna. Anna heter hon"}]},
+      {"time": 5, "words": [{"string": "Jag känner en bot"}]},
+      {"time": 6, "words": [{"string": "Hon heter Anna. Anna heter hon"}]},
       {
-        "time": 30,
+        "time": 11,
         "words": [{"string": "och hon kan banna banna dig så hårt"}]
       },
       {
-        "time": 35,
+        "time": 14,
         "words": [{"string": "Hon röjer upp i våran kanal"}]
       },
       {
-        "time": 40,
+        "time": 17,
         "words": [{"string": "Jag vill berätta för dig att jag känner en bot"}]
-      },
-      {
-        "time": 50,
-        "words": [{"string": "Jag vill berätta för dig att jag känner en"}]
-      },
-      {"time": 60, "words": [{"string": "Jag känner en bot"}]},
-      {"time": 70, "words": [{"string": "Hon heter Anna. Anna heter hon"}]},
-      {
-        "time": 80,
-        "words": [{"string": "och hon kan banna banna dig så hårt"}]
-      },
-      {
-        "time": 90,
-        "words": [{"string": "Hon röjer upp i våran kanal"}]
-      },
-      {
-        "time": 95,
-        "words": [{"string": "Jag vill berätta för dig att jag känner en bot"}]
-      },
-      {
-        "time": 120,
-        "words": [{"string": "Jag vill berätta för dig att jag känner en"}]
       }
     ],
     "language": "en"

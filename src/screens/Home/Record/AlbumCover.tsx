@@ -132,34 +132,37 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                 ) <= 0.3,
               );
 
-              // await changeLyrics({
-              //   value: {
-              //     client_id: 'MjrK0Yx7O2UlkLqU',
-              //     current_key: '1oovbp1z5ExvCf3o',
-              //     s0: 3,
-              //     s1: 6,
-              //     r0: 2,
-              //     r1: 5,
-              //     data: data,
-              //   },
-              // })
-              //   .then(async status => {
-              //     let path: any = await requestDownloadLink({
-              //       path: status?.s3_key,
-              //     });
-              //     console.log(status?.s3_key, 'sdfjsdfbkjsbfsdfkjb');
+              let status = await changeLyrics({
+                value: {
+                  client_id: 'MjrK0Yx7O2UlkLqU',
+                  current_key: '1oovbp1z5ExvCf3o',
+                  s0: 3,
+                  s1: 6,
+                  r0: 2,
+                  r1: 5,
+                  data: data,
+                },
+              });
 
-              //     setNewSong(path?.s3_key);
-              //     console.log(path);
-              //     // navigation.navigate('TrackPlayer');
-              //   })
-              //   .catch(err => {
-              //     console.log(err, 'wejrjhwjehgrj');
-              //   })
+              let path: any = await requestDownloadLink({
+                path: status?.s3_key,
+              });
+              console.log(
+                status,
+                {
+                  client_id: 'MjrK0Yx7O2UlkLqU',
+                  current_key: '1oovbp1z5ExvCf3o',
+                  s0: 3,
+                  s1: 6,
+                  r0: 2,
+                  r1: 5,
+                  data: data,
+                },
+                'sdfjsdfbkjsbfsdfkjb',
+              );
 
-              //   .finally(() => {
-              //     setIsLoading(false);
-              //   });
+              setNewSong(path?.s3_key);
+              console.log(path);
               setIsLoading(true);
               await createAlbumCoverSong({
                 prompt: Album,
@@ -177,8 +180,8 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                     albumCover: {
                       uri: path?.data,
                     },
-                    // song: NewSong,
-                    song: 'https://zing-zang-vc.s3.eu-central-1.amazonaws.com/outputs/MjrK0Yx7O2UlkLqU/apple.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAX7S6GKEMIQOXVR5P%2F20230919%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20230919T133719Z&X-Amz-Expires=900&X-Amz-Signature=23f645ba8fc2e2206ff8cdef7dd3b878ca74de69a52883383eed007f401be35c&X-Amz-SignedHeaders=host',
+                    song: NewSong,
+                    // song: 'https://zing-zang-vc.s3.eu-central-1.amazonaws.com/outputs/MjrK0Yx7O2UlkLqU/apple.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAX7S6GKEMIQOXVR5P%2F20230919%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20230919T133719Z&X-Amz-Expires=900&X-Amz-Signature=23f645ba8fc2e2206ff8cdef7dd3b878ca74de69a52883383eed007f401be35c&X-Amz-SignedHeaders=host',
                     songName: songName,
                   });
                   setIsLoading(false);

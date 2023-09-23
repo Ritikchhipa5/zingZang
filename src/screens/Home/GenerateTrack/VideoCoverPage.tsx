@@ -26,6 +26,7 @@ import {
 } from '../../../api/generateTrack';
 import DefaultLoading from '../../../components/DefaultLoading';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
+import {err} from 'react-native-svg/lib/typescript/xml';
 
 const VideoCoverPage = ({navigation, route}: any) => {
   const userInfo = useSelector((state: any) => state?.userData)?.user;
@@ -170,8 +171,9 @@ const VideoCoverPage = ({navigation, route}: any) => {
                     .finally(() => {
                       setIsLoading(false);
                     });
-                } catch (error) {
+                } catch (error: any) {
                   console.log(error);
+                  Alert.alert(error?.message);
                   setIsLoading(false);
                 } finally {
                   setIsLoading(false);

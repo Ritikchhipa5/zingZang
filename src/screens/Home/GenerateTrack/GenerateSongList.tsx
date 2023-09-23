@@ -39,6 +39,7 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
 
   const {generateSong} = route.params;
   const {position, duration, buffered} = useProgress();
+  const state = usePlaybackState();
   const [showTrackPlayer, setShowTrackPlayer] = useState(false);
   const [reload, setReload] = useState(false);
 
@@ -46,8 +47,6 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
     setSongList([generateSong]);
     addTracksOnTrackPlayer(generateSong);
   }, [reload]);
-
-  const state = usePlaybackState();
 
   console.log(state, buffered, duration, position);
 

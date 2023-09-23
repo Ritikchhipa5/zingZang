@@ -9,7 +9,8 @@ import {SetupPlayer} from './src/service/trackPlayerServices';
 
 function App() {
   useEffect(() => {
-    SetupPlayer();
+    let initialize = SetupPlayer();
+    console.log('SetupPlayer', initialize);
   }, []);
 
   return (

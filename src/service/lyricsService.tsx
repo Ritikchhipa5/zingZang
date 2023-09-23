@@ -18,6 +18,18 @@ export const LyricsSongList = [
   },
 ];
 
+export const RecordingMusic = [
+  {
+    id: '1',
+    url: require('./../assets/sound/sound2.mp3'),
+    duration: 60,
+    albumCover:
+      'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+    title: 'Boten Anna',
+    artist: 'Basshunter',
+  },
+];
+
 export const FUN_FACT_DATA = [
   {
     id: 1,

@@ -16,7 +16,10 @@ import {
 import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {requestTextSongs} from '../api/generateTrack';
-import TrackPlayer, {usePlaybackState} from 'react-native-track-player';
+import TrackPlayer, {
+  usePlaybackState,
+  useProgress,
+} from 'react-native-track-player';
 import {
   addTracksOnTrackPlayer,
   setupPlayer,
@@ -31,15 +34,15 @@ function MySongList({navigation, user, addPlaySong}: any) {
   const [SongList, setSongList] = useState<any>([]);
   const [isPlay, setIsPlay] = useState<any>(false);
   const [reload, setReload] = useState(false);
+  const {position, duration, buffered} = useProgress();
   const state = usePlaybackState();
+  console.log(state, buffered, duration, position);
+
   useEffect(() => {
     loadAndPlayTracks();
     console.log(user);
-  }, []);
+  }, [reload]);
 
-  const handleReload = () => {
-    setReload(!reload);
-  };
   async function loadAndPlayTracks() {
     requestTextSongs({
       id: user?.user?.id,

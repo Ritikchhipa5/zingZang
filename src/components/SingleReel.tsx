@@ -15,7 +15,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
   const windowHeight = Dimensions.get('window').height;
   const navigation: any = useNavigation();
   const videoRef = useRef<any>(null);
-
+  console.log(item?.video);
   const [mute, setMute] = useState(false);
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
@@ -28,8 +28,6 @@ const SingleReel = ({item, index, currentIndex}: any) => {
       setLike(likesArray?.includes(user?.user?.id));
     }
   }, [user]);
-
-  console.log(item);
 
   const onBuffer = (buffer: any) => {
     console.log('buffring', buffer);
@@ -83,7 +81,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.9}
-        // onPress={() => setMute(!mute)}
+        onPress={() => setMute(!mute)}
         style={{
           width: '100%',
           height: '100%',
