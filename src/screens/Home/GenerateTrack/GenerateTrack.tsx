@@ -80,13 +80,28 @@ const GenerateTrack = ({navigation}: any) => {
               let data = await createTextSong(values);
               console.log(data);
               setIsLoading(false);
+
+              // addTracksOnTrackPlayer([
+              //   {
+              //     id: '11223',
+              //     url: require('../../../assets/sound/sound.mp3'),
+              //     audioPath: data?.data?.path,
+              //     duration: values?.duration,
+              //     artist: user?.user?.name,
+              //     albumCover:
+              //       'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
+              //     title: values?.title || 'Unknown Title', // Provide a
+              //   },
+              // ]);
               navigation.navigate('GenerateSongList', {
                 generateSong: {
-                  id: '1',
-                  url: data?.data?.link,
+                  id: '11223',
+                  // url: data?.data?.link,
+                  // url: 'https://demos.loopmasters.com/16672%2FREGGAE_SOUND_CLASH_DEMO.mp3',
+                  url: require('../../../assets/sound/sound.mp3'),
                   audioPath: data?.data?.path,
                   // isLiveStream: true,
-                  duration: values?.duration,
+                  // duration: values?.duration,
                   artist: user?.user?.name,
                   albumCover:
                     'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',

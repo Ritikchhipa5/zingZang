@@ -39,14 +39,7 @@ function SongList({navigation, song, addPlaySong}: any) {
 
   useEffect(() => {
     async function setup() {
-      // let isSetup = await setupPlayer();
-      // console.log(isSetup);
-      // const queue = await TrackPlayer.getQueue();
-      // if (isSetup && queue.length <= 0) {
-      // TrackPlayer.reset();
-      // await TrackPlayer.add(LyricsSongList);
       addTracksOnTrackPlayer(LyricsSongList);
-      // }
     }
 
     setup();

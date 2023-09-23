@@ -4,8 +4,9 @@ import TrackPlayer, {
   RepeatMode,
   Event,
   State,
+  PlaybackErrorEvent,
 } from 'react-native-track-player';
-import {seekToCurrentTime} from './seekToCurrentTime';
+// import {seekToCurrentTime} from './seekToCurrentTime';
 
 export async function setupPlayer() {
   // let isSetup = false;
@@ -51,8 +52,8 @@ export async function setupPlayer() {
 export async function SetupPlayer() {
   let isSetup = false;
   try {
-    await TrackPlayer.setupPlayer();
-
+    let setup = await TrackPlayer.setupPlayer();
+    console.log(setup);
     await TrackPlayer.updateOptions({
       // Media controls capabilities
       capabilities: [
@@ -71,14 +72,20 @@ export async function SetupPlayer() {
     isSetup = true;
     return isSetup;
   } catch (error) {
-    console.log(error);
+    console.log(error, 'sadmas');
+    isSetup = false;
+    return false;
   }
 }
 
-export async function addTracksOnTrackPlayer(tracks: any) {
+export async function addTracksOnTrackPlayer(
+  tracks: any,
+  insertBeforeIndex?: number,
+) {
   if (tracks) {
     await TrackPlayer.reset();
-    await TrackPlayer.add(tracks);
+    await TrackPlayer.add(tracks, insertBeforeIndex);
+    // await TrackPlayer.seekTo(0);
     // await seekToCurrentTime();
     // await TrackPlayer.play();
   }
@@ -101,6 +108,7 @@ export async function playbackService() {
   // Add event listeners for remote control events (play, pause, next, etc.)
   TrackPlayer.addEventListener(Event.RemotePlay, () => {
     TrackPlayer.play();
+    console.log('Remote Play');
   });
   TrackPlayer.addEventListener(Event.RemotePause, () => {
     TrackPlayer.pause();
@@ -111,4 +119,10 @@ export async function playbackService() {
   TrackPlayer.addEventListener(Event.RemotePrevious, () => {
     TrackPlayer.skipToPrevious();
   });
+  TrackPlayer.addEventListener(
+    Event.PlaybackError,
+    (data: PlaybackErrorEvent) => {
+      console.warn('An error occurred while playing:', data.message);
+    },
+  );
 }

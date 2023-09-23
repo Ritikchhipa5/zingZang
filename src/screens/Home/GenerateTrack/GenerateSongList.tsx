@@ -22,7 +22,10 @@ import {Slider} from '@react-native-assets/slider';
 
 import {connect} from 'react-redux';
 import {addCurrentSong} from '../../../actions/songs';
-import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
+import {
+  SetupPlayer,
+  addTracksOnTrackPlayer,
+} from '../../../service/trackPlayerServices';
 
 import {Images} from '../../../constant/Images';
 
@@ -40,13 +43,25 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
   const {generateSong} = route.params;
   const {position, duration, buffered} = useProgress();
   const state = usePlaybackState();
+
   const [showTrackPlayer, setShowTrackPlayer] = useState(false);
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    setSongList([generateSong]);
-    addTracksOnTrackPlayer(generateSong);
-  }, [reload]);
+    const setupPlayer = async () => {
+      // let initialize = await SetupPlayer();
+      // console.log('SetupPlayer', initialize);
+      setSongList([generateSong]);
+      await addTracksOnTrackPlayer([generateSong]);
+      console.log(await TrackPlayer.getCurrentTrack());
+    };
+    setupPlayer();
+    // const setup = async () => {
+    // addTracksOnTrackPlayer([generateSong]);
+
+    // };
+    // setup();
+  }, []);
 
   console.log(state, buffered, duration, position);
 
@@ -99,9 +114,11 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
               } drop-shadow-md mb-3 `}
               key={index + 1}
               onPress={async () => {
+                let data = await TrackPlayer.getCurrentTrack();
+                console.log(data, 'fjhsdvfhhj');
+                await TrackPlayer.play();
                 setSong(item);
                 setIsPlay(true);
-                await TrackPlayer.play();
               }}>
               <View className={`flex flex-row items-center`}>
                 <Image
@@ -179,11 +196,11 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
                 <TouchableOpacity
                   onPress={async () => {
                     if (!isPlay) {
-                      setIsPlay(true);
                       await TrackPlayer.play();
+                      setIsPlay(true);
                     } else {
-                      setIsPlay(false);
                       await TrackPlayer.pause();
+                      setIsPlay(false);
                     }
                   }}
                   className="mr-2">
