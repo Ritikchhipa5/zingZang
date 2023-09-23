@@ -102,7 +102,7 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
           activeOpacity={0.7}
           onPress={() => {
             if (pickSong !== '') {
-              navigation.navigate('SongNameEdit', {pickSong});
+              navigation.navigate('SelectPortion', {pickSong});
             } else {
               Alert.alert('Please select a recording');
             }
@@ -110,7 +110,7 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
           }}>
           <View className={`py-4 bg-[#F780FB] rounded-full `}>
             <Text className="text-xl font-semibold text-center text-black">
-              Continue to Fit the Song
+              Continue to Fit the Song 2
             </Text>
           </View>
         </TouchableOpacity>
