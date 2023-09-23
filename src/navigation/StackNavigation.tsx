@@ -13,6 +13,7 @@ import MySongList from '../screens/MySongList';
 import RecordScreen from '../screens/Home/Record/RecordScreen';
 import SelectRecording from '../screens/Home/Record/SelectRecording';
 import SongNameEdit from '../screens/Home/Record/SongNameEdit';
+import SelectPortion from '../screens/Home/Record/SelectPortion';
 import LyricsPlayer from '../screens/Home/CustomLyrics/LyricsPlayer';
 import CustomLyrics from '../screens/Home/CustomLyrics/CustomLyrics';
 import AlbumCover from '../screens/Home/Record/AlbumCover';
@@ -117,6 +118,11 @@ function StackNavigation() {
             options={{headerShown: false}}
             name="SongNameEdit"
             component={SongNameEdit}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="SelectPortion"
+            component={SelectPortion}
           />
           <Stack.Screen
             options={{headerShown: false}}
