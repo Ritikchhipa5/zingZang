@@ -35,7 +35,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {BlurView} from '@react-native-community/blur';
 import {screenWidth} from '../../../utils/utils';
 import {connect} from 'react-redux';
-import {addRecording} from '../../../actions/record';
+import {addRecording, removeRecording} from '../../../actions/record';
 import StopRecordingModal from '../../../components/Modal/StopRecordingModal';
 import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 import LyricsData from '../../lyricsData.json';
@@ -217,7 +217,7 @@ class RecordScreen extends Component<any, State> {
             <View className="mt-5">
               <View className="flex flex-row items-center justify-around ">
                 <TouchableOpacity
-                  onPress={() => this.onStopRecord()}
+                  // onPress={() => this.onStopRecord()}
                   className="flex items-center gap-2 ">
                   <View>
                     {/* <Image source={Images.LISTEN} className="w-[60] h-[60] " /> */}
@@ -402,10 +402,10 @@ class RecordScreen extends Component<any, State> {
     TrackPlayer.play();
   };
 
-  private startOver = () => {
+  private startOver = async () => {
     // Clear the recorded audios list
     this.setState({recordedAudios: [], recordSecs: 0, isRecording: false});
-
+    await this.props.removeAllRecording();
     // You may also want to delete any saved audio files on the device
     // Implement logic to delete the audio files from storage here
   };
@@ -519,6 +519,10 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     addRecord: (rec: any) => {
       dispatch(addRecording(rec));
+    },
+
+    removeAllRecording: () => {
+      dispatch(removeRecording());
     },
   };
 };

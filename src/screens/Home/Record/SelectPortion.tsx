@@ -220,6 +220,7 @@ export const SliderContainer = (props: {
   );
 };
 
+const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
 const IndividualComp = ({
   data,
   selectSong,
@@ -227,7 +228,7 @@ const IndividualComp = ({
   updateSliderValue,
 }: any) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
+
   // audioRecorderPlayer.setSubscriptionDuration(0.09);
   const onStartPlay = async () => {
     try {

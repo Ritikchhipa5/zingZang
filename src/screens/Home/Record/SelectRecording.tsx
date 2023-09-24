@@ -15,13 +15,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
+import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
+import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 import AudioRecorderPlayer, {
   PlayBackType,
 } from 'react-native-audio-recorder-player';
-import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
-import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
+const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
 const SelectRecording = ({navigation, recordedAudios}: any) => {
-  const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
   const [pickSong, setPickSong] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
   const onStartPlay = async () => {
@@ -36,18 +36,31 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
       audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
         console.log('playBackListener', e);
         setIsPlaying(!(e.currentPosition === e.duration));
+        return;
       });
+      setIsPlaying(true);
     } catch (err) {
       console.log('startPlayer error', err);
     }
   };
   const onPausePlay = async (): Promise<void> => {
-    await audioRecorderPlayer.pausePlayer();
-    setIsPlaying(false);
+    try {
+      await audioRecorderPlayer.pausePlayer();
+      setIsPlaying(false);
+    } catch (error) {
+      console.error('Error pausing playback:', error);
+    }
   };
+
   const onStopPlay = async (): Promise<void> => {
-    await audioRecorderPlayer.stopPlayer();
-    setIsPlaying(false);
+    try {
+      console.log('stopPlayer');
+      await audioRecorderPlayer.stopPlayer();
+      audioRecorderPlayer.removePlayBackListener();
+      setIsPlaying(false);
+    } catch (error) {
+      console.error('Error stopping playback:', error);
+    }
   };
 
   return (
@@ -91,8 +104,9 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
             <RadioButton
               data={recordedAudios}
               selectSong={setPickSong}
-              onStartPlay={onStartPlay}
               isPlaying={isPlaying}
+              onStartPlay={onStartPlay}
+              onStopPlay={onStopPlay}
               onPausePlay={onPausePlay}
             />
           </ScrollView>
@@ -131,8 +145,10 @@ class RadioButton extends Component<any, any> {
     value: null,
   };
   render() {
-    const {data, selectSong, isPlaying, onStartPlay, onPausePlay} = this.props;
+    const {data, selectSong, isPlaying, onStartPlay, onPausePlay, onStopPlay} =
+      this.props;
     const {value} = this.state;
+    console.log(data);
     return (
       <View>
         {data.map((res: any, index: number) => {
@@ -145,6 +161,7 @@ class RadioButton extends Component<any, any> {
                   value: res.uri,
                 });
                 selectSong(res.uri);
+                onStopPlay();
               }}>
               <View className="flex-[0.2]">
                 <View
@@ -166,13 +183,18 @@ class RadioButton extends Component<any, any> {
                 } `}>
                 <Image source={Images.WAVES} />
                 <TouchableOpacity
-                  onPress={
-                    isPlaying && value === res.uri ? onPausePlay : onStartPlay
-                  }>
-                  {!isPlaying && value === res.uri ? (
-                    <ICONS_SVG.PLAY />
-                  ) : (
+                  onPress={() => {
+                    console.log(isPlaying, value === res.uri);
+                    if (!isPlaying && value === res.uri) {
+                      onStartPlay();
+                    } else {
+                      onStopPlay();
+                    }
+                  }}>
+                  {isPlaying && value === res.uri ? (
                     <ICONS_SVG.PAUSE />
+                  ) : (
+                    <ICONS_SVG.PLAY />
                   )}
                 </TouchableOpacity>
               </View>

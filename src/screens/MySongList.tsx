@@ -20,10 +20,7 @@ import TrackPlayer, {
   usePlaybackState,
   useProgress,
 } from 'react-native-track-player';
-import {
-  addTracksOnTrackPlayer,
-  setupPlayer,
-} from '../service/trackPlayerServices';
+import {addTracksOnTrackPlayer} from '../service/trackPlayerServices';
 import {userInfoAdd} from '../actions/record';
 import {connect, useSelector} from 'react-redux';
 import {addCurrentSong} from '../actions/songs';
