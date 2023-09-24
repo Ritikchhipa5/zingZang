@@ -22,8 +22,8 @@ import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 import {Slider} from '@miblanchard/react-native-slider';
 import {LyricsSongList} from '../../../service/lyricsService';
-import {compose} from 'redux';
 
+const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
 const SelectPortion = ({navigation, recordedAudios}: any) => {
   const [pickSong, setPickSong] = useState('');
   const [sliderValues, setSliderValues] = useState({
@@ -113,13 +113,15 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
         <TouchableOpacity
           className="px-4 "
           activeOpacity={0.7}
-          onPress={() => {
+          onPress={async () => {
             // if (pickSong !== '') {
             // } else {
             //   Alert.alert('Please select a recording');
             // }
 
             navigation.navigate('AlbumCover', {pickSong, sliderValues});
+            await audioRecorderPlayer.stopPlayer();
+            audioRecorderPlayer.removePlayBackListener();
           }}>
           <View className={`py-4 bg-[#F780FB] rounded-full `}>
             <Text className="text-xl font-semibold text-center text-black">
@@ -223,7 +225,6 @@ export const SliderContainer = (props: {
   );
 };
 
-const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
 const IndividualComp = ({
   data,
   selectSong,
