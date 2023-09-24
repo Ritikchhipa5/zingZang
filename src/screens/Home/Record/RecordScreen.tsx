@@ -48,6 +48,7 @@ interface State {
   recordTime: string;
   currentPositionSec: number;
   currentDurationSec: number;
+  isStartOver: boolean;
   playTime: string;
   duration: string;
   countdown: number;
@@ -73,6 +74,7 @@ class RecordScreen extends Component<any, State> {
     super(props);
     this.state = {
       isRecording: false,
+      isStartOver: false,
       recordSecs: 0,
       recordTime: '00:00:00',
       currentPositionSec: 0,
@@ -127,6 +129,12 @@ class RecordScreen extends Component<any, State> {
     this.countdownInterval = setInterval(this.updateCountdown, 1000);
   };
 
+  setStartOver = (value: boolean) => {
+    console.log(value, 'dasnkjndkjasd');
+    this.setState({
+      isStartOver: false,
+    });
+  };
   updateCountdown = () => {
     const {countdown} = this.state;
     if (countdown === 0) {
@@ -155,8 +163,15 @@ class RecordScreen extends Component<any, State> {
     if (!playWidth) {
       playWidth = 0;
     }
-    const {countdown, opacity, scaleValue, isRecording, isModalVisible} =
-      this.state;
+    const {
+      countdown,
+      opacity,
+      scaleValue,
+      isRecording,
+      isModalVisible,
+      isStartOver,
+    } = this.state;
+
     return (
       <ImageBackground
         style={{height: heightPercentageToDP('100%')}}
@@ -198,7 +213,13 @@ class RecordScreen extends Component<any, State> {
               <AntDesign name="close" color={'#fff'} size={28} />
             </TouchableOpacity>
           </View>
-          <LyricsFlatList isRecording={isRecording} />
+
+          <LyricsFlatList
+            isRecording={isRecording}
+            lyrics={this.props.lyrics}
+            isStartOver={isStartOver}
+            setStartOver={this.setStartOver}
+          />
 
           {/* <View className="h-[20%] justify-center px-4">
             <View className="flex flex-row justify-center">
@@ -404,8 +425,10 @@ class RecordScreen extends Component<any, State> {
 
   private startOver = async () => {
     // Clear the recorded audios list
-    this.setState({recordedAudios: [], recordSecs: 0, isRecording: false});
-    await this.props.removeAllRecording();
+    // this.setState({recordedAudios: [], recordSecs: 0, isRecording: false});
+
+    this.setState({recordSecs: 0, isRecording: false, isStartOver: true});
+    // await this.props.removeAllRecording();
     // You may also want to delete any saved audio files on the device
     // Implement logic to delete the audio files from storage here
   };
@@ -418,6 +441,7 @@ class RecordScreen extends Component<any, State> {
   private handleEndRecordingModal = () => {
     this.setState({
       isModalVisible: false,
+      isStartOver: true,
     });
     this.onStopRecord();
   };
@@ -564,8 +588,19 @@ function KaraokeText({lyrics, isRecording}: any) {
   );
 }
 
-const LyricsFlatList = ({isRecording}: any) => {
+const LyricsFlatList = ({
+  isRecording,
+  lyrics,
+  isStartOver,
+  setStartOver,
+}: any) => {
   const [currentTime, setCurrentTime] = useState(0);
+  useEffect(() => {
+    if (isStartOver) {
+      setCurrentTime(0);
+      setStartOver(false);
+    }
+  }, [isStartOver]);
   useEffect(() => {
     if (isRecording) {
       const interval = setInterval(() => {
@@ -575,7 +610,8 @@ const LyricsFlatList = ({isRecording}: any) => {
     }
   }, [currentTime, isRecording]);
   const flatListRef = useRef<any>(null);
-  const lines = LyricsData.lyrics.lines;
+  // const lines = LyricsData.lyrics.lines;
+  const lines = lyrics;
 
   useEffect(() => {
     // You can use this effect to trigger play/pause based on your playback logic
@@ -583,7 +619,7 @@ const LyricsFlatList = ({isRecording}: any) => {
     if (flatListRef.current && isRecording) {
       // Calculate the current line index based on the current time
       const currentIndex = lines.findIndex(
-        (line, index) =>
+        (line: any, index: any) =>
           currentTime >= line.time &&
           (lines[index + 1] ? currentTime < lines[index + 1].time : true),
       );
@@ -611,7 +647,6 @@ const LyricsFlatList = ({isRecording}: any) => {
           ? lines[lines.indexOf(item) + 1].time
           : Infinity;
 
-        // Conditionally set text color based on the current time
         const textColor =
           currentTime >= startTime && currentTime < endTime
             ? {color: 'white'}
@@ -625,7 +660,8 @@ const LyricsFlatList = ({isRecording}: any) => {
 
               ...textColor,
             }}>
-            {item.words[0].string}
+            {item?.words?.[0]?.string}
+            {item?.string}
           </Text>
         );
       }}

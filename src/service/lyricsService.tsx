@@ -1,11 +1,27 @@
 export const lyricsString = [
-  'Jag känner en bot',
+  ['Jag känner en bot'],
   'Hon heter Anna. Anna heter hon',
   'och hon kan banna banna dig så hårt',
   'Hon röjer upp i våran kanal',
   'Jag vill berätta för dig att jag känner en bot',
   'Jag vill berätta för dig att jag känner en',
 ]; // Your data
+export const newLyricsString = [
+  {time: 5, string: 'Jag känner en bot'},
+  {time: 6, string: 'Hon heter Anna. Anna heter hon'},
+  {
+    time: 11,
+    string: 'och hon kan banna banna dig så hårt',
+  },
+  {
+    time: 14,
+    string: 'Hon röjer upp i våran kanal',
+  },
+  {
+    time: 17,
+    string: 'Jag vill berätta för dig att jag känner en bot',
+  },
+];
 export const LyricsSongList = [
   {
     id: '1',

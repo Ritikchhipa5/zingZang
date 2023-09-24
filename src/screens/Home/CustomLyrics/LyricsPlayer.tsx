@@ -20,27 +20,28 @@ import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {lyricsString} from '../../../service/lyricsService';
+import {lyricsString, newLyricsString} from '../../../service/lyricsService';
 
 import {connect} from 'react-redux';
 import {addLyrics} from '../../../actions/record';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
+
 interface Props {
-  items: string[];
+  items: any;
   onIndexChange: (index: number) => void;
   itemHeight: number;
-  updateLyrics: string[];
-  setUpdateLyrics: (index: string[]) => void;
+  updateLyrics: any;
+  setUpdateLyrics: (index: any) => void;
 }
 
 function LyricsPlayer({navigation, addLyric, lyrics}: any) {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
-  const [updateLyrics, setUpdateLyrics] = useState<string[]>([]);
+  const [updateLyrics, setUpdateLyrics] = useState<any>([]);
   const handleIndexChange = (index: any) => {
     setSelectedItemIndex(index);
   };
   useEffect(() => {
-    setUpdateLyrics(lyricsString);
+    setUpdateLyrics(newLyricsString);
   }, []);
 
   return (
@@ -108,6 +109,7 @@ function LyricsPlayer({navigation, addLyric, lyrics}: any) {
                 activeOpacity={0.7}
                 onPress={() => {
                   addLyric(updateLyrics);
+                  console.log(updateLyrics);
                   navigation.navigate('RecordScreen');
                 }}>
                 <View className={`py-4 bg-[#F780FB] rounded-full `}>
@@ -121,8 +123,9 @@ function LyricsPlayer({navigation, addLyric, lyrics}: any) {
                 activeOpacity={0.7}
                 onPress={() => {
                   addLyric(lyricsString);
-                  setUpdateLyrics(lyricsString);
-                  navigation.navigate('RecordScreen');
+                  console.log(lyricsString);
+                  // setUpdateLyrics(lyricsString);
+                  // navigation.navigate('RecordScreen');
                 }}>
                 <View
                   className={`py-4 border-[#F780FB] border-2 rounded-full `}>
@@ -178,7 +181,7 @@ const WheelPicker: React.FC<Props> = props => {
               handleTextInputChange(index, value);
             }}
             multiline
-            value={props.updateLyrics[index]}
+            value={props.updateLyrics?.[index]?.string}
             placeholderTextColor="#fff"
             className="w-full py-3  text-xl font-bold text-center bg-[#FFFFFF1A] text-white rounded-md  items-center leading-2 px-5"
             style={{
@@ -195,7 +198,7 @@ const WheelPicker: React.FC<Props> = props => {
 
   const handleTextInputChange = (index: number, newText: string) => {
     let data = [...props.updateLyrics];
-    data[index] = newText;
+    data[index] = {time: data[index]?.time, string: newText};
     props.setUpdateLyrics(data);
   };
   const modifiedItems = [...props.updateLyrics];

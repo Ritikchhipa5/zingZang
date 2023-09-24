@@ -32,7 +32,7 @@ function StackNavigation() {
   console.log(isLoggedIn);
   return (
     <Stack.Navigator
-      initialRouteName="CreateProject"
+      initialRouteName="CustomLyrics"
       screenOptions={{
         headerShown: false,
         gestureEnabled: false,
