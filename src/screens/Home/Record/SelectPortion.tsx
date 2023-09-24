@@ -22,6 +22,7 @@ import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 import {Slider} from '@miblanchard/react-native-slider';
 import {LyricsSongList} from '../../../service/lyricsService';
+import {compose} from 'redux';
 
 const SelectPortion = ({navigation, recordedAudios}: any) => {
   const [pickSong, setPickSong] = useState('');
@@ -80,6 +81,7 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
             <IndividualComp
               data={[LyricsSongList[0]]}
               selectSong={setPickSong}
+              sliderValues={sliderValues}
               originalSong
               updateSliderValue={updateSliderValue}
               // onStartPlay={onStartPlay}
@@ -101,6 +103,7 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
               data={[recordedAudios[0]]}
               selectSong={setPickSong}
               updateSliderValue={updateSliderValue}
+              sliderValues={sliderValues}
               // onStartPlay={onStartPlay}
               // isPlaying={isPlaying}
               // onPausePlay={onPausePlay}
@@ -226,36 +229,49 @@ const IndividualComp = ({
   selectSong,
   originalSong = false,
   updateSliderValue,
+  sliderValues,
 }: any) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   // audioRecorderPlayer.setSubscriptionDuration(0.09);
   const onStartPlay = async () => {
     try {
+      console.log(sliderValues);
       const msg = await audioRecorderPlayer.startPlayer(
         originalSong ? data[0]?.url : data[0]?.uri,
       );
+      await audioRecorderPlayer.seekToPlayer(sliderValues.rec0 * 1000);
 
       const volume = await audioRecorderPlayer.setVolume(1.0);
       console.log(msg, volume);
-      // audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {r
-      //   console.log('playBackListener', e);
-      //   setIsPlaying(!(e.currentPosition === e.duration));
-      //   console.log(!(e.currentPosition === e.duration));
-      // });
+      audioRecorderPlayer.addPlayBackListener(async (e: PlayBackType) => {
+        console.log(e.currentPosition, sliderValues.rec1 * 1000);
+
+        if (e.currentPosition >= sliderValues.rec1 * 1000) {
+          setIsPlaying(false);
+          await audioRecorderPlayer.stopPlayer();
+          audioRecorderPlayer.removePlayBackListener();
+          // console.log('playBackListener', e);
+        } else {
+          setIsPlaying(!(e.currentPosition === e.duration));
+        }
+        return;
+      });
+      setIsPlaying(true);
     } catch (err) {
       console.log('startPlayer error', err);
     }
   };
   const onPausePlay = async (): Promise<void> => {
     await audioRecorderPlayer.pausePlayer();
-    // audioRecorderPlayer.removePlayBackListener();
-    // setIsPlaying(false);
+
+    setIsPlaying(false);
   };
-  // const onStopPlay = async (): Promise<void> => {
-  //   await audioRecorderPlayer.stopPlayer();
-  //   setIsPlaying(false);
-  // };
+  const onStopPlay = async (): Promise<void> => {
+    await audioRecorderPlayer.stopPlayer();
+    audioRecorderPlayer.removePlayBackListener();
+    setIsPlaying(false);
+  };
   return (
     <View>
       {console.log(data, '')}
@@ -310,7 +326,7 @@ const IndividualComp = ({
                   thumbTintColor={'#6af0f3'}
                   //minimumTrackTintColor={'#ff0000'}
                   minimumTrackTintColor="#ffffff88"
-                  minimumValue={4}
+                  minimumValue={1}
                   //thumbImage={Images.PLAY}
                   //thumbImage={Images.PLAY}
 
@@ -343,15 +359,14 @@ const IndividualComp = ({
               <TouchableOpacity
                 onPress={() => {
                   if (isPlaying) {
-                    // setIsPlaying(false);
-                    onPausePlay();
+                    onStopPlay();
                   } else {
                     selectSong(originalSong ? res?.url : res?.uri);
                     onStartPlay();
                     // setIsPlaying(true);
                   }
                 }}>
-                {isPlaying ? <ICONS_SVG.PLAY /> : <ICONS_SVG.PAUSE />}
+                {isPlaying ? <ICONS_SVG.PAUSE /> : <ICONS_SVG.PLAY />}
               </TouchableOpacity>
             </View>
           </View>
