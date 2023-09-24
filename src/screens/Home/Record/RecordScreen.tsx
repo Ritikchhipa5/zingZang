@@ -38,7 +38,7 @@ import {connect} from 'react-redux';
 import {addRecording, removeRecording} from '../../../actions/record';
 import StopRecordingModal from '../../../components/Modal/StopRecordingModal';
 import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
-import LyricsData from '../../lyricsData.json';
+import {SpotifyLyricsData as LyricsData} from '../../lyricsData';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import {RecordingMusic} from '../../../service/lyricsService';
 import TrackPlayer from 'react-native-track-player';

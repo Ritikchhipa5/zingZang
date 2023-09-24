@@ -25,8 +25,6 @@ import GenerateSongList from '../screens/Home/GenerateTrack/GenerateSongList';
 import {useSelector} from 'react-redux';
 import GenerateReel from '../screens/Home/GenerateTrack/GenerateReel';
 import AccountInfo from '../screens/Home/Settings/AccountInfo';
-import LyricsPage from '../screens/LyricsScreen';
-
 function StackNavigation() {
   const Stack = createStackNavigator();
   const isLoggedIn =
@@ -59,7 +57,6 @@ function StackNavigation() {
         </>
       ) : (
         <>
-          <Stack.Screen name="LyricsPage" component={LyricsPage} />
           <Stack.Screen name="CreateProject" component={CreateProject} />
 
           <Stack.Screen
