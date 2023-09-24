@@ -28,9 +28,9 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
   const [pickSong, setPickSong] = useState('');
   const [sliderValues, setSliderValues] = useState({
     original0: 0,
-    original1: 0,
+    original1: 10,
     rec0: 0,
-    rec1: 0,
+    rec1: 10,
   });
 
   // Function to update the slider values
@@ -251,7 +251,6 @@ const IndividualComp = ({
           setIsPlaying(false);
           await audioRecorderPlayer.stopPlayer();
           audioRecorderPlayer.removePlayBackListener();
-          // console.log('playBackListener', e);
         } else {
           setIsPlaying(!(e.currentPosition === e.duration));
         }

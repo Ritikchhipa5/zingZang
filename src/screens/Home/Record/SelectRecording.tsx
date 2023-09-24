@@ -20,13 +20,14 @@ import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 import AudioRecorderPlayer, {
   PlayBackType,
 } from 'react-native-audio-recorder-player';
+import {ExternalStorageDirectoryPath} from 'react-native-fs';
 const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
 const SelectRecording = ({navigation, recordedAudios}: any) => {
-  const [pickSong, setPickSong] = useState('');
+  const [pickSong, setPickSong] = useState<any>('');
   const [isPlaying, setIsPlaying] = useState(false);
   const onStartPlay = async () => {
     try {
-      const msg = await audioRecorderPlayer.startPlayer(pickSong);
+      const msg = await audioRecorderPlayer.startPlayer(pickSong?.uri);
 
       //? Default path
       // const msg = await this.audioRecorderPlayer.startPlayer();
@@ -116,7 +117,12 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
           activeOpacity={0.7}
           onPress={() => {
             if (pickSong !== '') {
-              navigation.navigate('SelectPortion', {pickSong});
+              if (2 <= pickSong?.duration) {
+                navigation.navigate('SelectPortion', {pickSong: pickSong?.uri});
+                console.log(pickSong);
+              } else {
+                Alert.alert('Recording length must be 2 seconds');
+              }
             } else {
               Alert.alert('Please select a recording');
             }
@@ -160,7 +166,7 @@ class RadioButton extends Component<any, any> {
                 this.setState({
                   value: res.uri,
                 });
-                selectSong(res.uri);
+                selectSong(res);
                 onStopPlay();
               }}>
               <View className="flex-[0.2]">
