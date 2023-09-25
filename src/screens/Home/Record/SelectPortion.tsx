@@ -8,7 +8,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
-import {LyricsSongList} from '../../../service/lyricsService';
+import {LyricsSongList, OrignalSong} from '../../../service/lyricsService';
 import TrackPlayer from 'react-native-track-player';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import {IndividualComp} from '../../../components/Slider/IndividualComp';
@@ -84,7 +84,7 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
           </Text>
           <View className="my-4">
             <IndividualComp
-              data={[LyricsSongList[0]]}
+              data={[OrignalSong[0]]}
               selectSong={setPickSong}
               sliderValues={sliderValues}
               originalSong
