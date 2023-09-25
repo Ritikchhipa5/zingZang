@@ -1,29 +1,17 @@
-import {
-  Alert,
-  Image,
-  ImageBackground,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {Component, useEffect, useState} from 'react';
+import {ImageBackground, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Images} from '../../../constant/Images';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
-import AudioRecorderPlayer, {
-  PlayBackType,
-} from 'react-native-audio-recorder-player';
-import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
+import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
-import {Slider} from '@miblanchard/react-native-slider';
 import {LyricsSongList} from '../../../service/lyricsService';
-import TrackPlayer, {Event} from 'react-native-track-player';
+import TrackPlayer from 'react-native-track-player';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
+import {IndividualComp} from '../../../components/Slider/IndividualComp';
 
 const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
 const SelectPortion = ({navigation, recordedAudios}: any) => {
@@ -37,11 +25,13 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
 
   useEffect(() => {
     const setup = async () => {
+      await TrackPlayer.reset();
       const queue = (await TrackPlayer.getQueue()).length;
       if (!queue) {
         addTracksOnTrackPlayer(LyricsSongList);
       }
     };
+    setup();
   }, []);
   // Function to update the slider values
   const updateSliderValue = (value: any) => {
@@ -155,298 +145,3 @@ const mapStateToProps = (state: any) => {
   };
 };
 export default connect(mapStateToProps, null)(SelectPortion);
-
-export const SliderContainer = (props: {
-  caption?: string;
-  children: React.ReactElement;
-  sliderValue?: Array<number>;
-  trackMarks?: Array<number>;
-  vertical?: boolean;
-}) => {
-  //console.log(`<<<<<< thumbsecond style = ${thumbSecondStyle}`);
-  const DEFAULT_VALUE = 0.2;
-  const {caption, sliderValue, trackMarks} = props;
-  const [value, setValue] = React.useState(
-    sliderValue ? sliderValue : DEFAULT_VALUE,
-  );
-  // useEffect(() => {
-  //   console.log(`\n\n Slider Values  = ${value}`);
-  // }, [value]);
-  var renderTrackMarkComponent: any;
-  const borderWidth = 4;
-
-  if (trackMarks?.length && (!Array.isArray(value) || value?.length === 1)) {
-    renderTrackMarkComponent = (index: number) => {
-      const currentMarkValue = trackMarks[index];
-      const currentSliderValue =
-        value || (Array.isArray(value) && value[0]) || 0;
-      const style =
-        currentMarkValue > Math.max(currentSliderValue)
-          ? {borderColor: 'red', borderWidth, left: -borderWidth / 2}
-          : {borderColor: 'grey', borderWidth, left: -borderWidth / 2};
-      return <View style={style} />;
-    };
-  }
-
-  const renderChildren = () => {
-    return React.Children.map(
-      props.children,
-      (child: React.ReactElement, index: number) => {
-        if (!!child && child.type === Slider) {
-          return React.cloneElement(child, {
-            onValueChange: setValue,
-            renderTrackMarkComponent,
-            trackMarks,
-            value,
-          });
-        }
-
-        return child;
-      },
-    );
-  };
-
-  return (
-    <View style={{paddingVertical: 16}}>
-      <View
-        style={{
-          backgroundColor: '#27132b',
-          paddingVertical: 4,
-        }}>
-        <Image
-          style={{
-            height: 45,
-            width: 264,
-            zIndex: 1,
-            resizeMode: 'cover',
-          }}
-          source={Images.WAVES}
-        />
-      </View>
-      <View
-        style={{
-          position: 'absolute',
-          top: '30%',
-          height: 45 + 8,
-          width: 264 + 16,
-          marginLeft: -8,
-          justifyContent: 'center',
-          alignItems: 'center',
-          //backgroundColor: '#27132b',
-        }}>
-        {renderChildren()}
-      </View>
-    </View>
-  );
-};
-
-const IndividualComp = ({
-  data,
-  selectSong,
-  originalSong = false,
-  updateSliderValue,
-  sliderValues,
-}: any) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  // audioRecorderPlayer.setSubscriptionDuration(0.09);
-  const onStartPlay = async () => {
-    try {
-      console.log(sliderValues);
-
-      if (!originalSong) {
-        const msg = await audioRecorderPlayer.startPlayer(
-          originalSong ? data[0]?.url : data[0]?.uri,
-        );
-        await audioRecorderPlayer.seekToPlayer(sliderValues.rec0 * 1000);
-        const volume = await audioRecorderPlayer.setVolume(1.0);
-        audioRecorderPlayer.addPlayBackListener(async (e: PlayBackType) => {
-          if (e.currentPosition >= sliderValues.rec1 * 1000) {
-            setIsPlaying(false);
-            await audioRecorderPlayer.stopPlayer();
-            audioRecorderPlayer.removePlayBackListener();
-          } else {
-            setIsPlaying(!(e.currentPosition === e.duration));
-          }
-          return;
-        });
-      } else {
-        // Check the current state of the track player
-        const state: any = await TrackPlayer.getState();
-        if (state === 'playing') {
-          return;
-        }
-
-        TrackPlayer.play();
-        TrackPlayer.addEventListener(
-          Event.PlaybackProgressUpdated,
-          async (e: any) => {
-            console.log(e);
-            if (e.position >= sliderValues?.original1) {
-              // Pause the original song when it reaches the specified position
-              await TrackPlayer.pause();
-            }
-          },
-        );
-
-        TrackPlayer.seekTo(sliderValues?.original0);
-        // // Seek to the specified original0 position
-      }
-
-      setIsPlaying(true);
-    } catch (err) {
-      console.log('startPlayer error', err);
-    }
-  };
-  const onPausePlay = async (): Promise<void> => {
-    await audioRecorderPlayer.pausePlayer();
-    setIsPlaying(false);
-  };
-  const onStopPlay = async (): Promise<void> => {
-    if (!originalSong) {
-      await audioRecorderPlayer.stopPlayer();
-      audioRecorderPlayer.removePlayBackListener();
-      setIsPlaying(false);
-    } else {
-      // await TrackPlayer.reset();
-      TrackPlayer.pause();
-      setIsPlaying(false);
-    }
-  };
-  return (
-    <View>
-      {data.map((res: any, index: number) => {
-        return (
-          <View
-            key={index}
-            style={{
-              backgroundColor: '#27132b',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              borderRadius: 8,
-              paddingVertical: 4,
-            }}>
-            {/* <View
-            className={`flex gap-x-3 p-3 
-            flex-row
-            my-4
-            items-center justify-between bg-[#E174E41A] rounded-xl flex-1 ${
-              value === res.key
-                ? 'border-2 border-[#F780FB]'
-                : 'border-2 border-transparent'
-            } `}> */}
-            <View
-              style={{
-                width: '80%',
-                height: 60,
-                justifyContent: 'center',
-                alignItems: 'flex-end',
-                // backgroundColor: '#ff0000',
-              }}>
-              <SliderContainer sliderValue={[0, 10]}>
-                <Slider
-                  animateTransitions
-                  containerStyle={{
-                    width: 264 + 16,
-                    height: 24,
-                  }}
-                  onSlidingComplete={value => {
-                    TrackPlayer.seekTo(value[0]);
-                    updateSliderValue(
-                      originalSong
-                        ? {
-                            original0: value[0],
-                            original1: value[1],
-                          }
-                        : {rec0: value[0], rec1: value[1]},
-                    );
-                  }}
-                  maximumValue={res.duration ?? 100}
-                  thumbTintColor={'#6af0f3'}
-                  //minimumTrackTintColor={'#ff0000'}
-                  minimumTrackTintColor="#ffffff88"
-                  minimumValue={1}
-                  //thumbImage={Images.PLAY}
-                  //thumbImage={Images.PLAY}
-
-                  step={1}
-                  thumbStyle={{
-                    width: 12,
-                    height: 52,
-                    borderRadius: 8,
-                    alignItems: 'center',
-                  }}
-                  //thumbImage={Images.PLAY}
-                  thumbTouchSize={{
-                    width: 12,
-                    height: 48,
-                  }}
-                  //thumbTintColor="#1a9274"
-                  trackStyle={{
-                    backgroundColor: '#00000011',
-                    borderRadius: 1,
-                    height: 52,
-                  }}
-                />
-              </SliderContainer>
-            </View>
-            <View
-              style={{
-                width: '20%',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (isPlaying) {
-                    onStopPlay();
-                  } else {
-                    selectSong(originalSong ? res?.url : res?.uri);
-                    onStartPlay();
-                    // setIsPlaying(true);
-                  }
-                }}>
-                {isPlaying ? <ICONS_SVG.PAUSE /> : <ICONS_SVG.PLAY />}
-              </TouchableOpacity>
-            </View>
-          </View>
-        );
-      })}
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 35,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  radioText: {
-    marginRight: 35,
-    fontSize: 20,
-    color: '#000',
-    fontWeight: '700',
-  },
-  radioCircle: {
-    height: 30,
-    width: 30,
-    borderRadius: 100,
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  selectedRb: {
-    width: 15,
-    height: 15,
-    borderRadius: 50,
-    backgroundColor: '#F780FB',
-  },
-  result: {
-    marginTop: 20,
-    color: 'white',
-    fontWeight: '600',
-    backgroundColor: '#F3FBFE',
-  },
-});
