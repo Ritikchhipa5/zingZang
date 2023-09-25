@@ -14,8 +14,10 @@ import TrackPlayerModal from '../../../components/Modal/TrackPlayerModal';
 import {addCurrentSong} from '../../../actions/songs';
 import {connect} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 function AlbumCoverPage({navigation, route, addPlaySong}: any) {
-  const {albumCover, song, songName} = route.params;
+  const {albumCover, song, generatedSong, songName} = route.params;
+  console.log(generatedSong, 'New Song');
   const [showTrackPlayer, setShowTrackPlayer] = useState(false);
   return (
     <View className="flex-1 h-full">
@@ -53,9 +55,17 @@ function AlbumCoverPage({navigation, route, addPlaySong}: any) {
                     // navigation.navigate('LyricsPlayer', {albumCover, song})
                     {
                       setShowTrackPlayer(true);
+                      addTracksOnTrackPlayer({
+                        id: '1',
+                        url: generatedSong,
+                        // duration: 60,
+                        albumCover: albumCover?.uri,
+                        title: songName,
+                        artist: 'Basshunter',
+                      });
                       addPlaySong({
                         id: '1',
-                        url: song,
+                        url: generatedSong,
                         // duration: 60,
                         albumCover: albumCover?.uri,
                         title: songName,
@@ -73,10 +83,12 @@ function AlbumCoverPage({navigation, route, addPlaySong}: any) {
             </View>
           </SafeAreaView>
         )}
-        <TrackPlayerModal
-          showTrackPlayer={showTrackPlayer}
-          setShowTrackPlayer={setShowTrackPlayer}
-        />
+        {showTrackPlayer && (
+          <TrackPlayerModal
+            showTrackPlayer={showTrackPlayer}
+            setShowTrackPlayer={setShowTrackPlayer}
+          />
+        )}
       </ImageBackground>
     </View>
   );

@@ -140,23 +140,12 @@ const VideoCoverPage = ({navigation, route}: any) => {
                     id: userInfo?.user?.id,
                     link: path?.data,
                     description: Album,
-                    title: generateSong?.title,
+                    // title: generateSong?.title,
+                    title: userInfo?.user?.name,
                     postProfile: generateSong?.title,
                     path: generateSong?.audioPath,
                   })
                     .then((res: any) => {
-                      console.log(
-                        res,
-                        {
-                          id: userInfo?.user?.id,
-                          video: path?.data,
-                          title: generateSong?.title,
-                          description: Album,
-                          likes: '245k',
-                          isLike: false,
-                        },
-                        'Video Link',
-                      );
                       if (res?.status) {
                         navigation.navigate('GenerateReel', {
                           id: userInfo?.user?.id,

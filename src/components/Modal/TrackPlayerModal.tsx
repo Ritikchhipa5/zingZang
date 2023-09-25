@@ -13,10 +13,15 @@ import {Slider} from '@react-native-assets/slider';
 import PlayerController from '../PlayerController';
 import {connect} from 'react-redux';
 
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {
+  usePlaybackState,
+  useProgress,
+} from 'react-native-track-player';
+import {addTracksOnTrackPlayer} from '../../service/trackPlayerServices';
 const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
-  console.log(song?.currentSong, '!!!!!!!');
-
+  const {position, duration, buffered} = useProgress();
+  const state = usePlaybackState();
+  console.log(state, position, duration, buffered);
   return (
     <Modal transparent={true} visible={showTrackPlayer}>
       <View className="absolute top-0 bottom-0 w-full">
@@ -28,7 +33,10 @@ const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
           blurRadius={30}>
           <View className="flex-[0.8] justify-evenly  ">
             <TouchableOpacity
-              onPress={() => setShowTrackPlayer(false)}
+              onPress={() => {
+                setShowTrackPlayer(false);
+                TrackPlayer.pause();
+              }}
               className="absolute top-[15%] right-0 px-5">
               <AntDesign name="close" color={'#fff'} size={28} />
             </TouchableOpacity>

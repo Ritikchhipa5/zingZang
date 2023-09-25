@@ -122,10 +122,10 @@ function LyricsPlayer({navigation, addLyric, lyrics}: any) {
                 className="px-4 "
                 activeOpacity={0.7}
                 onPress={() => {
-                  addLyric(lyricsString);
-                  console.log(lyricsString);
+                  addLyric(newLyricsString);
+                  console.log(newLyricsString);
                   // setUpdateLyrics(lyricsString);
-                  // navigation.navigate('RecordScreen');
+                  navigation.navigate('RecordScreen');
                 }}>
                 <View
                   className={`py-4 border-[#F780FB] border-2 rounded-full `}>

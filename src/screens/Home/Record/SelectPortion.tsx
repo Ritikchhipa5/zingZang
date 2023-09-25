@@ -22,6 +22,8 @@ import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 import {Slider} from '@miblanchard/react-native-slider';
 import {LyricsSongList} from '../../../service/lyricsService';
+import TrackPlayer, {Event} from 'react-native-track-player';
+import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 
 const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
 const SelectPortion = ({navigation, recordedAudios}: any) => {
@@ -33,6 +35,14 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
     rec1: 10,
   });
 
+  useEffect(() => {
+    const setup = async () => {
+      const queue = (await TrackPlayer.getQueue()).length;
+      if (!queue) {
+        addTracksOnTrackPlayer(LyricsSongList);
+      }
+    };
+  }, []);
   // Function to update the slider values
   const updateSliderValue = (value: any) => {
     setSliderValues(prevValues => ({
@@ -61,7 +71,12 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
         edges={['right', 'left', 'top', 'bottom']}>
         {/* // Search Box */}
         <View className="flex flex-row items-center justify-between px-4">
-          <TouchableOpacity className="" onPress={() => navigation.goBack(' ')}>
+          <TouchableOpacity
+            className=""
+            onPress={() => {
+              navigation.goBack(' ');
+              TrackPlayer.pause();
+            }}>
             <MaterialIcons color="white" name="keyboard-arrow-left" size={42} />
           </TouchableOpacity>
           <Text className="text-2xl font-semibold text-center text-white ">
@@ -238,25 +253,46 @@ const IndividualComp = ({
   const onStartPlay = async () => {
     try {
       console.log(sliderValues);
-      const msg = await audioRecorderPlayer.startPlayer(
-        originalSong ? data[0]?.url : data[0]?.uri,
-      );
-      await audioRecorderPlayer.seekToPlayer(sliderValues.rec0 * 1000);
 
-      const volume = await audioRecorderPlayer.setVolume(1.0);
-      console.log(msg, volume);
-      audioRecorderPlayer.addPlayBackListener(async (e: PlayBackType) => {
-        console.log(e.currentPosition, sliderValues.rec1 * 1000);
-
-        if (e.currentPosition >= sliderValues.rec1 * 1000) {
-          setIsPlaying(false);
-          await audioRecorderPlayer.stopPlayer();
-          audioRecorderPlayer.removePlayBackListener();
-        } else {
-          setIsPlaying(!(e.currentPosition === e.duration));
+      if (!originalSong) {
+        const msg = await audioRecorderPlayer.startPlayer(
+          originalSong ? data[0]?.url : data[0]?.uri,
+        );
+        await audioRecorderPlayer.seekToPlayer(sliderValues.rec0 * 1000);
+        const volume = await audioRecorderPlayer.setVolume(1.0);
+        audioRecorderPlayer.addPlayBackListener(async (e: PlayBackType) => {
+          if (e.currentPosition >= sliderValues.rec1 * 1000) {
+            setIsPlaying(false);
+            await audioRecorderPlayer.stopPlayer();
+            audioRecorderPlayer.removePlayBackListener();
+          } else {
+            setIsPlaying(!(e.currentPosition === e.duration));
+          }
+          return;
+        });
+      } else {
+        // Check the current state of the track player
+        const state: any = await TrackPlayer.getState();
+        if (state === 'playing') {
+          return;
         }
-        return;
-      });
+
+        TrackPlayer.play();
+        TrackPlayer.addEventListener(
+          Event.PlaybackProgressUpdated,
+          async (e: any) => {
+            console.log(e);
+            if (e.position >= sliderValues?.original1) {
+              // Pause the original song when it reaches the specified position
+              await TrackPlayer.pause();
+            }
+          },
+        );
+
+        TrackPlayer.seekTo(sliderValues?.original0);
+        // // Seek to the specified original0 position
+      }
+
       setIsPlaying(true);
     } catch (err) {
       console.log('startPlayer error', err);
@@ -264,19 +300,22 @@ const IndividualComp = ({
   };
   const onPausePlay = async (): Promise<void> => {
     await audioRecorderPlayer.pausePlayer();
-
     setIsPlaying(false);
   };
   const onStopPlay = async (): Promise<void> => {
-    await audioRecorderPlayer.stopPlayer();
-    audioRecorderPlayer.removePlayBackListener();
-    setIsPlaying(false);
+    if (!originalSong) {
+      await audioRecorderPlayer.stopPlayer();
+      audioRecorderPlayer.removePlayBackListener();
+      setIsPlaying(false);
+    } else {
+      // await TrackPlayer.reset();
+      TrackPlayer.pause();
+      setIsPlaying(false);
+    }
   };
   return (
     <View>
-      {console.log(data, '')}
       {data.map((res: any, index: number) => {
-        console.log(`<<<<< res = ${JSON.stringify(res)}`);
         return (
           <View
             key={index}
@@ -313,6 +352,7 @@ const IndividualComp = ({
                     height: 24,
                   }}
                   onSlidingComplete={value => {
+                    TrackPlayer.seekTo(value[0]);
                     updateSliderValue(
                       originalSong
                         ? {

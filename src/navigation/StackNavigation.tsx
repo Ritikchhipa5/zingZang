@@ -32,7 +32,7 @@ function StackNavigation() {
   console.log(isLoggedIn);
   return (
     <Stack.Navigator
-      initialRouteName="CustomLyrics"
+      initialRouteName="SignScreen"
       screenOptions={{
         headerShown: false,
         gestureEnabled: false,

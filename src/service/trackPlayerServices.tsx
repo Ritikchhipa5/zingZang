@@ -68,6 +68,7 @@ export async function SetupPlayer() {
         Capability.SkipToNext,
         Capability.SkipToPrevious,
         Capability.Stop,
+        Capability.SeekTo,
       ],
 
       // Capabilities that will show up when the notification is in the compact form on Android
@@ -85,16 +86,9 @@ export async function SetupPlayer() {
 
 export async function addTracksOnTrackPlayer(tracks: any) {
   if (tracks) {
-    // let queue = await TrackPlayer.getQueue();
     await TrackPlayer.reset();
     await TrackPlayer.add(tracks);
-    console.log(await TrackPlayer.getCurrentTrack());
-    console.log('\n\nAdd Song \n\n\n', tracks);
-    console.log(await TrackPlayer.getVolume(), 'Volute ');
     await TrackPlayer.setRepeatMode(RepeatMode.Queue);
-    // await TrackPlayer.seekTo(0);
-    // await seekToCurrentTime();
-    // await TrackPlayer.play();
   }
 }
 

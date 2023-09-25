@@ -33,7 +33,6 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
   const [NewSong, setNewSong] = useState(null);
   const {songName, sliderValues} = route.params;
 
-  console.log(sliderValues, 'Adasd');
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -111,7 +110,6 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                 ),
               });
 
-              console.log(data?.getParts());
               setIsLoading(true);
 
               let song = {
@@ -120,18 +118,18 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                 s0_record: sliderValues?.rec0 ?? 2.815,
                 sf_record: sliderValues?.rec1 ?? 10,
               };
-              console.log(
-                Math.abs(
-                  song?.sf_original -
-                    song?.s0_original -
-                    (song?.sf_record - song?.s0_record),
-                ),
-                Math.abs(
-                  song?.sf_original -
-                    song?.s0_original -
-                    (song?.sf_record - song?.s0_record),
-                ) <= 0.3,
-              );
+              // console.log(
+              //   Math.abs(
+              //     song?.sf_original -
+              //       song?.s0_original -
+              //       (song?.sf_record - song?.s0_record),
+              //   ),
+              //   Math.abs(
+              //     song?.sf_original -
+              //       song?.s0_original -
+              //       (song?.sf_record - song?.s0_record),
+              //   ) <= 0.3,
+              // );
 
               let status = await changeLyrics({
                 value: {
@@ -145,25 +143,26 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                 },
               });
 
-              let path: any = await requestDownloadLink({
+              let songPath: any = await requestDownloadLink({
                 path: status?.s3_key,
               });
-              console.log(
-                status,
-                {
-                  client_id: 'MjrK0Yx7O2UlkLqU',
-                  current_key: '1oovbp1z5ExvCf3o',
-                  s0: 3,
-                  s1: 6,
-                  r0: 2,
-                  r1: 5,
-                  data: data,
-                },
-                'sdfjsdfbkjsbfsdfkjb',
-              );
+              // console.log(
+              //   status,
+              //   {
+              //     client_id: 'MjrK0Yx7O2UlkLqU',
+              //     current_key: '1oovbp1z5ExvCf3o',
+              //     s0: 3,
+              //     s1: 6,
+              //     r0: 2,
+              //     r1: 5,
+              //     data: data,
+              //   },
+              //   'sdfjsdfbkjsbfsdfkjb',
+              // );
 
-              setNewSong(path?.s3_key);
-              console.log(path);
+              console.log(songPath?.data, 'SONG GET ');
+              setNewSong(songPath?.data);
+
               setIsLoading(true);
               await createAlbumCoverSong({
                 prompt: Album,
@@ -172,7 +171,6 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                 current_key: '1oovbp1z5ExvCf3o',
               })
                 .then(async (data: any) => {
-                  console.log(data?.images[0]);
                   let path: any = await requestDownloadLink({
                     path: data?.images[0],
                   });
@@ -181,8 +179,7 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                     albumCover: {
                       uri: path?.data,
                     },
-                    song: NewSong,
-                    // song: 'https://zing-zang-vc.s3.eu-central-1.amazonaws.com/outputs/MjrK0Yx7O2UlkLqU/apple.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAX7S6GKEMIQOXVR5P%2F20230919%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20230919T133719Z&X-Amz-Expires=900&X-Amz-Signature=23f645ba8fc2e2206ff8cdef7dd3b878ca74de69a52883383eed007f401be35c&X-Amz-SignedHeaders=host',
+                    generatedSong: songPath?.data,
                     songName: songName,
                   });
                   setIsLoading(false);
