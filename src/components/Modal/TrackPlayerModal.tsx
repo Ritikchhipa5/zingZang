@@ -6,18 +6,17 @@ import {
   Dimensions,
   Modal,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ActiveTrackDetails from '../ActiveTrackDetails';
 import {Slider} from '@react-native-assets/slider';
 import PlayerController from '../PlayerController';
-import {connect} from 'react-redux';
+import {connect, shallowEqual} from 'react-redux';
 
 import TrackPlayer, {
   usePlaybackState,
   useProgress,
 } from 'react-native-track-player';
-import {addTracksOnTrackPlayer} from '../../service/trackPlayerServices';
 const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
   const {position, duration, buffered} = useProgress();
   const state = usePlaybackState();
@@ -51,11 +50,37 @@ const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
                 style={{
                   width: Dimensions.get('window').width - 50,
                 }}
+                onValueChange={value => {
+                  console.log(value);
+                  TrackPlayer.seekTo(value);
+                }}
                 minimumValue={0}
-                maximumValue={50}
+                minimumTrackTintColor="#9CF5F6"
+                maximumTrackTintColor="#683669"
+                maximumValue={duration}
+                value={position}
                 CustomThumb={() => <Text>{''}</Text>}
-                minimumTrackTintColor={'#fff'}
               />
+
+              {/* <TouchableOpacity>
+                <Slider
+                  minimumValue={0}
+                  maximumValue={duration}
+                  value={position}
+                  minimumTrackTintColor="#9CF5F6"
+                  maximumTrackTintColor="#683669"
+                  thumbStyle={{
+                    backgroundColor: 'transparent',
+                  }}
+                  trackStyle={{
+                    height: 5,
+                  }}
+                  onValueChange={value => {
+                    console.log(value);
+                    TrackPlayer.seekTo(value);
+                  }}
+                />
+              </TouchableOpacity> */}
               <View
                 style={{
                   width: Dimensions.get('window').width - 50,
@@ -86,4 +111,9 @@ const mapStateToProps = (state: any) => {
     song: state.songs,
   };
 };
-export default connect(mapStateToProps, null)(TrackPlayerModal);
+
+const ConnectedTrackPlayerModal = connect(mapStateToProps, null, null, {
+  areStatePropsEqual: shallowEqual,
+})(TrackPlayerModal);
+
+export default React.memo(ConnectedTrackPlayerModal);

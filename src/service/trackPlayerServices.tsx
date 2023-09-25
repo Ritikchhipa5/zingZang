@@ -53,7 +53,7 @@ export async function SetupPlayer() {
   let isSetup = false;
   try {
     let setup = await TrackPlayer.setupPlayer({
-      maxCacheSize: 1024 * 5, // 5 mb
+      maxCacheSize: 100,
     });
     console.log(setup);
     await TrackPlayer.updateOptions({
@@ -61,6 +61,7 @@ export async function SetupPlayer() {
         appKilledPlaybackBehavior:
           AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
       },
+
       // Media controls capabilities
       capabilities: [
         Capability.Play,

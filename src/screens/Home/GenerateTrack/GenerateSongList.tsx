@@ -25,6 +25,7 @@ import {addCurrentSong} from '../../../actions/songs';
 import {
   SetupPlayer,
   addTracksOnTrackPlayer,
+  setupPlayer,
 } from '../../../service/trackPlayerServices';
 
 import {Images} from '../../../constant/Images';
@@ -49,12 +50,8 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
 
   useEffect(() => {
     async function setup() {
-      addTracksOnTrackPlayer(generateSong);
+      await addTracksOnTrackPlayer(generateSong);
       setSongList([generateSong]);
-
-      // const track: any = await TrackPlayer.getCurrentTrack();
-      // const info = await TrackPlayer.getTrack(track);
-      // console.log(info, 'info');
     }
 
     setup();
@@ -171,7 +168,7 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
                   <TouchableOpacity
                     onPress={() => {
                       setShowTrackPlayer(true);
-                      addPlaySong(Song);
+                      // addPlaySong(Song);
                     }}
                     className="flex flex-row items-center p-3 ">
                     <Image

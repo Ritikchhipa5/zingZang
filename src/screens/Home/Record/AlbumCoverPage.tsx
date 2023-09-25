@@ -17,7 +17,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 function AlbumCoverPage({navigation, route, addPlaySong}: any) {
   const {albumCover, song, generatedSong, songName} = route.params;
-  console.log(generatedSong, 'New Song');
   const [showTrackPlayer, setShowTrackPlayer] = useState(false);
   return (
     <View className="flex-1 h-full">
@@ -83,6 +82,7 @@ function AlbumCoverPage({navigation, route, addPlaySong}: any) {
             </View>
           </SafeAreaView>
         )}
+
         {showTrackPlayer && (
           <TrackPlayerModal
             showTrackPlayer={showTrackPlayer}

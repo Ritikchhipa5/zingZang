@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {usePlaybackState} from 'react-native-track-player';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {IMAGES_SVG} from '../assets/svg/images/images';
+import {ICONS_SVG} from '../assets/svg/icons/Icon';
 function PlayerController() {
   const [isPlaying, setIsPlaying] = useState(false);
+
   return (
     <View style={styles.playerToolbox}>
       <Ionicons name="play-back" size={50} color={'#fff'} />
@@ -15,10 +18,14 @@ function PlayerController() {
             setIsPlaying(true);
           } else {
             TrackPlayer.pause();
-            setIsPlaying(true);
+            setIsPlaying(false);
           }
         }}>
-        <Ionicons name="play-circle-sharp" size={50} color={'#fff'} />
+        {isPlaying ? (
+          <Ionicons name="pause-circle-sharp" size={50} color={'#fff'} />
+        ) : (
+          <Ionicons name="play-circle-sharp" size={50} color={'#fff'} />
+        )}
       </TouchableOpacity>
       <Ionicons name="play-forward" size={50} color={'#fff'} />
     </View>
