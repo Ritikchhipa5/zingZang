@@ -5,6 +5,7 @@ import AudioRecorderPlayer, {
   AudioSourceAndroidType,
   OutputFormatAndroidType,
 } from 'react-native-audio-recorder-player';
+import {PitchDetector} from 'react-native-pitch-detector';
 
 import type {
   AudioSet,
@@ -42,6 +43,11 @@ import {SpotifyLyricsData as LyricsData} from '../../lyricsData';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import {RecordingMusic} from '../../../service/lyricsService';
 import TrackPlayer from 'react-native-track-player';
+
+interface PitchData {
+  tone: string;
+  frequency: number;
+}
 interface State {
   isRecording: boolean;
   recordSecs: number;
@@ -60,6 +66,8 @@ interface State {
     duration: number;
     time: string;
   }>;
+  dataDetector: PitchData;
+  subscription: unknown;
 }
 
 const PULSE_DURATION = 250;
@@ -86,6 +94,8 @@ class RecordScreen extends Component<any, State> {
       scaleValue: new Animated.Value(0),
       opacity: new Animated.Value(1),
       recordedAudios: [],
+      dataDetector: {tone: '', frequency: 0},
+      subscription: null,
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -94,6 +104,14 @@ class RecordScreen extends Component<any, State> {
 
   componentDidMount(): void {
     addTracksOnTrackPlayer(RecordingMusic);
+    this.setState({
+      subscription: PitchDetector.addListener((e: PitchData) => {
+        this.setState({dataDetector: e});
+      }),
+    });
+  }
+  componentWillUnmount() {
+    PitchDetector.removeListener(this.state.subscription);
   }
   startPulseAnimation() {
     return Animated.loop(
@@ -122,8 +140,15 @@ class RecordScreen extends Component<any, State> {
       // {iterations: -1}, // Infinite loop
     );
   }
+  onStartDetector = async () => {
+    await PitchDetector.start();
+  };
 
+  onStopDetector = async () => {
+    await PitchDetector.stop();
+  };
   startRecording = () => {
+    this.onStartDetector();
     this.startPulseAnimation().start();
     this.setState({countdown: COUNTDOWN_SECONDS});
     this.countdownInterval = setInterval(this.updateCountdown, 1000);
@@ -155,6 +180,7 @@ class RecordScreen extends Component<any, State> {
       }));
     }
   };
+
   public render(): ReactElement {
     let playWidth =
       (this.state.currentPositionSec / this.state.currentDurationSec) *
@@ -212,6 +238,17 @@ class RecordScreen extends Component<any, State> {
               className="right-0 px-5 ">
               <AntDesign name="close" color={'#fff'} size={28} />
             </TouchableOpacity>
+          </View>
+          <View className="px-5 py-2">
+            <Text
+              className=" text-3xl font-bold "
+              style={{
+                paddingVertical: 20,
+                color: 'white',
+                textAlign: 'right',
+              }}>
+              {this.state.dataDetector.tone}
+            </Text>
           </View>
 
           <LyricsFlatList
@@ -415,6 +452,7 @@ class RecordScreen extends Component<any, State> {
   };
 
   private onResumeRecord = async (): Promise<void> => {
+    this.onStartDetector();
     await this.audioRecorderPlayer.resumeRecorder();
     this.setState({
       isModalVisible: false,
@@ -437,6 +475,7 @@ class RecordScreen extends Component<any, State> {
       isModalVisible: true,
     });
     this.onPauseRecord();
+    this.onStopDetector();
   };
   private handleEndRecordingModal = () => {
     this.setState({
