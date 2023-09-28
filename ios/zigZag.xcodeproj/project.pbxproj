@@ -14,10 +14,10 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A91AC8FD135C4C28D5D64697 /* libPods-zigZag.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA2364A9198929BFE938022 /* libPods-zigZag.a */; };
 		DBEC63742ABE1D3F002BF815 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBEC63732ABE1D3E002BF815 /* sound.mp3 */; };
+		DE001916F08AACEDD7546DDB /* libPods-zigZag.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA2364A9198929BFE938022 /* libPods-zigZag.a */; };
 		E0E06EAB067C7E84DF389320 /* libPods-zigZag-zigZagTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8DF7AA415E697A1924C700 /* libPods-zigZag-zigZagTests.a */; };
 		ECA5210A2AC35A40009ACC59 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		ECA5210B2AC35A40009ACC59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		ECA5210D2AC35A40009ACC59 /* libPods-zigZag.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA2364A9198929BFE938022 /* libPods-zigZag.a */; };
 		ECA5210F2AC35A40009ACC59 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		ECA521102AC35A40009ACC59 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBEC63732ABE1D3E002BF815 /* sound.mp3 */; };
 		ECA521112AC35A40009ACC59 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -44,16 +44,16 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = zigZag/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = zigZag/main.m; sourceTree = "<group>"; };
 		3E8DF7AA415E697A1924C700 /* libPods-zigZag-zigZagTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-zigZag-zigZagTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4637271FC92357AD20A39516 /* Pods-zigZag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zigZag.release.xcconfig"; path = "Target Support Files/Pods-zigZag/Pods-zigZag.release.xcconfig"; sourceTree = "<group>"; };
 		5DA2364A9198929BFE938022 /* libPods-zigZag.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-zigZag.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8147058A7E7B288DC1D0010E /* Pods-zigZag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zigZag.release.xcconfig"; path = "Target Support Files/Pods-zigZag/Pods-zigZag.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = zigZag/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		82E687ECA399EBFA28691E13 /* Pods-zigZag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zigZag.debug.xcconfig"; path = "Target Support Files/Pods-zigZag/Pods-zigZag.debug.xcconfig"; sourceTree = "<group>"; };
 		DBEC63732ABE1D3E002BF815 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
 		ECA521052AC357DA009ACC59 /* zigZag.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = zigZag.entitlements; path = zigZag/zigZag.entitlements; sourceTree = "<group>"; };
 		ECA521182AC35A40009ACC59 /* zigZag Local.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "zigZag Local.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA521192AC35A40009ACC59 /* zigZag copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zigZag copy-Info.plist"; path = "/Users/ritikchhipa/Desktop/project/LUKAS/zigZag/ios/zigZag copy-Info.plist"; sourceTree = "<absolute>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F07224DD3F0615CB277E7EF2 /* Pods-zigZag-zigZagTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zigZag-zigZagTests.debug.xcconfig"; path = "Target Support Files/Pods-zigZag-zigZagTests/Pods-zigZag-zigZagTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F8DB98F3733DEE546BF57E01 /* Pods-zigZag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zigZag.debug.xcconfig"; path = "Target Support Files/Pods-zigZag/Pods-zigZag.debug.xcconfig"; sourceTree = "<group>"; };
 		FBCBBA879B3141601CF45E0F /* Pods-zigZag-zigZagTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zigZag-zigZagTests.release.xcconfig"; path = "Target Support Files/Pods-zigZag-zigZagTests/Pods-zigZag-zigZagTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A91AC8FD135C4C28D5D64697 /* libPods-zigZag.a in Frameworks */,
+				DE001916F08AACEDD7546DDB /* libPods-zigZag.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,7 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECA5210D2AC35A40009ACC59 /* libPods-zigZag.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,10 +163,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				82E687ECA399EBFA28691E13 /* Pods-zigZag.debug.xcconfig */,
-				4637271FC92357AD20A39516 /* Pods-zigZag.release.xcconfig */,
 				F07224DD3F0615CB277E7EF2 /* Pods-zigZag-zigZagTests.debug.xcconfig */,
 				FBCBBA879B3141601CF45E0F /* Pods-zigZag-zigZagTests.release.xcconfig */,
+				F8DB98F3733DEE546BF57E01 /* Pods-zigZag.debug.xcconfig */,
+				8147058A7E7B288DC1D0010E /* Pods-zigZag.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -221,14 +221,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ECA521152AC35A40009ACC59 /* Build configuration list for PBXNativeTarget "zigZag Local" */;
 			buildPhases = (
-				ECA521072AC35A40009ACC59 /* [CP] Check Pods Manifest.lock */,
 				ECA521082AC35A40009ACC59 /* Start Packager */,
 				ECA521092AC35A40009ACC59 /* Sources */,
 				ECA5210C2AC35A40009ACC59 /* Frameworks */,
 				ECA5210E2AC35A40009ACC59 /* Resources */,
 				ECA521122AC35A40009ACC59 /* Bundle React Native code and images */,
-				ECA521132AC35A40009ACC59 /* [CP] Embed Pods Frameworks */,
-				ECA521142AC35A40009ACC59 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -436,28 +433,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ECA521072AC35A40009ACC59 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-zigZag-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		ECA521082AC35A40009ACC59 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -492,40 +467,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
-		};
-		ECA521132AC35A40009ACC59 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-zigZag/Pods-zigZag-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-zigZag/Pods-zigZag-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-zigZag/Pods-zigZag-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ECA521142AC35A40009ACC59 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-zigZag/Pods-zigZag-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-zigZag/Pods-zigZag-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-zigZag/Pods-zigZag-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -643,7 +584,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82E687ECA399EBFA28691E13 /* Pods-zigZag.debug.xcconfig */;
+			baseConfigurationReference = F8DB98F3733DEE546BF57E01 /* Pods-zigZag.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -678,7 +619,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4637271FC92357AD20A39516 /* Pods-zigZag.release.xcconfig */;
+			baseConfigurationReference = 8147058A7E7B288DC1D0010E /* Pods-zigZag.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -850,7 +791,6 @@
 		};
 		ECA521162AC35A40009ACC59 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82E687ECA399EBFA28691E13 /* Pods-zigZag.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -885,7 +825,6 @@
 		};
 		ECA521172AC35A40009ACC59 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4637271FC92357AD20A39516 /* Pods-zigZag.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

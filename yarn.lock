@@ -8128,6 +8128,18 @@ react-native-lyric@^1.0.2:
   resolved "https://registry.npmjs.org/react-native-lyric/-/react-native-lyric-1.0.2.tgz"
   integrity sha512-gdzwFkwCkTiQ61/ileW1CVIP3G9pTzE48MNmn/Ltw+dXqakdYRTB9EVUhb6UWO6sWSFaTuGZXjapdwMo3Ss4qw==
 
+react-native-permissions@^3.8.0, react-native-permissions@^3.9.2:
+  version "3.9.2"
+  resolved "https://registry.npmjs.org/react-native-permissions/-/react-native-permissions-3.9.2.tgz"
+  integrity sha512-mBGoRDKi4twYH+UsPomPdi0dLpV6dGLmKzLpIgB5cLK/dzfM8Sr02Kch1xghVwT13ZkyCyd8DpcL4HgBJ4GQQg==
+
+react-native-pitch-detector@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.npmjs.org/react-native-pitch-detector/-/react-native-pitch-detector-0.1.5.tgz"
+  integrity sha512-AKDhze4RCKxI8enLfmcSVmpfR9O/7NZjB+PYNYSYLPiSVC/RaN5W+gGnsk90EEwLxP1yBoWIbgHiP2tKktskFQ==
+  dependencies:
+    react-native-permissions "^3.8.0"
+
 react-native-reanimated@^3.4.2:
   version "3.5.4"
   resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-3.5.4.tgz"
@@ -8241,7 +8253,7 @@ react-native-webview@^11.0.0, "react-native-webview@>=5.10.0 || >=6.1.0":
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", react-native@>=0.30, react-native@>=0.35, react-native@>=0.46, react-native@>=0.57.0, react-native@>=0.59, react-native@>=0.59.0, react-native@>=0.60.0, react-native@>=0.60.0-rc.2, react-native@>=0.61.4, react-native@>=0.8.0, react-native@>0.62.0, react-native@0.72.4:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", react-native@>=0.30, react-native@>=0.35, react-native@>=0.46, react-native@>=0.57.0, react-native@>=0.59, react-native@>=0.59.0, react-native@>=0.60.0, react-native@>=0.60.0-rc.2, react-native@>=0.61.4, react-native@>=0.63.3, react-native@>=0.8.0, react-native@>0.62.0, react-native@0.72.4:
   version "0.72.4"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.72.4.tgz"
   integrity sha512-+vrObi0wZR+NeqL09KihAAdVlQ9IdplwznJWtYrjnQ4UbCW6rkzZJebRsugwUneSOKNFaHFEo1uKU89HsgtYBg==
