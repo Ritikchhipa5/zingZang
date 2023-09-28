@@ -19,7 +19,7 @@ import {connect} from 'react-redux';
 const CustomLyrics = ({navigation, _removeRecording}: any) => {
   return (
     <ImageBackground className="h-screen" source={Images.BG_1}>
-      <AnimatedLinearGradient
+      {/* <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
           'rgba(69, 118, 253, 1)',
@@ -30,7 +30,7 @@ const CustomLyrics = ({navigation, _removeRecording}: any) => {
           'rgb(54, 17, 69)',
         ]}
         speed={1500}
-      />
+      /> */}
       <SafeAreaView className="h-full" edges={['top', 'bottom']}>
         {/* // Heading  */}
         <View className="px-4">

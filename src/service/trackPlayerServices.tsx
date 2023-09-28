@@ -53,7 +53,7 @@ export async function SetupPlayer() {
   let isSetup = false;
   try {
     let setup = await TrackPlayer.setupPlayer({
-      maxCacheSize: 100,
+      // maxCacheSize: 5,
     });
     console.log(setup);
     await TrackPlayer.updateOptions({
@@ -74,7 +74,7 @@ export async function SetupPlayer() {
 
       // Capabilities that will show up when the notification is in the compact form on Android
       compactCapabilities: [Capability.Play, Capability.Pause, Capability.Stop],
-      progressUpdateEventInterval: 2,
+      // progressUpdateEventInterval: 2,
     });
     isSetup = true;
     return isSetup;
@@ -108,26 +108,26 @@ export async function addTracks() {
 
 export async function playbackService() {
   // Add event listeners for remote control events (play, pause, next, etc.)
-  TrackPlayer.addEventListener(Event.RemotePlay, () => {
-    console.log('Remote Play');
-    TrackPlayer.play();
-  });
-  TrackPlayer.addEventListener(Event.RemotePause, () => {
-    console.log('Remote Play');
-    TrackPlayer.pause();
-  });
-  TrackPlayer.addEventListener(Event.RemoteNext, () => {
-    console.log('Remote Play');
-    TrackPlayer.skipToNext();
-  });
-  TrackPlayer.addEventListener(Event.RemotePrevious, () => {
-    console.log('Remote Play');
-    TrackPlayer.skipToPrevious();
-  });
-  TrackPlayer.addEventListener(
-    Event.PlaybackError,
-    (data: PlaybackErrorEvent) => {
-      console.warn('An error occurred while playing:', data.message);
-    },
-  );
+  // TrackPlayer.addEventListener(Event.RemotePlay, () => {
+  //   console.log('Remote Play');
+  //   TrackPlayer.play();
+  // });
+  // TrackPlayer.addEventListener(Event.RemotePause, () => {
+  //   console.log('Remote Play');
+  //   TrackPlayer.pause();
+  // });
+  // TrackPlayer.addEventListener(Event.RemoteNext, () => {
+  //   console.log('Remote Play');
+  //   TrackPlayer.skipToNext();
+  // });
+  // TrackPlayer.addEventListener(Event.RemotePrevious, () => {
+  //   console.log('Remote Play');
+  //   TrackPlayer.skipToPrevious();
+  // });
+  // TrackPlayer.addEventListener(
+  //   Event.PlaybackError,
+  //   (data: PlaybackErrorEvent) => {
+  //     console.warn('An error occurred while playing:', data.message);
+  //   },
+  // );
 }

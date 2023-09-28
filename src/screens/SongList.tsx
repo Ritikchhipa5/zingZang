@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Animated,
   Image,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {PanGestureHandler, TextInput} from 'react-native-gesture-handler';
+import {TextInput} from 'react-native-gesture-handler';
 import {Strings} from '../constant/Strings';
 import {
   heightPercentageToDP as hp,
@@ -15,10 +15,12 @@ import {
 } from 'react-native-responsive-screen';
 import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SoundWave from '../components/SoundWave';
 import WaveAnimation from '../components/WaveAnimation';
 import {addTracksOnTrackPlayer} from '../service/trackPlayerServices';
-import TrackPlayer, {useProgress} from 'react-native-track-player';
+import TrackPlayer, {
+  usePlaybackState,
+  useProgress,
+} from 'react-native-track-player';
 import {Slider} from '@react-native-assets/slider';
 import TrackPlayerModal from '../components/Modal/TrackPlayerModal';
 import {LyricsSongList} from '../service/lyricsService';
@@ -26,27 +28,53 @@ import {addCurrentSong} from '../actions/songs';
 import {connect} from 'react-redux';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {ICONS_SVG} from '../assets/svg/icons/Icon';
-import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 
-function SongList({navigation, song, addPlaySong}: any) {
+function SongList({navigation, addPlaySong}: any) {
   const [Song, setSong] = useState<any>(null);
-
   const [isPlay, setIsPlay] = useState<any>(false);
+  const {position, duration} = useProgress();
+  const [showTrackPlayer, setShowTrackPlayer] = useState(false);
+  const [isSeeking, setIsSeeking] = useState(false); // Add seeking flag
 
   useEffect(() => {
     async function setup() {
       addTracksOnTrackPlayer(LyricsSongList);
     }
-
     setup();
   }, []);
-  const {position, duration} = useProgress();
-  const [showTrackPlayer, setShowTrackPlayer] = useState(false);
 
-  console.log(song);
+  const playPauseToggle = async () => {
+    if (isPlay) {
+      await TrackPlayer.pause();
+      setIsPlay(false);
+    } else {
+      await TrackPlayer.play();
+      setIsPlay(true);
+    }
+  };
+
+  const onSeek = useCallback(
+    async (value: any) => {
+      if (value !== position) {
+        await TrackPlayer.seekTo(value);
+        setIsSeeking(false);
+      }
+    },
+    [position],
+  );
+
+  const onSongPress = async (song: any) => {
+    if (song?.id === Song?.id) {
+      playPauseToggle();
+    } else {
+      setSong(song);
+      // await TrackPlayer.skip(song.id);
+      await TrackPlayer.play();
+    }
+  };
   return (
     <ImageBackground style={{height: hp('100%')}} source={Images.BG_1}>
-      <AnimatedLinearGradient
+      {/* <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
           'rgba(69, 118, 253, 1)',
@@ -57,7 +85,7 @@ function SongList({navigation, song, addPlaySong}: any) {
           'rgb(54, 17, 69)',
         ]}
         speed={1500}
-      />
+      /> */}
       <SafeAreaView className="h-full " edges={['right', 'left', 'top']}>
         {/* // Search Box */}
         <View className="px-4 mt-3">
@@ -110,12 +138,14 @@ function SongList({navigation, song, addPlaySong}: any) {
                 item.id === Song?.id && 'border-[#F780FB]'
               } drop-shadow-md mb-3 `}
               key={index + 1}
-              onPress={async () => {
-                setSong(item);
-                setIsPlay(true);
+              // onPress={async () => {
+              //   setSong(item);
+              //   setIsPlay(true);
 
-                await TrackPlayer.play();
-              }}>
+              //   await TrackPlayer.play();
+              // }}
+
+              onPress={() => onSongPress(item)}>
               <View className={`flex flex-row items-center`}>
                 <Image
                   source={{
@@ -159,10 +189,13 @@ function SongList({navigation, song, addPlaySong}: any) {
                   trackStyle={{
                     height: 5,
                   }}
-                  onValueChange={value => {
-                    console.log(value);
-                    TrackPlayer.seekTo(value);
-                  }}
+                  // onValueChange={async value => {
+                  //   await TrackPlayer.seekTo(value);
+                  // }}
+                  // onSlidingComplete={(value: any) => {
+                  //   onSeek(value);
+                  //   // console.log(value);
+                  // }}
                 />
               </TouchableOpacity>
               <View className="flex flex-row items-center justify-between py-2">
@@ -190,15 +223,17 @@ function SongList({navigation, song, addPlaySong}: any) {
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity
-                  onPress={() => {
-                    if (!isPlay) {
-                      setIsPlay(true);
-                      TrackPlayer.play();
-                    } else {
-                      setIsPlay(false);
-                      TrackPlayer.pause();
-                    }
-                  }}
+                  // onPress={() => {
+                  //   if (!isPlay) {
+                  //     setIsPlay(true);
+                  //     TrackPlayer.play();
+                  //   } else {
+                  //     setIsPlay(false);
+                  //     TrackPlayer.pause();
+                  //   }
+                  // }}
+
+                  onPress={playPauseToggle}
                   className="mr-2">
                   {isPlay ? <ICONS_SVG.PAUSE /> : <ICONS_SVG.PLAY />}
                 </TouchableOpacity>
@@ -224,19 +259,16 @@ function SongList({navigation, song, addPlaySong}: any) {
         </View>
       </SafeAreaView>
 
-      <TrackPlayerModal
+      {/* <TrackPlayerModal
         showTrackPlayer={showTrackPlayer}
         setShowTrackPlayer={setShowTrackPlayer}
-      />
+      /> */}
     </ImageBackground>
   );
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    song: state.songs,
-  };
-};
+// Wrap your component with React.memo to optimize rendering
+const MemoizedSongList = React.memo(SongList);
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
@@ -245,4 +277,4 @@ const mapDispatchToProps = (dispatch: any) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SongList);
+export default connect(null, mapDispatchToProps)(MemoizedSongList);

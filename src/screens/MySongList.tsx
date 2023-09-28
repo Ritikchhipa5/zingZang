@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
+
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -16,10 +16,7 @@ import {
 import {Images} from '../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {requestTextSongs} from '../api/generateTrack';
-import TrackPlayer, {
-  usePlaybackState,
-  useProgress,
-} from 'react-native-track-player';
+import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {addTracksOnTrackPlayer} from '../service/trackPlayerServices';
 import {userInfoAdd} from '../actions/record';
 import {connect, useSelector} from 'react-redux';
@@ -31,9 +28,6 @@ function MySongList({navigation, user, addPlaySong}: any) {
   const [SongList, setSongList] = useState<any>([]);
   const [isPlay, setIsPlay] = useState<any>(false);
   const [reload, setReload] = useState(false);
-  const {position, duration, buffered} = useProgress();
-  const state = usePlaybackState();
-  console.log(state, buffered, duration, position);
 
   useEffect(() => {
     loadAndPlayTracks();

@@ -16,7 +16,7 @@ import Loading from '../../../components/Loading';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 const SongNameEdit = ({navigation, route}: any) => {
   const [Name, setName] = useState('');
-  const {pickSong} = route.params;
+  const {pickSong, sliderValues} = route.params;
 
   return (
     <ImageBackground
@@ -79,6 +79,7 @@ const SongNameEdit = ({navigation, route}: any) => {
               navigation.navigate('AlbumCover', {
                 pickSong: pickSong,
                 songName: Name,
+                sliderValues,
               });
             } else {
               Alert.alert('Enter a Song Name');

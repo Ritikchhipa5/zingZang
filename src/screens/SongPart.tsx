@@ -1,10 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Strings} from '../constant/Strings';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Images} from '../constant/Images';
 import {
-  Animated,
-  Easing,
-  Image,
   ImageBackground,
   ScrollView,
   Text,
@@ -14,32 +10,46 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import WaveAnimation from '../components/WaveAnimation';
-import {addTracks, setupPlayer} from '../service/trackPlayerServices';
+import {addTracksOnTrackPlayer} from '../service/trackPlayerServices';
 import TrackPlayer from 'react-native-track-player';
-import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {ICONS_SVG} from '../assets/svg/icons/Icon';
 function SongPart({navigation}: any) {
   const [Part, setPart] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
-
   useEffect(() => {
     async function setup() {
-      let isSetup: any = await setupPlayer();
-      console.log(isSetup);
-      const queue: any = await TrackPlayer.getQueue();
-      if (isSetup && queue.length <= 0) {
-        await addTracks();
-      }
+      await addTracksOnTrackPlayer({
+        id: '1',
+        url: require('./../assets/sound/sound.mp3'),
+        title: 'Fluidity',
+        artist: 'tobylane',
+        duration: 60,
+      });
     }
 
     setup();
   }, []);
 
+  const handlePress = useCallback(
+    (part: any) => {
+      if (!isPlay) {
+        setIsPlay(true);
+        TrackPlayer.seekTo(part.start);
+        TrackPlayer.play();
+      } else {
+        setIsPlay(false);
+        TrackPlayer.pause();
+      }
+      setPart(part);
+    },
+    [isPlay],
+  );
+
   return (
     <ImageBackground className="h-screen" source={Images.BG_1}>
-      <AnimatedLinearGradient
+      {/* <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
           'rgba(69, 118, 253, 1)',
@@ -50,13 +60,16 @@ function SongPart({navigation}: any) {
           'rgb(54, 17, 69)',
         ]}
         speed={1500}
-      />
+      /> */}
 
       <SafeAreaView className="h-full ">
         {/* // Heading  */}
         <View className="px-4">
           <View className="flex flex-row items-center ">
-            <TouchableOpacity onPress={() => navigation.goBack(' ')}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack(' ');
+              }}>
               <MaterialIcons
                 color="white"
                 name="keyboard-arrow-left"
@@ -93,15 +106,16 @@ function SongPart({navigation}: any) {
                   key={index + 1}
                   className="w-[31.33%]"
                   onPress={() => {
-                    if (!isPlay) {
-                      setIsPlay(true);
-                      TrackPlayer.seekTo(part.start);
-                      TrackPlayer.play();
-                    } else {
-                      setIsPlay(false);
-                      TrackPlayer.pause();
-                    }
-                    setPart(part);
+                    // if (!isPlay) {
+                    //   setIsPlay(true);
+                    //   TrackPlayer.seekTo(part.start);
+                    //   TrackPlayer.play();
+                    // } else {
+                    //   setIsPlay(false);
+                    //   TrackPlayer.pause();
+                    // }
+                    // setPart(part);
+                    handlePress(part);
                   }}>
                   <View className="h-[170] relative">
                     <View
@@ -159,4 +173,4 @@ function SongPart({navigation}: any) {
   );
 }
 
-export default SongPart;
+export default React.memo(SongPart);

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {LINK} from './constant';
+import {API, GENERATE_TRACK, LINK} from './constant';
 export const changeLyrics = async ({value}: any) => {
   const url =
     LINK.CHANGE_LYRICS +
@@ -29,3 +29,18 @@ export const changeLyrics = async ({value}: any) => {
   //   console.log(error);
   // });
 };
+export async function addAIRecording(data: any) {
+  return fetch(GENERATE_TRACK.ADD_AI_RECORD, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(async data => {
+      return await data.json();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}

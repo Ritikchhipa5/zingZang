@@ -37,6 +37,7 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
       audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
         console.log('playBackListener', e);
         setIsPlaying(!(e.currentPosition === e.duration));
+
         return;
       });
       setIsPlaying(true);

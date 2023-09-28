@@ -7,7 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect} from 'react-redux';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
-import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
+
 import {LyricsSongList, OrignalSong} from '../../../service/lyricsService';
 import TrackPlayer from 'react-native-track-player';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
@@ -44,7 +44,7 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
-      <AnimatedLinearGradient
+      {/* <AnimatedLinearGradient
         customColors={[
           // 'rgb(64, 81, 187)',
           'rgba(69, 118, 253, 1)',
@@ -55,7 +55,7 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
           'rgb(54, 17, 69)',
         ]}
         speed={1500}
-      />
+      /> */}
       <SafeAreaView
         className="h-full "
         edges={['right', 'left', 'top', 'bottom']}>
@@ -119,12 +119,8 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
           className="px-4 "
           activeOpacity={0.7}
           onPress={async () => {
-            // if (pickSong !== '') {
-            // } else {
-            //   Alert.alert('Please select a recording');
-            // }
+            navigation.navigate('SongNameEdit', {pickSong, sliderValues});
 
-            navigation.navigate('AlbumCover', {pickSong, sliderValues});
             await audioRecorderPlayer.stopPlayer();
             audioRecorderPlayer.removePlayBackListener();
           }}>

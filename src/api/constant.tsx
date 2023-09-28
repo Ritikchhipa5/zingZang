@@ -17,8 +17,10 @@ export const LINK = {
 
 export const GENERATE_TRACK = {
   CREATE_TEXT_SONG: API + '/api/Spotify/createTextSong',
-  REQUEST_TEXT_SONGS: API + '/api/Spotify/requestTextSongs',
+  REQUEST_TEXT_SONGS: API + '/api/Spotify/getAllSongsUser',
   ADD_CREATE: API + '/api/tiktok/addVideo',
+  ADD_AI_RECORD: API + '/api/IAsongs/addIAsong',
+
   VIDEO_CREATE: AI_API + '/deforum/run',
   VIDEO_AUDIO_CREATE: AI_API + '/sdapi/v1/video-music',
 };

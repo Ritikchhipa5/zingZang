@@ -15,13 +15,13 @@ import {Images} from '../../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import Loading from '../../../components/Loading';
 import {
   createAlbumCoverSong,
   requestDownloadLink,
 } from '../../../api/generateTrack';
-import {changeLyrics} from '../../../api/record';
+import {addAIRecording, changeLyrics} from '../../../api/record';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 import DefaultLoading from '../../../components/DefaultLoading';
 const AlbumCover = ({navigation, recordedAudios, route}: any) => {
@@ -32,7 +32,7 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
   const [AlbumCover, setAlbumCover] = useState<any>({});
   const [NewSong, setNewSong] = useState(null);
   const {songName, sliderValues} = route.params;
-
+  const user = useSelector((state: any) => state?.userData)?.user;
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -118,6 +118,8 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                 s0_record: sliderValues?.rec0 ?? 2.815,
                 sf_record: sliderValues?.rec1 ?? 10,
               };
+
+              console.log(song, 'Sending Song part ');
               // console.log(
               //   Math.abs(
               //     song?.sf_original -
@@ -135,10 +137,10 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
                 value: {
                   client_id: 'MjrK0Yx7O2UlkLqU',
                   current_key: '1oovbp1z5ExvCf3o',
-                  s0: 3,
-                  s1: 6,
-                  r0: 2,
-                  r1: 5,
+                  s0: song.s0_original,
+                  s1: song.sf_original,
+                  r0: song.s0_record,
+                  r1: song.sf_record,
                   data: data,
                 },
               });
@@ -146,35 +148,38 @@ const AlbumCover = ({navigation, recordedAudios, route}: any) => {
               let songPath: any = await requestDownloadLink({
                 path: status?.s3_key,
               });
-              // console.log(
-              //   status,
-              //   {
-              //     client_id: 'MjrK0Yx7O2UlkLqU',
-              //     current_key: '1oovbp1z5ExvCf3o',
-              //     s0: 3,
-              //     s1: 6,
-              //     r0: 2,
-              //     r1: 5,
-              //     data: data,
-              //   },
-              //   'sdfjsdfbkjsbfsdfkjb',
-              // );
 
               console.log(songPath?.data, 'SONG GET ');
               setNewSong(songPath?.data);
 
               setIsLoading(true);
-              await createAlbumCoverSong({
+              let albumData = await createAlbumCoverSong({
                 prompt: Album,
                 negative_prompt: '',
                 client_id: 'MjrK0Yx7O2UlkLqU',
                 current_key: '1oovbp1z5ExvCf3o',
+              });
+
+              await addAIRecording({
+                title: songName,
+                albumCover: albumData?.images[0],
+                link: status?.s3_key,
+                id: user?.user?.id,
               })
                 .then(async (data: any) => {
                   let path: any = await requestDownloadLink({
-                    path: data?.images[0],
+                    path: albumData?.images[0],
                   });
-
+                  console.log(
+                    {
+                      title: songName,
+                      albumCover: albumData?.images[0],
+                      link: status?.s3_key,
+                      id: user?.user?.id,
+                    },
+                    data,
+                    'addSongDdata',
+                  );
                   navigation.navigate('AlbumCoverPage', {
                     albumCover: {
                       uri: path?.data,

@@ -33,6 +33,7 @@
     "react-native-audio-toolkit": "^1.0.6",
     "react-native-canvas": "^0.1.39",
     "react-native-fast-image": "^8.6.3",
+    "react-native-flipper": "^0.212.0",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.13.1",
     "react-native-linear-gradient": "^2.8.3",

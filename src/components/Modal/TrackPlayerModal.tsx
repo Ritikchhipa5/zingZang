@@ -14,13 +14,13 @@ import PlayerController from '../PlayerController';
 import {connect, shallowEqual} from 'react-redux';
 
 import TrackPlayer, {
-  usePlaybackState,
+  // usePlaybackState,
   useProgress,
 } from 'react-native-track-player';
 const TrackPlayerModal = ({showTrackPlayer, setShowTrackPlayer, song}: any) => {
   const {position, duration, buffered} = useProgress();
-  const state = usePlaybackState();
-  console.log(state, position, duration, buffered);
+  // const state = usePlaybackState();
+  // console.log(state, position, duration, buffered);
   return (
     <Modal transparent={true} visible={showTrackPlayer}>
       <View className="absolute top-0 bottom-0 w-full">

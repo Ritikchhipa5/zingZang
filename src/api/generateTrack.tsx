@@ -1,3 +1,4 @@
+import {Alert} from 'react-native';
 import {ALBUM, GENERATE_TRACK, LINK} from './constant';
 
 const createTextSong = async (body: any) => {
@@ -86,11 +87,14 @@ async function requestDownloadLink(data: any) {
     });
 }
 
-const createVideoSong = async (data: any) => {
+const createVideoSong = async ({description}: any) => {
+  console.log(
+    GENERATE_TRACK.VIDEO_CREATE +
+      `?settings_json={"prompts":{"0":"${description?.[0]}","30":" ${description?.[1]}","60":" ${description?.[2]}","90":"${description?.[3]}"}}&allowed_params=prompts&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
+  );
   return await fetch(
     GENERATE_TRACK.VIDEO_CREATE +
-      `?settings_json={"prompts":{"0":"${data?.description}","30":" ${data?.description}, 3d, depth of field --neg nsfw, nude","60":" a beautiful coconut --neg photo, realistic  nsfw, nude","90":" a beautiful durian, amazing award winning photography --neg nsfw, nude"}}
-  &allowed_params=prompts&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
+      `?settings_json={"prompts":{"0":"${description?.[0]}","30":" ${description?.[1]}","60":" ${description?.[2]}","90":"${description?.[3]}"}}&allowed_params=prompts&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
     {
       method: 'POST',
       headers: {
@@ -103,7 +107,8 @@ const createVideoSong = async (data: any) => {
       return value;
     })
     .catch(error => {
-      console.error(error);
+      console.error(error.message, 'asdjksdkfjk');
+      Alert.alert(error.message);
     });
 };
 

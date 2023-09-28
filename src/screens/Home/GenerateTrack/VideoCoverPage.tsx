@@ -8,6 +8,7 @@ import {
   Image,
   Keyboard,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import RNFS from 'react-native-fs';
 import React, {useState} from 'react';
@@ -26,17 +27,37 @@ import {
 } from '../../../api/generateTrack';
 import DefaultLoading from '../../../components/DefaultLoading';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
-import {err} from 'react-native-svg/lib/typescript/xml';
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
 const VideoCoverPage = ({navigation, route}: any) => {
   const userInfo = useSelector((state: any) => state?.userData)?.user;
   const [Album, setAlbum] = useState(
     'A futuristic techno coverart, in the style of electronic music.',
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [inputs, setInputs] = useState(['']);
   const [AlbumCover, setAlbumCover] = useState<any>({});
   const {generateSong} = route.params;
 
+  const addInput = () => {
+    if (inputs.length < 4) {
+      setInputs([...inputs, '']); // Add a new empty input
+    }
+  };
+
+  // Function to handle input text change
+  const handleInputChange = (text: any, index: any) => {
+    const newInputs = [...inputs];
+    newInputs[index] = text;
+    setInputs(newInputs);
+  };
+
+  const handleSubmit = () => {
+    // Collect all input values from the 'inputs' array
+    const inputValues = inputs.filter(input => input.trim() !== '');
+
+    // Do something with the collected values (e.g., send them to a server)
+    return inputValues;
+  };
   return (
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
@@ -87,18 +108,39 @@ const VideoCoverPage = ({navigation, route}: any) => {
               <Text className="text-[#C6C3C6] text-lg text-left font-medium ">
                 Describe your Video Reel
               </Text>
-              <TextInput
-                onChangeText={(text: any) => {
-                  console.log(text);
-                  setAlbum(text);
-                }}
-                value={Album}
-                multiline={true}
-                numberOfLines={5}
-                placeholder="Two clasped hands on a red base..."
-                className="w-full py-3 text-xl font-medium min-h-[40%] bg-[#FFFFFF1A] text-white rounded-2xl  items-center leading-2  mb-5 px-5"
-                placeholderTextColor="#FFFFFF5A"
-              />
+              <ScrollView>
+                {/* <TextInput
+                  onChangeText={(text: any) => {
+                    console.log(text);
+                    setAlbum(text);
+                  }}
+                  value={Album}
+                  multiline={true}
+                  numberOfLines={3}
+                  placeholder="Write about video description..."
+                  className="w-full py-3 text-xl font-medium min-h-[20%] bg-[#FFFFFF1A] text-white rounded-2xl  items-center leading-2  mb-5 px-5"
+                  placeholderTextColor="#FFFFFF5A"
+                /> */}
+                {inputs.map((input, index) => (
+                  <TextInput
+                    key={index}
+                    onChangeText={text => handleInputChange(text, index)}
+                    value={input}
+                    multiline={true}
+                    numberOfLines={3}
+                    placeholder={`Input Box ${index + 1}`}
+                    className="w-full py-3 text-xl font-medium min-h-[20%] bg-[#FFFFFF1A] text-white rounded-2xl  items-center leading-2  mb-5 px-5"
+                    placeholderTextColor="#FFFFFF5A"
+                  />
+                ))}
+                {inputs.length < 4 && (
+                  <TouchableOpacity
+                    onPress={addInput}
+                    className="flex items-center">
+                    <AntDesign name="pluscircleo" size={44} color={'white'} />
+                  </TouchableOpacity>
+                )}
+              </ScrollView>
             </View>
           </View>
 
@@ -109,33 +151,24 @@ const VideoCoverPage = ({navigation, route}: any) => {
               onPress={async () => {
                 try {
                   setIsLoading(true);
-                  let data: any = await createVideoSong({
-                    description: Album,
+
+                  let createVideoData: any = await createVideoSong({
+                    description: handleSubmit(),
                   });
-                  // .then(data => {
-                  //   console.log(data, 'akdfasdjasdnkjask');
-                  // })
-                  // .catch(error => {
-                  //   console.log(error);
-                  // })
-                  // .finally(() => {
-                  //   setIsLoading(false);
-                  // });
+                  console.log(createVideoData);
+                  if (!createVideoData) {
+                    throw new Error();
+                  }
 
                   let merge = await mergeVideoSong({
-                    video_path:
-                      // 'outputs/MjrK0Yx7O2UlkLqU/videoMjrK0Yx7O2UlkLqU.mp4',
-                      data?.s3_key,
-                    song_path:
-                      // 'textSongs/RYVVmRs2G4GgoGY4/My Song is English is working .mp3',
-                      generateSong?.audioPath,
+                    video_path: createVideoData?.s3_key,
+                    song_path: generateSong?.audioPath,
                   });
-                  console.log(merge, 'MERGE');
+
                   let path: any = await requestDownloadLink({
                     path: merge?.s3_key,
                   });
 
-                  console.log(path, merge);
                   await addVideo({
                     id: userInfo?.user?.id,
                     link: path?.data,
@@ -162,8 +195,8 @@ const VideoCoverPage = ({navigation, route}: any) => {
                     });
                 } catch (error: any) {
                   console.log(error);
-                  Alert.alert(error?.message);
                   setIsLoading(false);
+                  navigation.navigate('GenerateTrack');
                 } finally {
                   setIsLoading(false);
                 }
@@ -175,7 +208,7 @@ const VideoCoverPage = ({navigation, route}: any) => {
               </View>
             </TouchableOpacity>
             {/* // Separation  */}
-            <View
+            {/* <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -188,8 +221,8 @@ const VideoCoverPage = ({navigation, route}: any) => {
               <View
                 style={{flex: 1, borderBottomWidth: 1, borderColor: 'white'}}
               />
-            </View>
-            <TouchableOpacity
+            </View> */}
+            {/* <TouchableOpacity
               className=""
               activeOpacity={0.7}
               onPress={() => Alert.alert(Album)}>
@@ -198,7 +231,7 @@ const VideoCoverPage = ({navigation, route}: any) => {
                   Surprise Me
                 </Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </SafeAreaView>
       </Pressable>

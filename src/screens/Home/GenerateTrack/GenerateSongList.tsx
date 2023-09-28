@@ -57,8 +57,6 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
     setup();
   }, []);
 
-  console.log(state, buffered, duration, position);
-
   const handleReload = () => {
     setReload(!reload);
   };
@@ -115,12 +113,12 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
                 setIsPlay(true);
               }}>
               <View className={`flex flex-row items-center`}>
-                <Image
+                {/* <Image
                   source={{
                     uri: item.albumCover,
                   }}
                   className="w-12 h-12 mr-5 rounded-lg"
-                />
+                /> */}
                 <View>
                   <Text className="text-xl font-semibold text-white">
                     {item.title}
@@ -167,16 +165,16 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
                 <View className="flex-row items-center justify-between rounded-lg drop-shadow-md">
                   <TouchableOpacity
                     onPress={() => {
-                      setShowTrackPlayer(true);
+                      // setShowTrackPlayer(true);
                       // addPlaySong(Song);
                     }}
                     className="flex flex-row items-center p-3 ">
-                    <Image
+                    {/* <Image
                       source={{
                         uri: Song?.albumCover,
                       }}
                       className="w-12 h-12 mr-5 rounded-lg"
-                    />
+                    /> */}
                     <View>
                       <Text className="text-xl font-semibold text-white">
                         {Song?.title}

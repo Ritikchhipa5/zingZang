@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import TrackPlayer, {usePlaybackState} from 'react-native-track-player';
+import TrackPlayer from 'react-native-track-player';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {IMAGES_SVG} from '../assets/svg/images/images';
-import {ICONS_SVG} from '../assets/svg/icons/Icon';
+
 function PlayerController() {
   const [isPlaying, setIsPlaying] = useState(false);
 
