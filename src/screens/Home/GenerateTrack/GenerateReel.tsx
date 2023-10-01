@@ -21,7 +21,7 @@ const GenerateReel = ({navigation, route}: any) => {
   };
 
   const [mute, setMute] = useState(false);
-  const [like, setLike] = useState(item.isLike);
+  const [pause, setPause] = useState(false);
 
   return (
     <View
@@ -33,7 +33,10 @@ const GenerateReel = ({navigation, route}: any) => {
         alignItems: 'center',
       }}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('MySongList')}
+        onPress={() => {
+          navigation.navigate('MySongList');
+          setPause(true);
+        }}
         className="absolute z-10 right-5 top-[10%]">
         <MaterialIcons color="white" name="close" size={32} />
       </TouchableOpacity>
@@ -51,6 +54,7 @@ const GenerateReel = ({navigation, route}: any) => {
           onError={onError}
           repeat={true}
           resizeMode="cover"
+          paused={pause}
           source={{uri: item.video}}
           muted={mute}
           style={{

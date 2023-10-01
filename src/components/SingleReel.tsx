@@ -15,7 +15,7 @@ const SingleReel = ({item, index, currentIndex}: any) => {
   const windowHeight = Dimensions.get('window').height;
   const navigation: any = useNavigation();
   const videoRef = useRef<any>(null);
-  console.log(item?.video);
+  console.log(item?.title);
   const [mute, setMute] = useState(false);
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
@@ -97,9 +97,6 @@ const SingleReel = ({item, index, currentIndex}: any) => {
           repeat={true}
           paused={currentIndex == index ? false : true}
           source={{uri: item.video}}
-          // source={{
-          //   uri: 'https://zing-zang-vc.s3.eu-central-1.amazonaws.com/https://zing-zang-vc.s3.eu-central-1.amazonaws.com/outputs/MjrK0Yx7O2UlkLqU/TicTock_videoMjrK0Yx7O2UlkLqU.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAX7S6GKEMONKCR2GB%2F20230922%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20230922T173657Z&X-Amz-Expires=900&X-Amz-Signature=68ddee86e6495307d73639ced2eeb91de650a3a80645bcdb87ca4340863f3b67&X-Amz-SignedHeaders=host',
-          // }}
           muted={mute}
           style={{
             width: '100%',

@@ -5,13 +5,13 @@ import AudioRecorderPlayer, {
   AudioSourceAndroidType,
   OutputFormatAndroidType,
 } from 'react-native-audio-recorder-player';
-import {PitchDetector} from 'react-native-pitch-detector';
-
 import type {
   AudioSet,
   PlayBackType,
   RecordBackType,
 } from 'react-native-audio-recorder-player';
+// import {} from 'react-native-pitch-detector';
+// PitchDetector
 import {
   Animated,
   Easing,
@@ -32,14 +32,11 @@ import type {ReactElement} from 'react';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {Images} from '../../../constant/Images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
-import {BlurView} from '@react-native-community/blur';
 import {screenWidth} from '../../../utils/utils';
 import {connect} from 'react-redux';
 import {addRecording, removeRecording} from '../../../actions/record';
 import StopRecordingModal from '../../../components/Modal/StopRecordingModal';
 import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
-import {SpotifyLyricsData as LyricsData} from '../../lyricsData';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import {RecordingMusic} from '../../../service/lyricsService';
 import TrackPlayer from 'react-native-track-player';
@@ -99,20 +96,19 @@ class RecordScreen extends Component<any, State> {
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
-    // this.audioRecorderPlayer.setSubscriptionDuration(0.1); // optional. Default is 0.5
   }
 
   componentDidMount(): void {
     addTracksOnTrackPlayer(RecordingMusic);
-    this.setState({
-      subscription: PitchDetector.addListener((e: PitchData) => {
-        this.setState({dataDetector: e});
-      }),
-    });
+    // this.setState({
+    //   subscription: PitchDetector.addListener((e: PitchData) => {
+    //     this.setState({dataDetector: e});
+    //   }),
+    // });
   }
-  componentWillUnmount() {
-    PitchDetector.removeListener(this.state.subscription);
-  }
+  // componentWillUnmount() {
+  //   PitchDetector.removeListener(this.state.subscription);
+  // }
   startPulseAnimation() {
     return Animated.loop(
       Animated.sequence([
@@ -140,18 +136,18 @@ class RecordScreen extends Component<any, State> {
       // {iterations: -1}, // Infinite loop
     );
   }
-  onStartDetector = async () => {
-    await PitchDetector.start();
-  };
+  // onStartDetector = async () => {
+  //   await PitchDetector.start();
+  // };
 
-  onStopDetector = async () => {
-    await PitchDetector.stop();
-  };
+  // onStopDetector = async () => {
+  //   await PitchDetector.stop();
+  // };
   startRecording = () => {
-    this.onStartDetector();
     this.startPulseAnimation().start();
     this.setState({countdown: COUNTDOWN_SECONDS});
     this.countdownInterval = setInterval(this.updateCountdown, 1000);
+    // this.onStartDetector();
   };
 
   setStartOver = (value: boolean) => {
@@ -241,7 +237,7 @@ class RecordScreen extends Component<any, State> {
           </View>
           <View className="px-5 py-2">
             <Text
-              className=" text-3xl font-bold "
+              className="text-3xl font-bold "
               style={{
                 paddingVertical: 20,
                 color: 'white',
@@ -452,7 +448,7 @@ class RecordScreen extends Component<any, State> {
   };
 
   private onResumeRecord = async (): Promise<void> => {
-    this.onStartDetector();
+    // this.onStartDetector();
     await this.audioRecorderPlayer.resumeRecorder();
     this.setState({
       isModalVisible: false,
@@ -475,7 +471,7 @@ class RecordScreen extends Component<any, State> {
       isModalVisible: true,
     });
     this.onPauseRecord();
-    this.onStopDetector();
+    // this.onStopDetector();
   };
   private handleEndRecordingModal = () => {
     this.setState({

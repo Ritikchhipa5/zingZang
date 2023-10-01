@@ -11,13 +11,20 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import WaveAnimation from '../components/WaveAnimation';
 import {addTracksOnTrackPlayer} from '../service/trackPlayerServices';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {
+  Event,
+  usePlaybackState,
+  useProgress,
+} from 'react-native-track-player';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {ICONS_SVG} from '../assets/svg/icons/Icon';
 function SongPart({navigation}: any) {
   const [Part, setPart] = useState<any>(null);
   const [isPlay, setIsPlay] = useState<any>(false);
+  const state = usePlaybackState();
+  const {position} = useProgress();
+  console.log(state);
   useEffect(() => {
     async function setup() {
       await addTracksOnTrackPlayer({
@@ -32,20 +39,18 @@ function SongPart({navigation}: any) {
     setup();
   }, []);
 
-  const handlePress = useCallback(
-    (part: any) => {
-      if (!isPlay) {
-        setIsPlay(true);
-        TrackPlayer.seekTo(part.start);
-        TrackPlayer.play();
-      } else {
-        setIsPlay(false);
-        TrackPlayer.pause();
-      }
-      setPart(part);
-    },
-    [isPlay],
-  );
+  const handlePartPress = async (part: any) => {
+    if (!isPlay) {
+      setIsPlay(true);
+      await TrackPlayer.play();
+
+      // await TrackPlayer.seekTo(part.start);
+    } else {
+      setIsPlay(false);
+      await TrackPlayer.pause();
+    }
+    setPart(part);
+  };
 
   return (
     <ImageBackground className="h-screen" source={Images.BG_1}>
@@ -106,16 +111,7 @@ function SongPart({navigation}: any) {
                   key={index + 1}
                   className="w-[31.33%]"
                   onPress={() => {
-                    // if (!isPlay) {
-                    //   setIsPlay(true);
-                    //   TrackPlayer.seekTo(part.start);
-                    //   TrackPlayer.play();
-                    // } else {
-                    //   setIsPlay(false);
-                    //   TrackPlayer.pause();
-                    // }
-                    // setPart(part);
-                    handlePress(part);
+                    handlePartPress(part);
                   }}>
                   <View className="h-[170] relative">
                     <View

@@ -155,23 +155,39 @@ const VideoCoverPage = ({navigation, route}: any) => {
                   let createVideoData: any = await createVideoSong({
                     description: handleSubmit(),
                   });
-                  console.log(createVideoData);
+                  // console.log(createVideoData);
                   if (!createVideoData) {
                     throw new Error();
                   }
 
                   let merge = await mergeVideoSong({
                     video_path: createVideoData?.s3_key,
+                    // video_path:
+                    //   'outputs/MjrK0Yx7O2UlkLqU/videoMjrK0Yx7O2UlkLqU.mp4',
                     song_path: generateSong?.audioPath,
                   });
 
+                  console.log(merge);
                   let path: any = await requestDownloadLink({
                     path: merge?.s3_key,
                   });
 
+                  console.log(
+                    {
+                      id: userInfo?.user?.id,
+                      link: merge?.s3_key,
+                      description: Album,
+                      // title: generateSong?.title,
+                      title: userInfo?.user?.name,
+                      postProfile: generateSong?.title,
+                      path: generateSong?.audioPath,
+                    },
+                    'VIDEO DATA',
+                  );
+
                   await addVideo({
                     id: userInfo?.user?.id,
-                    link: path?.data,
+                    link: merge?.s3_key,
                     description: Album,
                     // title: generateSong?.title,
                     title: userInfo?.user?.name,
@@ -183,7 +199,7 @@ const VideoCoverPage = ({navigation, route}: any) => {
                         navigation.navigate('GenerateReel', {
                           id: userInfo?.user?.id,
                           video: path?.data,
-                          title: generateSong?.title,
+                          title: userInfo?.user?.name,
                           description: Album,
                           likes: '245k',
                           isLike: false,

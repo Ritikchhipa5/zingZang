@@ -2767,13 +2767,6 @@ async-limiter@~1.0.0:
   resolved "https://registry.npmjs.org/async-limiter/-/async-limiter-1.0.1.tgz"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
 
-async@^2.0.0:
-  version "2.6.4"
-  resolved "https://registry.npmjs.org/async/-/async-2.6.4.tgz"
-  integrity sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==
-  dependencies:
-    lodash "^4.17.14"
-
 async@^3.2.2:
   version "3.2.4"
   resolved "https://registry.npmjs.org/async/-/async-3.2.4.tgz"
@@ -4300,11 +4293,6 @@ event-target-shim@^5.0.0, event-target-shim@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/event-target-shim/-/event-target-shim-5.0.1.tgz"
   integrity sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
-
-eventemitter3@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/eventemitter3/-/eventemitter3-1.2.0.tgz"
-  integrity sha512-DOFqA1MF46fmZl2xtzXR3MPCRsXqgoFqdXcrCVYM3JNnfUeHTm/fh/v/iU7gBFpwkuBmoJPAm5GuhdDfSEJMJA==
 
 events@^3.3.0:
   version "3.3.0"
@@ -6190,7 +6178,7 @@ lodash.throttle@^4.1.1:
   resolved "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
   integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
 
-lodash@^4.13.1, lodash@^4.17.14, lodash@^4.17.21:
+lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -8061,26 +8049,12 @@ react-native-animated-linear-gradient@^1.3.0:
     prop-types "^15.6.0"
     rgb2hex "^0.1.0"
 
-react-native-audio-player-recorder@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/react-native-audio-player-recorder/-/react-native-audio-player-recorder-2.0.0.tgz"
-  integrity sha512-0ReCxeMSRTQrhAAd4KdP+T8mVgiKXt+SeXjlpBFyuhh+peh8UhZe/aSsHjfGYx/WbeeCEaohiZC2FE5Q3iTMDg==
-
 react-native-audio-recorder-player@^3.6.0:
   version "3.6.0"
   resolved "https://registry.npmjs.org/react-native-audio-recorder-player/-/react-native-audio-recorder-player-3.6.0.tgz"
   integrity sha512-eSg9kqihUACXWaqiUUxrjKfgkppmi49PAvl7GEq2hPogwuDAs/eeimT9mPYFKpp5UHCxDIdmMcG7pcMGRynz5w==
   dependencies:
     dooboolab-welcome "^1.3.2"
-
-react-native-audio-toolkit@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.npmjs.org/react-native-audio-toolkit/-/react-native-audio-toolkit-1.0.6.tgz"
-  integrity sha512-3JUkkwLLFvyzUNRRLqncwF/wFLwvvtxdw1qPSHiQL0SS8nk7RWOErRDsoMD27Aid8rs0dAQ+SDh5et7AmS6f8w==
-  dependencies:
-    async "^2.0.0"
-    eventemitter3 "^1.2.0"
-    lodash "^4.13.1"
 
 react-native-canvas@^0.1.39:
   version "0.1.39"
@@ -8094,10 +8068,10 @@ react-native-fast-image@^8.6.3:
   resolved "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz"
   integrity sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==
 
-react-native-flipper@^0.212.0:
-  version "0.212.0"
-  resolved "https://registry.npmjs.org/react-native-flipper/-/react-native-flipper-0.212.0.tgz"
-  integrity sha512-bDRfIgE3v/jjEEdnvGP0T6maDD+bXhDAQ/SZUYTKd/CQ6YIU1c0EF+e0urU62LNMv6XEFQKz226McdddyVhYZA==
+react-native-flipper@^0.163.0:
+  version "0.163.0"
+  resolved "https://registry.npmjs.org/react-native-flipper/-/react-native-flipper-0.163.0.tgz"
+  integrity sha512-RG0yMlEMe/fYqaoUkhvW2HrqBuRYtq1K3me9y52RBFwPWooZTmUlWjIWGKT9VYVS9T2GGrUV9tpBA8pY9g7CSg==
 
 react-native-fs@^2.20.0:
   version "2.20.0"
@@ -8127,18 +8101,6 @@ react-native-lyric@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/react-native-lyric/-/react-native-lyric-1.0.2.tgz"
   integrity sha512-gdzwFkwCkTiQ61/ileW1CVIP3G9pTzE48MNmn/Ltw+dXqakdYRTB9EVUhb6UWO6sWSFaTuGZXjapdwMo3Ss4qw==
-
-react-native-permissions@^3.8.0, react-native-permissions@^3.9.2:
-  version "3.9.2"
-  resolved "https://registry.npmjs.org/react-native-permissions/-/react-native-permissions-3.9.2.tgz"
-  integrity sha512-mBGoRDKi4twYH+UsPomPdi0dLpV6dGLmKzLpIgB5cLK/dzfM8Sr02Kch1xghVwT13ZkyCyd8DpcL4HgBJ4GQQg==
-
-react-native-pitch-detector@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.npmjs.org/react-native-pitch-detector/-/react-native-pitch-detector-0.1.5.tgz"
-  integrity sha512-AKDhze4RCKxI8enLfmcSVmpfR9O/7NZjB+PYNYSYLPiSVC/RaN5W+gGnsk90EEwLxP1yBoWIbgHiP2tKktskFQ==
-  dependencies:
-    react-native-permissions "^3.8.0"
 
 react-native-reanimated@^3.4.2:
   version "3.5.4"
@@ -8253,7 +8215,7 @@ react-native-webview@^11.0.0, "react-native-webview@>=5.10.0 || >=6.1.0":
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", react-native@>=0.30, react-native@>=0.35, react-native@>=0.46, react-native@>=0.57.0, react-native@>=0.59, react-native@>=0.59.0, react-native@>=0.60.0, react-native@>=0.60.0-rc.2, react-native@>=0.61.4, react-native@>=0.63.3, react-native@>=0.8.0, react-native@>0.62.0, react-native@0.72.4:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", react-native@>=0.30, react-native@>=0.35, react-native@>=0.46, react-native@>=0.57.0, react-native@>=0.59, react-native@>=0.59.0, react-native@>=0.60.0, react-native@>=0.60.0-rc.2, react-native@>=0.61.4, react-native@>=0.8.0, react-native@>0.62.0, react-native@0.72.4:
   version "0.72.4"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.72.4.tgz"
   integrity sha512-+vrObi0wZR+NeqL09KihAAdVlQ9IdplwznJWtYrjnQ4UbCW6rkzZJebRsugwUneSOKNFaHFEo1uKU89HsgtYBg==

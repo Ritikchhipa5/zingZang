@@ -37,8 +37,8 @@ export async function addAIRecording(data: any) {
     },
     body: JSON.stringify(data),
   })
-    .then(async data => {
-      return await data.json();
+    .then(async value => {
+      return await value.json();
     })
     .catch(error => {
       console.log(error);

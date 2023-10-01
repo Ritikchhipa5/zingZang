@@ -62,8 +62,8 @@ async function addVideo(data: any) {
     },
     body: JSON.stringify(data),
   })
-    .then(async data => {
-      return await data.json();
+    .then(async value => {
+      return await value.json();
     })
     .catch(error => {
       console.log(error);
@@ -88,16 +88,29 @@ async function requestDownloadLink(data: any) {
 }
 
 const createVideoSong = async ({description}: any) => {
+  const jsonData = {
+    prompts: {
+      '0': description?.[0],
+      '30': description?.[1],
+      '60': description?.[2],
+      '90': description?.[3],
+    },
+  };
   console.log(
     GENERATE_TRACK.VIDEO_CREATE +
-      `?settings_json={"prompts":{"0":"${description?.[0]}","30":" ${description?.[1]}","60":" ${description?.[2]}","90":"${description?.[3]}"}}&allowed_params=prompts&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
+      `?settings_json=${encodeURIComponent(
+        JSON.stringify(jsonData),
+      )}&allowed_params=prompts&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
   );
   return await fetch(
     GENERATE_TRACK.VIDEO_CREATE +
-      `?settings_json={"prompts":{"0":"${description?.[0]}","30":" ${description?.[1]}","60":" ${description?.[2]}","90":"${description?.[3]}"}}&allowed_params=prompts&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
+      `?settings_json=${encodeURIComponent(
+        JSON.stringify(jsonData),
+      )}&allowed_params=prompts&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
     {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     },
@@ -113,7 +126,10 @@ const createVideoSong = async ({description}: any) => {
 };
 
 const mergeVideoSong = async (data: any) => {
-  console.log(data);
+  console.log(
+    GENERATE_TRACK.VIDEO_AUDIO_CREATE +
+      `?video_path=${data?.video_path}&song_path=${data?.song_path}&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,
+  );
   return await fetch(
     GENERATE_TRACK.VIDEO_AUDIO_CREATE +
       `?video_path=${data?.video_path}&song_path=${data?.song_path}&client_id=MjrK0Yx7O2UlkLqU&current_key=1oovbp1z5ExvCf3o`,

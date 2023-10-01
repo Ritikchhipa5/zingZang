@@ -12,6 +12,7 @@ import type {
 } from 'react-native-audio-recorder-player';
 import {
   Dimensions,
+  ImageBackground,
   PermissionsAndroid,
   Platform,
   SafeAreaView,
@@ -21,7 +22,6 @@ import {
 } from 'react-native';
 import React, {Component} from 'react';
 
-import RNFetchBlob from 'rn-fetch-blob';
 import type {ReactElement} from 'react';
 
 interface State {

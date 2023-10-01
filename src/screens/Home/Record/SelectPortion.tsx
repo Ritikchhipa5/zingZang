@@ -14,7 +14,8 @@ import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import {IndividualComp} from '../../../components/Slider/IndividualComp';
 
 const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
-const SelectPortion = ({navigation, recordedAudios}: any) => {
+const SelectPortion = ({navigation, route}: any) => {
+  const {recordedAudio} = route.params;
   const [pickSong, setPickSong] = useState('');
   const [sliderValues, setSliderValues] = useState({
     original0: 0,
@@ -105,7 +106,7 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
           </Text>
           <View className="mt-8 mb-10">
             <IndividualComp
-              data={[recordedAudios[0]]}
+              data={[recordedAudio]}
               selectSong={setPickSong}
               updateSliderValue={updateSliderValue}
               sliderValues={sliderValues}
@@ -135,9 +136,4 @@ const SelectPortion = ({navigation, recordedAudios}: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    recordedAudios: state.records.recordedAudios,
-  };
-};
-export default connect(mapStateToProps, null)(SelectPortion);
+export default SelectPortion;

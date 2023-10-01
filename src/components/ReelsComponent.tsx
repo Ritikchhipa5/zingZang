@@ -37,53 +37,6 @@ const ReelsComponent = () => {
     });
   }, []);
 
-  console.log(videos?.length);
-  const posts = [
-    {
-      id: 0,
-      video:
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      title: 'Ram_Charan',
-      description: 'Feel the buity of nature',
-      likes: '245k',
-      isLike: false,
-    },
-    {
-      id: 1,
-      video:
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-      title: 'Ram_Charan',
-      description: 'Feel the buity of nature',
-      likes: '245k',
-      isLike: false,
-    },
-    {
-      id: 2,
-      video:
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-      title: 'Ram_Charan',
-      description: 'Feel the buity of nature',
-      likes: '245k',
-      isLike: false,
-    },
-    {
-      id: 3,
-      video:
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-      title: 'Ram_Charan',
-      description: 'Feel the buity of nature',
-      likes: '245k',
-      isLike: false,
-    },
-    {
-      id: 4,
-      video: 'https://samplelib.com/lib/preview/mp3/sample-6s.mp3',
-      title: 'Ram_Charan',
-      description: 'Feel the buity of nature',
-      likes: '245k',
-      isLike: false,
-    },
-  ];
   return videos?.length ? (
     <SwiperFlatList
       vertical={true}

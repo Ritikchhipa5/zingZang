@@ -21,6 +21,7 @@ import AudioRecorderPlayer, {
   PlayBackType,
 } from 'react-native-audio-recorder-player';
 import {ExternalStorageDirectoryPath} from 'react-native-fs';
+import {addRecording} from '../../../actions/record';
 const audioRecorderPlayer: AudioRecorderPlayer = new AudioRecorderPlayer();
 const SelectRecording = ({navigation, recordedAudios}: any) => {
   const [pickSong, setPickSong] = useState<any>('');
@@ -28,9 +29,6 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
   const onStartPlay = async () => {
     try {
       const msg = await audioRecorderPlayer.startPlayer(pickSong?.uri);
-
-      //? Default path
-      // const msg = await this.audioRecorderPlayer.startPlayer();
       const volume = await audioRecorderPlayer.setVolume(1.0);
       console.log(`path: ${msg}`, `volume: ${volume}`);
 
@@ -119,8 +117,9 @@ const SelectRecording = ({navigation, recordedAudios}: any) => {
           onPress={() => {
             if (pickSong !== '') {
               if (2 <= pickSong?.duration) {
-                navigation.navigate('SelectPortion', {pickSong: pickSong?.uri});
-                console.log(pickSong);
+                navigation.navigate('SelectPortion', {
+                  recordedAudio: pickSong,
+                });
               } else {
                 Alert.alert('Recording length must be 2 seconds');
               }
@@ -145,6 +144,7 @@ const mapStateToProps = (state: any) => {
     recordedAudios: state.records.recordedAudios,
   };
 };
+
 export default connect(mapStateToProps, null)(SelectRecording);
 
 class RadioButton extends Component<any, any> {
@@ -155,7 +155,7 @@ class RadioButton extends Component<any, any> {
     const {data, selectSong, isPlaying, onStartPlay, onPausePlay, onStopPlay} =
       this.props;
     const {value} = this.state;
-    console.log(data);
+
     return (
       <View>
         {data.map((res: any, index: number) => {
@@ -167,6 +167,7 @@ class RadioButton extends Component<any, any> {
                 this.setState({
                   value: res.uri,
                 });
+
                 selectSong(res);
                 onStopPlay();
               }}>

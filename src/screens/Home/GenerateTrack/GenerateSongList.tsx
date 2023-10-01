@@ -25,7 +25,6 @@ import {addCurrentSong} from '../../../actions/songs';
 import {
   SetupPlayer,
   addTracksOnTrackPlayer,
-  setupPlayer,
 } from '../../../service/trackPlayerServices';
 
 import {Images} from '../../../constant/Images';
@@ -106,8 +105,6 @@ function GenerateSongList({navigation, song, addPlaySong, route}: any) {
               } drop-shadow-md mb-3 `}
               key={index + 1}
               onPress={async () => {
-                let data = await TrackPlayer.getCurrentTrack();
-                console.log(data, 'fjhsdvfhhj');
                 await TrackPlayer.play();
                 setSong(item);
                 setIsPlay(true);

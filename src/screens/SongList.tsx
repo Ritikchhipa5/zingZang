@@ -40,6 +40,7 @@ function SongList({navigation, addPlaySong}: any) {
     async function setup() {
       addTracksOnTrackPlayer(LyricsSongList);
     }
+
     setup();
   }, []);
 
@@ -70,6 +71,7 @@ function SongList({navigation, addPlaySong}: any) {
       setSong(song);
       // await TrackPlayer.skip(song.id);
       await TrackPlayer.play();
+      setIsPlay(true);
     }
   };
   return (

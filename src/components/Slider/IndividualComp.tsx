@@ -54,7 +54,7 @@ export const IndividualComp = ({
           },
         );
 
-        await TrackPlayer.seekTo(sliderValues?.original0);
+        // await TrackPlayer.seekTo(sliderValues?.original0);
         // // Seek to the specified original0 position
       }
 
