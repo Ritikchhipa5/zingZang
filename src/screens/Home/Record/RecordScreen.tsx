@@ -10,7 +10,7 @@ import type {
   PlayBackType,
   RecordBackType,
 } from 'react-native-audio-recorder-player';
-// import {} from 'react-native-pitch-detector';
+import {PitchDetector} from "react-native-pitch-detector/src";
 // PitchDetector
 import {
   Animated,
@@ -40,6 +40,7 @@ import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import {RecordingMusic} from '../../../service/lyricsService';
 import TrackPlayer from 'react-native-track-player';
+import DeviceInfo from 'react-native-device-info';
 
 interface PitchData {
   tone: string;
@@ -100,15 +101,15 @@ class RecordScreen extends Component<any, State> {
 
   componentDidMount(): void {
     addTracksOnTrackPlayer(RecordingMusic);
-    // this.setState({
-    //   subscription: PitchDetector.addListener((e: PitchData) => {
-    //     this.setState({dataDetector: e});
-    //   }),
-    // });
+    this.setState({
+      subscription: PitchDetector.addListener((e: PitchData) => {
+        this.setState({dataDetector: e});
+      }),
+    });
   }
-  // componentWillUnmount() {
-  //   PitchDetector.removeListener(this.state.subscription);
-  // }
+  componentWillUnmount() {
+    PitchDetector.removeListener();
+  }
   startPulseAnimation() {
     return Animated.loop(
       Animated.sequence([
@@ -136,18 +137,21 @@ class RecordScreen extends Component<any, State> {
       // {iterations: -1}, // Infinite loop
     );
   }
-  // onStartDetector = async () => {
-  //   await PitchDetector.start();
-  // };
+  onStartDetector = async () => {
+    // pitch detection does not work on a simulator
+    let isSimulator = await DeviceInfo.isEmulator();
 
-  // onStopDetector = async () => {
-  //   await PitchDetector.stop();
-  // };
+    if (!isSimulator) // start pitch detection only on a device
+      await PitchDetector.start();
+  };
+
+  onStopDetector = async () => {
+    await PitchDetector.stop();
+  };
   startRecording = () => {
     this.startPulseAnimation().start();
     this.setState({countdown: COUNTDOWN_SECONDS});
     this.countdownInterval = setInterval(this.updateCountdown, 1000);
-    // this.onStartDetector();
   };
 
   setStartOver = (value: boolean) => {
@@ -244,6 +248,17 @@ class RecordScreen extends Component<any, State> {
                 textAlign: 'right',
               }}>
               {this.state.dataDetector.tone}
+            </Text>
+          </View>
+          <View className="px-5 py-2">
+            <Text
+                className="text-3xl font-bold "
+                style={{
+                  paddingVertical: 10,
+                  color: 'white',
+                  textAlign: 'right',
+                }}>
+              {this.state.dataDetector.frequency != 0 ? this.state.dataDetector.frequency : null}
             </Text>
           </View>
 
@@ -433,6 +448,9 @@ class RecordScreen extends Component<any, State> {
       });
     });
     console.log(`uri: ${uri}`);
+
+    // start pitch detection
+    await this.onStartDetector();
   };
 
   private onPauseRecord = async (): Promise<void> => {
@@ -471,7 +489,7 @@ class RecordScreen extends Component<any, State> {
       isModalVisible: true,
     });
     this.onPauseRecord();
-    // this.onStopDetector();
+    this.onStopDetector();
   };
   private handleEndRecordingModal = () => {
     this.setState({
