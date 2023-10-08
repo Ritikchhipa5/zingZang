@@ -110,7 +110,6 @@ const createVideoSong = async ({description}: any) => {
     {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     },
@@ -120,7 +119,7 @@ const createVideoSong = async ({description}: any) => {
       return value;
     })
     .catch(error => {
-      console.error(error.message, 'asdjksdkfjk');
+      console.error(JSON.stringify(error.message), 'asdjksdkfjk');
       Alert.alert(error.message);
     });
 };

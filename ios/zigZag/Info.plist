@@ -29,13 +29,23 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
+	<!-- <key>NSAppTransportSecurity</key> -->
+	<!-- <dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+	</dict> -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>3.78.234.117</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
-	<!-- <key>NSLocationWhenInUseUsageDescription</key>
-	<string></string> -->
+
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Give $(PRODUCT_NAME) permission to use your microphone. Your record wont be shared without your permission.</string>
 	<key>UIAppFonts</key>
