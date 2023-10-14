@@ -12,9 +12,11 @@ import {likeVideo, saveVideo, unSaveVideo, unlikeVideo} from '../api/reels';
 import {useSelector} from 'react-redux';
 const SingleReel = ({item, index, currentIndex}: any) => {
   const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
+  // const windowHeight = Dimensions.get('window').height;
+  const windowHeight = Dimensions.get('window').height - 90;
   const navigation: any = useNavigation();
   const videoRef = useRef<any>(null);
+
   console.log(item?.title);
   const [mute, setMute] = useState(false);
   const [like, setLike] = useState(false);
@@ -74,11 +76,11 @@ const SingleReel = ({item, index, currentIndex}: any) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => navigation.navigate('CreateProject')}
         className="absolute z-10 right-5 top-[10%]">
         <MaterialIcons color="white" name="close" size={32} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         activeOpacity={0.9}
         onPress={() => setMute(!mute)}

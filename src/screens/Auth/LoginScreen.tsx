@@ -98,8 +98,8 @@ const LoginScreen = ({navigation, addUserInfo}: any) => {
           </View>
           <Formik
             initialValues={{
-              email: 'test1117@gmail.com',
-              pass: 'confirmPass',
+              email: 'example2@gmail.com',
+              pass: 'test12',
             }}
             validationSchema={validation}
             onSubmit={signinClick}>

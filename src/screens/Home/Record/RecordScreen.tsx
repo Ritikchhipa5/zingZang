@@ -5,18 +5,18 @@ import AudioRecorderPlayer, {
   AudioSourceAndroidType,
   OutputFormatAndroidType,
 } from 'react-native-audio-recorder-player';
+
 import type {
   AudioSet,
   PlayBackType,
   RecordBackType,
 } from 'react-native-audio-recorder-player';
-import {PitchDetector} from "react-native-pitch-detector/src";
+
+import {PitchDetector} from 'react-native-pitch-detector/src';
 // PitchDetector
 import {
   Animated,
-  Easing,
   FlatList,
-  Image,
   ImageBackground,
   PermissionsAndroid,
   Platform,
@@ -26,6 +26,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import React, {Component, useEffect, useRef, useState} from 'react';
 import RNFS from 'react-native-fs';
 import type {ReactElement} from 'react';
@@ -107,9 +108,11 @@ class RecordScreen extends Component<any, State> {
       }),
     });
   }
+
   componentWillUnmount() {
     PitchDetector.removeListener();
   }
+
   startPulseAnimation() {
     return Animated.loop(
       Animated.sequence([
@@ -137,17 +140,20 @@ class RecordScreen extends Component<any, State> {
       // {iterations: -1}, // Infinite loop
     );
   }
+
   onStartDetector = async () => {
     // pitch detection does not work on a simulator
     let isSimulator = await DeviceInfo.isEmulator();
 
-    if (!isSimulator) // start pitch detection only on a device
+    if (!isSimulator)
+      // start pitch detection only on a device
       await PitchDetector.start();
   };
 
   onStopDetector = async () => {
     await PitchDetector.stop();
   };
+
   startRecording = () => {
     this.startPulseAnimation().start();
     this.setState({countdown: COUNTDOWN_SECONDS});
@@ -160,6 +166,7 @@ class RecordScreen extends Component<any, State> {
       isStartOver: false,
     });
   };
+
   updateCountdown = () => {
     const {countdown} = this.state;
     if (countdown === 0) {
@@ -207,7 +214,7 @@ class RecordScreen extends Component<any, State> {
         <>
           {countdown >= 0 && (
             <View
-              className={`absolute z-[100] w-full h-full bg-black opacity-30`}
+              className={'absolute z-[100] w-full h-full bg-black opacity-30'}
             />
           )}
           <Animated.View
@@ -218,6 +225,7 @@ class RecordScreen extends Component<any, State> {
             <Text style={styles.countdownText}>{countdown}</Text>
           </Animated.View>
         </>
+
         {/* )} */}
         <SafeAreaView className="justify-between flex-1 h-full ">
           {/* // Close Icons */}
@@ -241,26 +249,36 @@ class RecordScreen extends Component<any, State> {
           </View>
           <View className="px-5 py-2">
             <Text
-              className="text-3xl font-bold "
+              className="text-3xl font-bold text-gray-100 "
               style={{
                 paddingVertical: 20,
+                textAlign: 'right',
+              }}>
+              {['AM', 'F', 'G', 'C'].includes(this.state.dataDetector.tone) ? (
+                <Text className="text-green-400">
+                  {this.state.dataDetector.tone}
+                </Text>
+              ) : (
+                <Text className="text-gray-400">
+                  {this.state.dataDetector.tone}
+                </Text>
+              )}
+            </Text>
+          </View>
+
+          {/* <View className="px-5 py-2">
+            <Text
+              className="text-3xl font-bold "
+              style={{
+                paddingVertical: 10,
                 color: 'white',
                 textAlign: 'right',
               }}>
-              {this.state.dataDetector.tone}
+              {this.state.dataDetector.frequency != 0
+                ? this.state.dataDetector.frequency
+                : null}
             </Text>
-          </View>
-          <View className="px-5 py-2">
-            <Text
-                className="text-3xl font-bold "
-                style={{
-                  paddingVertical: 10,
-                  color: 'white',
-                  textAlign: 'right',
-                }}>
-              {this.state.dataDetector.frequency != 0 ? this.state.dataDetector.frequency : null}
-            </Text>
-          </View>
+          </View> */}
 
           <LyricsFlatList
             isRecording={isRecording}
@@ -484,6 +502,7 @@ class RecordScreen extends Component<any, State> {
     // You may also want to delete any saved audio files on the device
     // Implement logic to delete the audio files from storage here
   };
+
   private handleStopRecordingModal = () => {
     this.setState({
       isModalVisible: true,
@@ -491,6 +510,7 @@ class RecordScreen extends Component<any, State> {
     this.onPauseRecord();
     this.onStopDetector();
   };
+
   private handleEndRecordingModal = () => {
     this.setState({
       isModalVisible: false,
@@ -498,6 +518,7 @@ class RecordScreen extends Component<any, State> {
     });
     this.onStopRecord();
   };
+
   private onStopRecord = async (): Promise<void> => {
     const result = await this.audioRecorderPlayer.stopRecorder();
     const recordedAudio = {
@@ -654,6 +675,7 @@ const LyricsFlatList = ({
       setStartOver(false);
     }
   }, [isStartOver]);
+
   useEffect(() => {
     if (isRecording) {
       const interval = setInterval(() => {
@@ -662,6 +684,7 @@ const LyricsFlatList = ({
       return () => clearInterval(interval);
     }
   }, [currentTime, isRecording]);
+
   const flatListRef = useRef<any>(null);
   // const lines = LyricsData.lyrics.lines;
   const lines = lyrics;
@@ -687,6 +710,7 @@ const LyricsFlatList = ({
       }
     }
   }, [currentTime, isRecording]);
+
   return (
     <FlatList
       ref={flatListRef}

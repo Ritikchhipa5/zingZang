@@ -12,6 +12,8 @@ import PAUSE from './pause.svg';
 import RECORD from './record.svg';
 import LISTEN_SONG from './listensong.svg';
 import STOP from './stop.svg';
+import HOME from './home.svg';
+import BLOB from './blob.svg';
 import RELOAD from './reload.svg';
 
 export const ICONS_SVG = {
@@ -30,4 +32,6 @@ export const ICONS_SVG = {
   RECORD: RECORD,
   LISTEN_SONG: LISTEN_SONG,
   RELOAD: RELOAD,
+  HOME: HOME,
+  BLOB: BLOB,
 };

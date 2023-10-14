@@ -29,16 +29,12 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAllowsArbitraryLoads</key>
-<true/> 
-
-<key>NSAppTransportSecurity</key>
-<dict>
-  <!--Include to allow all connections (DANGER)-->
-  <key>NSAllowsArbitraryLoads</key>
-      <true/>
-</dict>
-	<!-- <key>NSAppTransportSecurity</key>
+	<!-- <key>NSAppTransportSecurity</key> -->
+	<!-- <dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict> -->
+	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
@@ -48,12 +44,10 @@
 				<true/>
 			</dict>
 		</dict>
-	</dict> -->
+	</dict>
 
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Give $(PRODUCT_NAME) permission to use your microphone. Your record wont be shared without your permission.</string>
-	<key>NSCameraUsageDescription</key>
-      <string> $(PRODUCT_NAME)  requires to access your photo library to show image on profile and send via chat</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

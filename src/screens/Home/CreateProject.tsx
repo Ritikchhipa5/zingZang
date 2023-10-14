@@ -4,14 +4,11 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  Alert,
-  Pressable,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Images} from '../../constant/Images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {ICONS_SVG} from '../../assets/svg/icons/Icon';
 import {IMAGES_SVG} from '../../assets/svg/images/images';
 
@@ -22,67 +19,41 @@ const CreateProject = ({navigation}: any) => {
     <ImageBackground
       style={{height: heightPercentageToDP('100%')}}
       source={Images.BG_1}>
-      <SafeAreaView
-        className="flex-1 h-full"
-        edges={['bottom', 'top', 'left', 'right']}>
-        <View
-          className={` flex flex-row items-center px-3 z-20 ${
-            isCreateProject && 'justify-end'
-          }`}>
-          {!isCreateProject ? (
-            <TouchableOpacity
-              className=""
-              onPress={() => {
-                setIsCreateProject(true);
-              }}>
-              <MaterialIcons
-                color="white"
-                name="keyboard-arrow-left"
-                size={42}
-              />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              className=""
-              onPress={() => {
-                navigation.navigate('Setting');
-              }}>
-              <ICONS_SVG.USER color="white" width={40} height={40} />
-            </TouchableOpacity>
-          )}
-        </View>
-
-        <View className="items-center h-full ">
+      <SafeAreaView className="flex-1 h-full" edges={['left', 'right']}>
+        <View className="items-center h-full">
           {isCreateProject ? (
-            <View className="flex justify-center flex-1 w-full gap-y-[20%] ">
+            <View className="flex justify-between flex-1 w-full py-10">
+              <View className="relative px-6 pt-10">
+                <Text className="mb-5 text-3xl font-bold text-center text-white">
+                  Boost your creativity
+                </Text>
+                <Text className="text-white text-[18px] text-center font-medium leading-6">
+                  Welcome to our song creativity booster! Select your path:
+                  Create a new song or remix an existing one to unlock your
+                  musical potential.
+                </Text>
+              </View>
+
               <TouchableOpacity
                 className="items-center w-full "
                 activeOpacity={0.7}
+                // onPress={() => {
+                //   setIsCreateProject(false);
+                // }}
                 onPress={() => {
-                  setIsCreateProject(false);
+                  navigation.navigate('GenerateTrack');
                 }}>
                 <IMAGES_SVG.CREATE_NEW_PROJECT className="w-full " />
               </TouchableOpacity>
               <TouchableOpacity
                 className="items-center w-full "
                 activeOpacity={0.7}
-                onPress={() => navigation.navigate('MySongList')}>
-                {/* <Image
-                  source={Images.LOADING_PROJECT}
-                  className="w-full"
-                  resizeMode="contain"
-                /> */}
+                // onPress={() => navigation.navigate('MySongList')}
+
+                onPress={() => {
+                  navigation.navigate('SongList');
+                }}>
                 <IMAGES_SVG.LOAD_PROJECT className="w-full " />
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="w-full flex-[0.3]"
-                activeOpacity={0.7}
-                onPress={() => navigation.navigate('Reels')}>
-                <Image
-                  source={Images.BG_BLOB}
-                  className="flex-1 w-full  ml-[20]   "
-                  resizeMode="cover"
-                />
               </TouchableOpacity>
             </View>
           ) : (
@@ -93,6 +64,20 @@ const CreateProject = ({navigation}: any) => {
           )}
         </View>
       </SafeAreaView>
+      <View className="flex items-center flex-row justify-between px-16 py-5 bg-[#190D1A80] ">
+        <TouchableOpacity
+          onPress={() => {
+            setIsCreateProject(true);
+          }}>
+          <ICONS_SVG.HOME />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Reels')}>
+          <ICONS_SVG.BLOB />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
+          <ICONS_SVG.USER />
+        </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 };

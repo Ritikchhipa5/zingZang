@@ -6,6 +6,7 @@ export const lyricsString = [
   'Jag vill berätta för dig att jag känner en bot',
   'Jag vill berätta för dig att jag känner en',
 ]; // Your data
+
 export const newLyricsString = [
   {time: 5, string: 'Jag känner en bot'},
   {time: 6, string: 'Hon heter Anna. Anna heter hon'},
@@ -22,6 +23,7 @@ export const newLyricsString = [
     string: 'Jag vill berätta för dig att jag känner en bot',
   },
 ];
+
 export const LyricsSongList = [
   {
     id: '1',

@@ -1,4 +1,5 @@
-export const API = 'http://3.129.111.250:4242';
+// export const API = 'http://3.129.111.250:4242';
+export const API = 'http://3.66.48.14:4242';
 export const AI_API = 'http://3.78.234.117:8000';
 export const AUTH = {
   SIGN_WITH_EMAIL: API + '/api/singin/singInEmail',

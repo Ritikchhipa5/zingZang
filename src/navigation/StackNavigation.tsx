@@ -1,6 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import Home from '../screens/Home/Home';
 import SignScreen from '../screens/Auth/SignScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import Register from '../screens/Auth/Register';
