@@ -11,6 +11,7 @@ import type {
   RecordBackType,
 } from 'react-native-audio-recorder-player';
 import {PitchDetector} from "react-native-pitch-detector/src";
+import {Subscription} from "react-native-pitch-detector/src/types"
 // PitchDetector
 import {
   Animated,
@@ -36,6 +37,7 @@ import {screenWidth} from '../../../utils/utils';
 import {connect} from 'react-redux';
 import {addRecording, removeRecording} from '../../../actions/record';
 import StopRecordingModal from '../../../components/Modal/StopRecordingModal';
+import {PitchInformation} from './PitchInformation';
 import {ICONS_SVG} from '../../../assets/svg/icons/Icon';
 import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import {RecordingMusic} from '../../../service/lyricsService';
@@ -65,7 +67,8 @@ interface State {
     time: string;
   }>;
   dataDetector: PitchData;
-  subscription: unknown;
+  pitchQueue: PitchData[];
+  subscription: Subscription;
 }
 
 const PULSE_DURATION = 250;
@@ -93,7 +96,8 @@ class RecordScreen extends Component<any, State> {
       opacity: new Animated.Value(1),
       recordedAudios: [],
       dataDetector: {tone: '', frequency: 0},
-      subscription: null,
+      pitchQueue: [],
+      subscription: undefined,
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -104,10 +108,14 @@ class RecordScreen extends Component<any, State> {
     this.setState({
       subscription: PitchDetector.addListener((e: PitchData) => {
         this.setState({dataDetector: e});
+        this.state.pitchQueue.push(this.state.dataDetector)
+        while (this.state.pitchQueue.length > 110)
+          this.state.pitchQueue.shift()
       }),
     });
   }
   componentWillUnmount() {
+    this.state.subscription?.remove();
     PitchDetector.removeListener();
   }
   startPulseAnimation() {
@@ -144,10 +152,10 @@ class RecordScreen extends Component<any, State> {
     if (!isSimulator) // start pitch detection only on a device
       await PitchDetector.start();
   };
-
   onStopDetector = async () => {
     await PitchDetector.stop();
   };
+
   startRecording = () => {
     this.startPulseAnimation().start();
     this.setState({countdown: COUNTDOWN_SECONDS});
@@ -168,7 +176,7 @@ class RecordScreen extends Component<any, State> {
         isRecording: true,
         countdown: -1,
         scaleValue: new Animated.Value(0),
-        opacity: new Animated.Value(1),
+        opacity: new Animated.Value(0),
       });
       this.startPulseAnimation().stop();
       this.onStartRecord();
@@ -239,29 +247,13 @@ class RecordScreen extends Component<any, State> {
               <AntDesign name="close" color={'#fff'} size={28} />
             </TouchableOpacity>
           </View>
-          <View className="px-5 py-2">
-            <Text
-              className="text-3xl font-bold "
-              style={{
-                paddingVertical: 20,
-                color: 'white',
-                textAlign: 'right',
-              }}>
-              {this.state.dataDetector.tone}
-            </Text>
-          </View>
-          <View className="px-5 py-2">
-            <Text
-                className="text-3xl font-bold "
-                style={{
-                  paddingVertical: 10,
-                  color: 'white',
-                  textAlign: 'right',
-                }}>
-              {this.state.dataDetector.frequency != 0 ? this.state.dataDetector.frequency : null}
-            </Text>
-          </View>
-
+          <PitchInformation
+              pitchData={this.state.dataDetector}
+              pitchDots={this.state.pitchQueue}
+              isRecording={isRecording}
+              isStartOver={isStartOver}
+              setStartOver={this.setStartOver}
+          />
           <LyricsFlatList
             isRecording={isRecording}
             lyrics={this.props.lyrics}
@@ -371,6 +363,9 @@ class RecordScreen extends Component<any, State> {
   };
 
   private onStartRecord = async (): Promise<void> => {
+    // start pitch detection
+    await this.onStartDetector();
+
     if (Platform.OS === 'android') {
       try {
         const grants = await PermissionsAndroid.requestMultiple([
@@ -448,12 +443,12 @@ class RecordScreen extends Component<any, State> {
       });
     });
     console.log(`uri: ${uri}`);
-
-    // start pitch detection
-    await this.onStartDetector();
   };
 
   private onPauseRecord = async (): Promise<void> => {
+    // stop pitch detection
+    await this.onStopDetector();
+
     try {
       const r = await this.audioRecorderPlayer.pauseRecorder();
       this.setState({
@@ -466,7 +461,9 @@ class RecordScreen extends Component<any, State> {
   };
 
   private onResumeRecord = async (): Promise<void> => {
-    // this.onStartDetector();
+    // start pitch detection
+    await this.onStartDetector();
+
     await this.audioRecorderPlayer.resumeRecorder();
     this.setState({
       isModalVisible: false,
@@ -489,7 +486,6 @@ class RecordScreen extends Component<any, State> {
       isModalVisible: true,
     });
     this.onPauseRecord();
-    this.onStopDetector();
   };
   private handleEndRecordingModal = () => {
     this.setState({
@@ -499,6 +495,9 @@ class RecordScreen extends Component<any, State> {
     this.onStopRecord();
   };
   private onStopRecord = async (): Promise<void> => {
+    // stop pitch detection
+    await this.onStopDetector();
+
     const result = await this.audioRecorderPlayer.stopRecorder();
     const recordedAudio = {
       uri: result,
