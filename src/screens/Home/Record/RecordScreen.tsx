@@ -230,14 +230,6 @@ class RecordScreen extends Component<any, State> {
         <SafeAreaView className="justify-between flex-1 h-full ">
           {/* // Close Icons */}
           <View className="flex flex-row justify-end">
-            {/* <View>
-              <Image
-                className="w-20 h-20 rounded-md rounded-lg"
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Basshunter_%E2%80%93_Boten_Anna.jpg',
-                }}
-              />
-            </View> */}
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate('CreateProject');

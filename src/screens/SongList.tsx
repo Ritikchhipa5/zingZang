@@ -191,13 +191,6 @@ function SongList({navigation, addPlaySong}: any) {
                   trackStyle={{
                     height: 5,
                   }}
-                  // onValueChange={async value => {
-                  //   await TrackPlayer.seekTo(value);
-                  // }}
-                  // onSlidingComplete={(value: any) => {
-                  //   onSeek(value);
-                  //   // console.log(value);
-                  // }}
                 />
               </TouchableOpacity>
               <View className="flex flex-row items-center justify-between py-2">

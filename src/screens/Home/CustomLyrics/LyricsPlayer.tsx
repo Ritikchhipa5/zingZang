@@ -167,15 +167,7 @@ const WheelPicker: React.FC<Props> = props => {
 
     return (
       <>
-        <Animated.View
-          style={[
-            {
-              // height: itemHeight,
-              width: '100%',
-              // transform: [{scale}],
-            },
-            styles.animatedContainer,
-          ]}>
+        <Animated.View className="w-full" style={[styles.animatedContainer]}>
           <TextInput
             onChangeText={(value: string) => {
               handleTextInputChange(index, value);
@@ -183,13 +175,7 @@ const WheelPicker: React.FC<Props> = props => {
             multiline
             value={props.updateLyrics?.[index]?.string}
             placeholderTextColor="#fff"
-            className="w-full py-3  text-xl font-bold text-center bg-[#FFFFFF1A] text-white rounded-md  items-center leading-2 px-5"
-            style={{
-              // height: itemHeight,
-
-              width: '100%',
-              // transform: [{scale}],
-            }}
+            className="w-full py-3  text-xl font-bold text-center bg-[#FFFFFF1A] text-white rounded-md  items-center leading-2 px-5 w-full"
           />
         </Animated.View>
       </>
