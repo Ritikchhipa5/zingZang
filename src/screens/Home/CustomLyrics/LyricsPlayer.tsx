@@ -22,7 +22,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {lyricsString, newLyricsString} from '../../../service/lyricsService';
 
-import {connect} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 import {addLyrics} from '../../../actions/record';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
 

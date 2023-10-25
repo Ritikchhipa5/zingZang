@@ -5,8 +5,6 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-  Modal,
-  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -19,14 +17,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {createTextSong} from '../../../api/generateTrack';
-import Loading from '../../../components/Loading';
-import {addTracksOnTrackPlayer} from '../../../service/trackPlayerServices';
 import DefaultLoading from '../../../components/DefaultLoading';
 import {useSelector} from 'react-redux';
 import AnimatedLinearGradient from 'react-native-animated-linear-gradient';
+
 const GenerateTrack = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state: any) => state?.userData)?.user;
+
   const validation = Yup.object({
     text: Yup.string().required('Text is required'),
     duration: Yup.string().required('Duration is required'),
@@ -67,10 +65,9 @@ const GenerateTrack = ({navigation}: any) => {
 
         <Formik
           initialValues={{
-            uid: '123dasd3',
             duration: '10',
-            text: 'a cool song m sdfnnsmdfn,ka s,m,dfma fk ',
-            title: 'mi master pice',
+            text: 'A cool song with some fun stuff',
+            title: 'Zing',
             id: user?.user?.id,
           }}
           validationSchema={validation}

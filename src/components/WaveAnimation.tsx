@@ -1,6 +1,5 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import LottieView from 'lottie-react-native';
-import {Text, View} from 'react-native';
 
 export default function WaveAnimation() {
   const animationRef = useRef<LottieView>(null);

@@ -726,7 +726,6 @@ const LyricsFlatList = ({
             className="relative px-4 text-3xl font-bold "
             style={{
               paddingVertical: 20,
-
               ...textColor,
             }}>
             {item?.words?.[0]?.string}

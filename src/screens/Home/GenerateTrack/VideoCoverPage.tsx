@@ -109,18 +109,6 @@ const VideoCoverPage = ({navigation, route}: any) => {
                 Describe your Video Reel
               </Text>
               <ScrollView>
-                {/* <TextInput
-                  onChangeText={(text: any) => {
-                    console.log(text);
-                    setAlbum(text);
-                  }}
-                  value={Album}
-                  multiline={true}
-                  numberOfLines={3}
-                  placeholder="Write about video description..."
-                  className="w-full py-3 text-xl font-medium min-h-[20%] bg-[#FFFFFF1A] text-white rounded-2xl  items-center leading-2  mb-5 px-5"
-                  placeholderTextColor="#FFFFFF5A"
-                /> */}
                 {inputs.map((input, index) => (
                   <TextInput
                     key={index}

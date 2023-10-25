@@ -80,9 +80,6 @@ const SelectPortion = ({navigation, route}: any) => {
         </View>
 
         <View className="flex-1 p-4">
-          <Text className="text-[#ffffff] text-xl font-medium ">
-            Original Song
-          </Text>
           <View className="my-4">
             <IndividualComp
               data={[OrignalSong[0]]}
